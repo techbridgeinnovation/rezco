@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezco AI Analyst - Orchestrator Build Requirements</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --rezco-dark: #0a1628;
+            --rezco-navy: #132038;
+            --rezco-blue: #1e3a5f;
+            --rezco-accent: #2d7dd2;
+            --rezco-light: #4a9eed;
+            --rezco-gold: #c4973b;
+            --rezco-gold-light: #e8c97a;
+            --success-green: #22c55e;
+            --warning-amber: #f59e0b;
+            --danger-red: #ef4444;
+            --info-cyan: #06b6d4;
+            --purple: #8b5cf6;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background-color: var(--gray-50);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--rezco-dark) 0%, var(--rezco-navy) 40%, var(--rezco-blue) 100%);
+            color: white;
+            padding: 3rem 0 2rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 70% 50%, rgba(45,125,210,0.15) 0%, transparent 60%);
+        }
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .header-icon {
+            width: 56px; height: 56px;
+            background: linear-gradient(135deg, var(--rezco-gold), var(--rezco-gold-light));
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 12px rgba(196,151,59,0.3);
+        }
+        .header h1 {
+            font-size: 2.4rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        .header h1 span { color: var(--rezco-gold); font-weight: 600; }
+        .header p {
+            font-size: 1.1rem;
+            color: #8da4c2;
+            max-width: 700px;
+            margin-top: 0.5rem;
+        }
+        .header-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .header-stat {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 10px;
+            padding: 0.8rem 1.2rem;
+            backdrop-filter: blur(10px);
+        }
+        .header-stat-num {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--rezco-gold);
+        }
+        .header-stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #8da4c2;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            background: white;
+            border-bottom: 2px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0;
+            overflow-x: auto;
+        }
+        .nav-tab {
+            padding: 0.9rem 1.2rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.88rem;
+            color: var(--gray-600);
+            white-space: nowrap;
+        }
+        .nav-tab:hover {
+            background-color: var(--gray-50);
+            color: var(--rezco-accent);
+        }
+        .nav-tab.active {
+            border-bottom-color: var(--rezco-accent);
+            color: var(--rezco-accent);
+            background: linear-gradient(180deg, transparent 0%, rgba(45,125,210,0.06) 100%);
+            font-weight: 600;
+        }
+
+        /* Content */
+        .content-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            border: 1px solid var(--gray-200);
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+        }
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+        }
+        .card h2 {
+            color: var(--rezco-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+        .card h3 {
+            color: var(--gray-800);
+            font-size: 1.2rem;
+            margin: 1.2rem 0 0.8rem;
+        }
+        .card h4 {
+            color: var(--gray-700);
+            font-size: 1.05rem;
+            margin: 1rem 0 0.5rem;
+        }
+
+        /* Accent cards */
+        .card-accent { border-left: 4px solid var(--rezco-accent); }
+        .card-gold { border-left: 4px solid var(--rezco-gold); }
+        .card-green { border-left: 4px solid var(--success-green); }
+        .card-purple { border-left: 4px solid var(--purple); }
+        .card-red { border-left: 4px solid var(--danger-red); }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-right: 0.4rem;
+            margin-bottom: 0.3rem;
+        }
+        .badge-p0 { background: #fef2f2; color: #991b1b; }
+        .badge-p1 { background: #fffbeb; color: #92400e; }
+        .badge-p2 { background: #f0fdf4; color: #166534; }
+        .badge-exists { background: #d1fae5; color: #065f46; }
+        .badge-partial { background: #fef3c7; color: #92400e; }
+        .badge-new { background: #fee2e2; color: #991b1b; }
+        .badge-large { background: #fef2f2; color: #991b1b; }
+        .badge-medium { background: #fffbeb; color: #92400e; }
+        .badge-small { background: #d1fae5; color: #065f46; }
+        .badge-phase { background: #ede9fe; color: #5b21b6; }
+
+        /* Grids */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        /* Stats */
+        .stats-box {
+            background: linear-gradient(135deg, rgba(45,125,210,0.06) 0%, white 100%);
+            padding: 1.2rem;
+            border-radius: 10px;
+            border: 1px solid var(--gray-200);
+            text-align: center;
+        }
+        .stats-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--rezco-accent);
+        }
+        .stats-label {
+            color: var(--gray-600);
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            font-size: 0.92rem;
+        }
+        .data-table th {
+            background: var(--rezco-navy);
+            color: white;
+            padding: 0.8rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .data-table td {
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .data-table tr:hover { background-color: var(--gray-50); }
+        .data-table tr:last-child td { border-bottom: none; }
+
+        /* Diagrams */
+        .diagram-box {
+            background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+            border: 2px solid var(--rezco-accent);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.82rem;
+            white-space: pre;
+            overflow-x: auto;
+            line-height: 1.4;
+        }
+
+        /* Info/Warning boxes */
+        .info-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
+            border-left: 4px solid var(--rezco-accent);
+            padding: 1rem 1.2rem;
+            margin: 1rem 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.92rem;
+        }
+        .warning-box {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-left: 4px solid var(--warning-amber);
+            padding: 1rem 1.2rem;
+            margin: 1rem 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.92rem;
+        }
+        .success-box {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-left: 4px solid var(--success-green);
+            padding: 1rem 1.2rem;
+            margin: 1rem 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.92rem;
+        }
+
+        /* Feature list */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 0.4rem 0 0.4rem 1.5rem;
+            position: relative;
+            font-size: 0.92rem;
+        }
+        .feature-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--rezco-accent);
+            font-weight: bold;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            background: var(--gray-200);
+            height: 28px;
+            border-radius: 14px;
+            overflow: hidden;
+            margin: 0.8rem 0;
+        }
+        .progress-bar {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.82rem;
+            transition: width 1.2s ease-out;
+            border-radius: 14px;
+        }
+        .progress-green { background: linear-gradient(90deg, var(--success-green), #10b981); }
+        .progress-blue { background: linear-gradient(90deg, var(--rezco-accent), var(--rezco-light)); }
+        .progress-amber { background: linear-gradient(90deg, var(--warning-amber), #fbbf24); }
+        .progress-red { background: linear-gradient(90deg, var(--danger-red), #f87171); }
+
+        /* Expandable */
+        .expandable { cursor: pointer; user-select: none; }
+        .expandable::before {
+            content: "▶ ";
+            display: inline-block;
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+        }
+        .expandable.expanded::before { transform: rotate(90deg); }
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        .expandable-content.expanded { max-height: 8000px; }
+
+        /* Persona cards */
+        .persona-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.2rem;
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+        }
+        .persona-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        .persona-icon {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+        }
+        .persona-name {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+        .persona-style {
+            font-size: 0.82rem;
+            color: var(--gray-600);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--rezco-accent), var(--rezco-gold), var(--success-green));
+            border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding: 1rem 1.2rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 1.2rem;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--rezco-accent);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--rezco-accent);
+        }
+        .timeline-title {
+            font-weight: 700;
+            color: var(--rezco-blue);
+            margin-bottom: 0.3rem;
+        }
+
+        /* Flow nodes */
+        .flow-node {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 0.3rem;
+        }
+        .flow-node-blue { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+        .flow-node-green { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+        .flow-node-amber { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+        .flow-node-purple { background: #ede9fe; color: #5b21b6; border: 1px solid #c4b5fd; }
+        .flow-node-red { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+        .flow-arrow { color: var(--gray-400); font-size: 1.2rem; margin: 0 0.3rem; }
+
+        /* Footer */
+        .footer {
+            background: var(--gray-900);
+            color: var(--gray-400);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+        }
+        .footer a { color: var(--rezco-gold); text-decoration: none; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6rem; }
+            .header p { font-size: 0.95rem; }
+            .header-stats { gap: 0.8rem; }
+            .header-stat { padding: 0.5rem 0.8rem; }
+            .header-stat-num { font-size: 1.2rem; }
+            .nav-tab { padding: 0.7rem 0.8rem; font-size: 0.8rem; }
+            .content-container { padding: 1rem; }
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            .diagram-box { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-content">
+        <div class="header-brand">
+            <div class="header-icon">R</div>
+            <div>
+                <h1><span>Rezco</span> AI Analyst</h1>
+                <p>Orchestrator Build Requirements — Comprehensive scope for replacing the human analyst model with an AI-powered research agent for portfolio management.</p>
+            </div>
+        </div>
+        <div class="header-stats">
+            <div class="header-stat">
+                <div class="header-stat-num">18</div>
+                <div class="header-stat-label">Sections</div>
+            </div>
+            <div class="header-stat">
+                <div class="header-stat-num">11</div>
+                <div class="header-stat-label">Sub-Agents</div>
+            </div>
+            <div class="header-stat">
+                <div class="header-stat-num">7</div>
+                <div class="header-stat-label">AI Personas</div>
+            </div>
+            <div class="header-stat">
+                <div class="header-stat-num">14</div>
+                <div class="header-stat-label">Sprints Planned</div>
+            </div>
+            <div class="header-stat">
+                <div class="header-stat-num">12+</div>
+                <div class="header-stat-label">Scheduled Tasks</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav-tabs">
+    <div class="nav-container">
+        <div class="nav-tab active" data-tab="overview">Overview</div>
+        <div class="nav-tab" data-tab="ingestion">Data Ingestion</div>
+        <div class="nav-tab" data-tab="knowledge">Knowledge Graph</div>
+        <div class="nav-tab" data-tab="instruments">Instruments</div>
+        <div class="nav-tab" data-tab="personas">AI Personas</div>
+        <div class="nav-tab" data-tab="agents">Sub-Agents</div>
+        <div class="nav-tab" data-tab="intelligence">Intelligence Layer</div>
+        <div class="nav-tab" data-tab="portfolio">Portfolio & Signals</div>
+        <div class="nav-tab" data-tab="frontend">Front-End</div>
+        <div class="nav-tab" data-tab="architecture">Architecture</div>
+        <div class="nav-tab" data-tab="gaps">Gap Analysis</div>
+        <div class="nav-tab" data-tab="roadmap">Roadmap</div>
+    </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-container">
+
+<!-- ==================== TAB: OVERVIEW ==================== -->
+<div id="overview" class="tab-content active">
+    <div class="card card-gold">
+        <h2>Strategic Context</h2>
+        <p>Rezco Asset Management (est. 2005, Johannesburg) is executing a radical shift: replacing the entire human analyst layer with an AI-powered research agent. The AI serves as an <strong>analyst, not a portfolio manager</strong> — it provides decision support to PMs Rob, Simon, and Sean.</p>
+        <div class="grid-3" style="margin-top:1rem;">
+            <div class="stats-box">
+                <div class="stats-number">3</div>
+                <div class="stats-label">Portfolio Managers</div>
+            </div>
+            <div class="stats-box">
+                <div class="stats-number">0</div>
+                <div class="stats-label">Human Analysts (Target)</div>
+            </div>
+            <div class="stats-box">
+                <div class="stats-number">~3,000</div>
+                <div class="stats-label">Instruments Covered</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>The Problem</h2>
+        <div class="grid-2">
+            <div>
+                <h4>Portfolio Manager Bottleneck</h4>
+                <ul class="feature-list">
+                    <li>PMs spend excessive time training and motivating junior analysts</li>
+                    <li>High analyst churn rate wastes training investment</li>
+                    <li>More human analysts = more management overhead, not more alpha</li>
+                    <li>Human analysts are "bad filters" — strip out signals they perceive as noise</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Information Fragmentation</h4>
+                <ul class="feature-list">
+                    <li>Data scattered: Google Chat, Bloomberg, emails, meetings, calendars</li>
+                    <li>No centralized logging of investment debates and decisions</li>
+                    <li>Ideas stagnate in archives — incomplete work goes untracked</li>
+                    <li>Geopolitical noise distracts from specific investment signals</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-accent">
+        <h2>The Solution: AI Analyst Agent</h2>
+        <p style="margin-bottom:1rem;">An orchestrator-based system of specialized AI sub-agents that ingest, map, analyze, and surface investment intelligence — grounded in Rezco's own philosophy.</p>
+        <div class="grid-2">
+            <div class="info-box">
+                <strong>What it does:</strong> Ingests all data sources, builds a non-linear knowledge graph ("Spiderweb"), provides prompted and unprompted analysis through multiple AI personas, tracks conviction over time, detects contradictions, and surfaces high-value signals.
+            </div>
+            <div class="warning-box">
+                <strong>What it does NOT do:</strong> Make buy/sell decisions. Generate alpha recommendations. Act as a portfolio manager. Operate as a black box. The PM remains the decision-maker.
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Key Architectural Principles</h2>
+        <div class="grid-2">
+            <ul class="feature-list">
+                <li><strong>Architecture at inception matters</strong> — biggest cost is PM time training the AI</li>
+                <li><strong>Flexible foundation</strong> — add capabilities without rebuilding</li>
+                <li><strong>Not a black box</strong> — sources cited, reasoning transparent</li>
+                <li><strong>Reduce PM friction</strong> — every feature saves time, doesn't add it</li>
+                <li><strong>Continuous, not episodic</strong> — state maintained across months/years</li>
+                <li><strong>Proprietary vs. public always distinguishable</strong> — compliance requirement</li>
+            </ul>
+            <ul class="feature-list">
+                <li><strong>Analyst, not PM</strong> — information and analysis only</li>
+                <li><strong>Buy-side is different</strong> — always relative, cross-sector, never siloed</li>
+                <li><strong>Benchmark-agnostic, not benchmark-ignorant</strong></li>
+                <li><strong>Signal over noise</strong> — amplify faint signals, filter the rest</li>
+                <li><strong>Ideas must not die in the archive</strong> — active monitoring</li>
+                <li><strong>Cognitive diversity by design</strong> — multiple AI personas</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Source Material</h2>
+        <table class="data-table">
+            <tr><th>Source</th><th>Content</th></tr>
+            <tr><td>Hyde Park Corner Meeting (Audio)</td><td>Strategy discussion: AI analyst vision, bottleneck analysis, philosophical requirements, data architecture</td></tr>
+            <tr><td>Raw Words (Working Sessions)</td><td>GARP framework, headwind/tailwind analysis, conviction workflow, signal vs. noise, Naspers case study</td></tr>
+            <tr><td>Madelein Classification Tool Meeting</td><td>Existing research hub showcase: Vertex AI, Spanner vector DB, Visible Alpha, Morningstar integrations</td></tr>
+            <tr><td>AI Analyst for Asset Management (PDF)</td><td>Formal requirements document: strategic context, technological requirements, operational integration</td></tr>
+            <tr><td>rezco.com</td><td>Company overview: funds, philosophy, Alis Exchange technology partnership</td></tr>
+        </table>
+    </div>
+</div>
+
+<!-- ==================== TAB: DATA INGESTION ==================== -->
+<div id="ingestion" class="tab-content">
+    <div class="card card-accent">
+        <h2>Data Ingestion Layer</h2>
+        <p>The orchestrator must continuously ingest, process, and index information from multiple sources before any PM asks a question.</p>
+    </div>
+
+    <div class="card">
+        <h2>Ingestion Tools Required</h2>
+        <table class="data-table">
+            <tr><th>Tool</th><th>Purpose</th><th>Priority</th></tr>
+            <tr><td><strong>Google Chat Listener</strong></td><td>Background agent capturing every message, article, chart, clip between Rob, Simon, Sean. Auto-files to instruments and themes.</td><td><span class="badge badge-p0">P0</span></td></tr>
+            <tr><td><strong>Google Meet Transcription</strong></td><td>Ingest recorded calls. Transcribe, extract decisions, action items, sentiment, conviction signals, incomplete decisions.</td><td><span class="badge badge-p0">P0</span></td></tr>
+            <tr><td><strong>Document Ingestor</strong></td><td>Bulk-load Rezco library: Buffett letters, Patronica, Snowball, sell-side PDFs, earnings presentations, CFA materials.</td><td><span class="badge badge-p0">P0</span></td></tr>
+            <tr><td><strong>Sell-Side Research Ingestor</strong></td><td>Handle broker reports from email/websites. Ingest with low-medium trust flag, tag to instruments.</td><td><span class="badge badge-p0">P0</span></td></tr>
+            <tr><td><strong>Bloomberg/Reuters Connector</strong></td><td>Charts, articles, PE ratios, earnings, financial metrics. Explore minimal licensing options.</td><td><span class="badge badge-p1">P1</span></td></tr>
+            <tr><td><strong>YouTube/Video Ingestor</strong></td><td>Download, transcribe investor interviews (Gundlach, Druckenmiller). Tag to themes/instruments.</td><td><span class="badge badge-p1">P1</span></td></tr>
+            <tr><td><strong>Centralized Drive Monitor</strong></td><td>Auto-ingest PDFs, transcripts, presentations from Google Drive classified by company.</td><td><span class="badge badge-p1">P1</span></td></tr>
+            <tr><td><strong>CSV/Spreadsheet Ingestor</strong></td><td>Upload total returns, value grids, tabular data. Map to instruments via FIGI/ISIN.</td><td><span class="badge badge-p1">P1</span></td></tr>
+            <tr><td><strong>News/Article Monitor</strong></td><td>Continuous monitoring: Business Insider, CNBC, Bloomberg, Reuters. Surface material developments.</td><td><span class="badge badge-p2">P2</span></td></tr>
+        </table>
+    </div>
+
+    <div class="card card-green">
+        <h2>What Already Exists (Madelein's Research Hub)</h2>
+        <div class="success-box" style="margin-bottom:1rem;">
+            <strong>Key finding from classification tool meeting:</strong> A significant research hub already exists as a pilot built over 2 years ago.
+        </div>
+        <div class="grid-2">
+            <div>
+                <h4>Already Built</h4>
+                <ul class="feature-list">
+                    <li>Document store in <strong>Vertex AI</strong> with RAG search</li>
+                    <li>Grounded LLM agent querying internal research</li>
+                    <li>Visible Alpha integration (sell-side estimates)</li>
+                    <li>Morningstar integration (daily sync)</li>
+                    <li>Data Stream integration (daily sync)</li>
+                    <li>Buy/sell recommendation workflow</li>
+                    <li>Research database filterable by classification</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Main Gaps to Fill</h4>
+                <ul class="feature-list">
+                    <li>Google Chat/Meet ingestion (biggest gap)</li>
+                    <li>YouTube/video transcription pipeline</li>
+                    <li>Automated curation (currently manual upload)</li>
+                    <li>Connection to orchestrator knowledge graph</li>
+                    <li>Temporal awareness on all ingested data</li>
+                    <li>Non-linear linking (currently linear filing)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Ingestion Flow</h2>
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.3rem; justify-content:center;">
+            <span class="flow-node flow-node-blue">Google Chat</span>
+            <span class="flow-node flow-node-blue">Google Meet</span>
+            <span class="flow-node flow-node-blue">Bloomberg</span>
+            <span class="flow-node flow-node-blue">YouTube</span>
+            <span class="flow-node flow-node-blue">Google Drive</span>
+            <span class="flow-node flow-node-blue">Sell-Side Email</span>
+        </div>
+        <div style="text-align:center; font-size:1.5rem; color:var(--gray-400); margin:0.5rem 0;">▼</div>
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.3rem; justify-content:center;">
+            <span class="flow-node flow-node-purple">Ingestor Agents</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node flow-node-amber">Entity Resolution</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node flow-node-green">Knowledge Graph</span>
+        </div>
+        <div style="text-align:center; font-size:1.5rem; color:var(--gray-400); margin:0.5rem 0;">▼</div>
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.3rem; justify-content:center;">
+            <span class="flow-node flow-node-green">Vertex AI Doc Store</span>
+            <span class="flow-node flow-node-green">Spanner Vector DB</span>
+            <span class="flow-node flow-node-green">Graph Database</span>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== TAB: KNOWLEDGE GRAPH ==================== -->
+<div id="knowledge" class="tab-content">
+    <div class="card card-accent">
+        <h2>Knowledge Graph: The "Spiderweb"</h2>
+        <p>The single most architecturally significant component. Rezco rejects linear filing (folders, tags) in favor of a non-linear graph where every piece of information links to instruments, themes, sectors, macro factors, and other information.</p>
+        <div class="warning-box">Without a "really, really clean" core architecture, the volume of information will become disorganized and inaccessible. — Simon</div>
+    </div>
+
+    <div class="card">
+        <h2>Node Types and Relationships</h2>
+        <div class="diagram-box">
+                                    ┌─────────────┐
+                                    │  MACRO       │
+                                    │  SA GDP      │
+                                    │  Interest    │
+                                    │  Rates       │
+                                    └──────┬───────┘
+                                           │
+                        ┌──────────────────┼──────────────────┐
+                        │                  │                  │
+                 ┌──────▼──────┐   ┌──────▼──────┐   ┌──────▼──────┐
+                 │  SECTOR     │   │  SECTOR     │   │  SECTOR     │
+                 │  Retail     │   │  Banks      │   │  Property   │
+                 └──────┬──────┘   └──────┬──────┘   └──────┬──────┘
+                        │                  │                  │
+              ┌─────────┼─────────┐       │                  │
+              │         │         │       │                  │
+         ┌────▼──┐ ┌────▼──┐ ┌───▼───┐ ┌─▼──────┐   ┌─────▼────┐
+         │Mr     │ │TFG/   │ │Pepkor │ │First   │   │Property  │
+         │Price  │ │Fosch. │ │       │ │Rand    │   │Company   │
+         └───┬───┘ └───────┘ └───────┘ └────────┘   └──────────┘
+             │
+     ┌───────┴────────┐
+     │  THEME         │
+     │  Online        │◄─── Article: "Online gambling
+     │  Gambling      │     competes for consumer wallets"
+     │  Competition   │
+     └────────────────┘
+
+  Every node carries: Timestamp │ Source Type │ Trust Weight │ Conviction Level</div>
+    </div>
+
+    <div class="card">
+        <h2>Graph Node Properties</h2>
+        <table class="data-table">
+            <tr><th>Property</th><th>Description</th><th>Example</th></tr>
+            <tr><td>Instrument (FIGI + ISIN)</td><td>Financial instrument identifier</td><td>Discovery Holdings → ZAE000022331</td></tr>
+            <tr><td>Theme</td><td>Cross-cutting investment theme</td><td>"SA consumer spending", "AI benefits"</td></tr>
+            <tr><td>Sector</td><td>GICS standard + custom Rezco categories</td><td>Retail, Banks, Gold Miners</td></tr>
+            <tr><td>Geography</td><td>Local vs. global, specific countries/regions</td><td>South Africa, Poland, European Industrials</td></tr>
+            <tr><td>Asset Class</td><td>Equity, bond, cash</td><td>Equity</td></tr>
+            <tr><td>Temporal Position</td><td>When created, when superseded, is it current</td><td>2024-03-15, current</td></tr>
+            <tr><td>Source Type</td><td>Proprietary vs. public, internal vs. sell-side</td><td>PM view (proprietary, internal)</td></tr>
+            <tr><td>Confidence/Conviction</td><td>Inferred from language</td><td>"I really think" = high vs. "maybe" = low</td></tr>
+            <tr><td>Idea/Investment Status</td><td>Low-conviction idea vs. executed investment</td><td>Idea → Medium Conviction → Investment</td></tr>
+        </table>
+    </div>
+
+    <div class="card card-green">
+        <h2>Existing Infrastructure to Build On</h2>
+        <div class="grid-2">
+            <div class="stats-box">
+                <div class="stats-number" style="font-size:1.5rem;">Spanner</div>
+                <div class="stats-label">Vector DB (similarity search for classification)</div>
+            </div>
+            <div class="stats-box">
+                <div class="stats-number" style="font-size:1.5rem;">Vertex AI</div>
+                <div class="stats-label">Document store + RAG search</div>
+            </div>
+        </div>
+        <div class="info-box" style="margin-top:1rem;">
+            <strong>Gap:</strong> These components operate in isolation and linearly. The knowledge graph must unify them into a non-linear, interconnected system with graph traversal capabilities.
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Recommended Technology</h2>
+        <table class="data-table">
+            <tr><th>Component</th><th>Options</th><th>Existing Asset</th></tr>
+            <tr><td>Graph Store</td><td>Neo4j, Apache AGE, Amazon Neptune</td><td>None — new build</td></tr>
+            <tr><td>Vector Store</td><td>Extend Spanner or migrate to Weaviate/Pinecone/Qdrant</td><td><span class="badge badge-exists">Exists</span> Spanner vector DB</td></tr>
+            <tr><td>Document Store</td><td>Extend existing Vertex AI store</td><td><span class="badge badge-exists">Exists</span> Vertex AI + RAG</td></tr>
+            <tr><td>Entity Resolution</td><td>Custom NER + FIGI/ISIN lookup</td><td><span class="badge badge-partial">Partial</span> FIGI instrument registry</td></tr>
+            <tr><td>Temporal Layer</td><td>Bi-temporal schema (valid + transaction time)</td><td>None — new build</td></tr>
+        </table>
+    </div>
+</div>
+
+<!-- ==================== TAB: INSTRUMENTS ==================== -->
+<div id="instruments" class="tab-content">
+    <div class="card card-accent">
+        <h2>Instrument Data Infrastructure</h2>
+        <p>Dual identifier system: FIGI (portfolio management) + ISIN (ops team classification). The Madelein meeting revealed significantly more existing infrastructure than initially understood.</p>
+    </div>
+
+    <div class="card card-green">
+        <h2>What Already Exists</h2>
+        <div class="grid-2">
+            <div>
+                <h4>Instrument Database</h4>
+                <ul class="feature-list">
+                    <li>FIGI codes as primary identifier</li>
+                    <li>Multiple classification sources: Morningstar, Bloomberg, user custom</li>
+                    <li>Data source hierarchy for field resolution</li>
+                    <li>Custom classification fields (Fund House, Sanlam reporting)</li>
+                    <li>Investable groups by sector</li>
+                    <li>Vector DB suggesting values for unpopulated fields</li>
+                    <li>Daily sync: Morningstar, Data Stream (proxy + API)</li>
+                    <li>ISIN-based classification (~3,000 shares)</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Structured Financial Data</h4>
+                <ul class="feature-list">
+                    <li>EPS, EBIT, net income estimates per instrument</li>
+                    <li>Two sources: Visible Alpha + internal estimates</li>
+                    <li>Yearly, half-yearly, quarterly estimates</li>
+                    <li>Analyst estimate updates as events</li>
+                    <li>Balance sheet data maintained</li>
+                    <li>Cash flow statement data maintained</li>
+                </ul>
+                <h4 style="margin-top:1rem;">Technical State</h4>
+                <ul class="feature-list">
+                    <li>Vue 3 consoles with gRPC web</li>
+                    <li>Legacy auth + older IAM (needs modernization)</li>
+                    <li>No MCP servers or BFF REST endpoints</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>What Needs to Be Built</h2>
+        <table class="data-table">
+            <tr><th>Component</th><th>Description</th><th>Status</th></tr>
+            <tr><td>Instrument Master Service</td><td>Connect existing DB to orchestrator. FIGI primary + ISIN secondary key.</td><td><span class="badge badge-exists">Exists</span> needs integration</td></tr>
+            <tr><td>Holdings Sync</td><td>Daily sync: per-fund weights, benchmark weights, relative positions.</td><td><span class="badge badge-partial">Partial</span></td></tr>
+            <tr><td>Financial Data Store</td><td>Add PE ratios, share prices, earnings revisions to existing estimates.</td><td><span class="badge badge-partial">Partial</span></td></tr>
+            <tr><td>Value Grid Service</td><td>Rezco's proprietary key metrics per share.</td><td><span class="badge badge-new">New Build</span></td></tr>
+            <tr><td>Model Store</td><td>Latest quarterly financial model per company. Model rolling.</td><td><span class="badge badge-new">New Build</span></td></tr>
+            <tr><td>Benchmark Comparison Engine</td><td>Continuously compare fund vs. benchmark. Flag 0% in 5% benchmark stocks.</td><td><span class="badge badge-new">New Build</span></td></tr>
+            <tr><td>Classification Automation Agent</td><td>Auto-accept vector-suggested values above confidence threshold.</td><td><span class="badge badge-partial">Partial</span> suggestions exist</td></tr>
+            <tr><td>Custom Field Maintenance Agent</td><td>Auto-update Fund House income type, Sanlam reporting fields.</td><td><span class="badge badge-partial">Partial</span> fields exist</td></tr>
+        </table>
+    </div>
+</div>
+
+<!-- ==================== TAB: PERSONAS ==================== -->
+<div id="personas" class="tab-content">
+    <div class="card card-gold">
+        <h2>AI Analyst Personas</h2>
+        <p>Competing analytical frameworks — not just prompt engineering. Each persona has a distinct knowledge base, reasoning style, and source preference. The goal is <strong>cognitive diversity</strong>: simulating debates between different philosophies to avoid groupthink.</p>
+    </div>
+
+    <div class="grid-3">
+        <div class="persona-card">
+            <div class="persona-icon" style="background:linear-gradient(135deg,#1e3a5f,#2d7dd2);color:white;">R</div>
+            <div class="persona-name">Rezco Analyst</div>
+            <div class="persona-style">Bottom-up GARP, cross-sector relative, conviction tracking, headwind/tailwind</div>
+            <p style="font-size:0.82rem;margin-top:0.5rem;color:var(--gray-600);">Knowledge: Rezco library, internal process docs, PM views, proprietary models, CFA curriculum</p>
+        </div>
+        <div class="persona-card">
+            <div class="persona-icon" style="background:linear-gradient(135deg,#92400e,#fbbf24);color:white;">WB</div>
+            <div class="persona-name">Warren Buffett</div>
+            <div class="persona-style">Long-term value, margin of safety, quality of management, circle of competence</div>
+            <p style="font-size:0.82rem;margin-top:0.5rem;color:var(--gray-600);">Knowledge: Every annual letter, Snowball biography, public investment decisions, trade history</p>
+        </div>
+        <div class="persona-card">
+            <div class="persona-icon" style="background:linear-gradient(135deg,#065f46,#10b981);color:white;">RD</div>
+            <div class="persona-name">Ray Dalio</div>
+            <div class="persona-style">Macro-systematic, risk parity, economic machine framework</div>
+            <p style="font-size:0.82rem;margin-top:0.5rem;color:var(--gray-600);">Knowledge: Published work, macro positioning, Bridgewater letters</p>
+        </div>
+        <div class="persona-card">
+            <div class="persona-icon" style="background:linear-gradient(135deg,#5b21b6,#8b5cf6);color:white;">SD</div>
+            <div class="persona-name">Stanley Druckenmiller</div>
+            <div class="persona-style">Top-down macro, liquidity focus, concentrated bets, momentum-aware</div>
+            <p style="font-size:0.82rem;margin-top:0.5rem;color:var(--gray-600);">Knowledge: Interviews, macro positioning history, trade decisions</p>
+        </div>
+        <div class="persona-card">
+            <div class="persona-icon" style="background:linear-gradient(135deg,#991b1b,#ef4444);color:white;">JG</div>
+            <div class="persona-name">Jeffrey Gundlach</div>
+            <div class="persona-style">Fixed income/macro lens, contrarian, data-heavy</div>
+            <p style="font-size:0.82rem;margin-top:0.5rem;color:var(--gray-600);">Knowledge: YouTube interviews, macro commentary, DoubleLine research</p>
+        </div>
+        <div class="persona-card">
+            <div class="persona-icon" style="background:linear-gradient(135deg,#0369a1,#38bdf8);color:white;">RH</div>
+            <div class="persona-name">Robin Hood Analyst</div>
+            <div class="persona-style">Sentiment-driven, meme-aware, crowd-positioning, FOMO signals</div>
+            <p style="font-size:0.82rem;margin-top:0.5rem;color:var(--gray-600);">Knowledge: Reddit, Twitter/X, retail investor forums</p>
+        </div>
+        <div class="persona-card">
+            <div class="persona-icon" style="background:linear-gradient(135deg,#475569,#94a3b8);color:white;">TA</div>
+            <div class="persona-name">Technical Analyst</div>
+            <div class="persona-style">Chart-based, momentum recognition, price stabilization, relative performance</div>
+            <p style="font-size:0.82rem;margin-top:0.5rem;color:var(--gray-600);">Knowledge: Price action data, technical analysis frameworks</p>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top:1.5rem;">
+        <h2>Engagement Controls & Maturity Phases</h2>
+        <div class="warning-box">AI personas must NOT become a distraction. A "dial" controls activity level per persona.</div>
+        <div class="grid-3" style="margin-top:1rem;">
+            <div class="stats-box">
+                <div class="stats-number" style="font-size:1.3rem;">Phase 1</div>
+                <div class="stats-label">Async prompts + morning meetings</div>
+            </div>
+            <div class="stats-box">
+                <div class="stats-number" style="font-size:1.3rem;">Phase 2</div>
+                <div class="stats-label">24/7 background monitoring</div>
+            </div>
+            <div class="stats-box">
+                <div class="stats-number" style="font-size:1.3rem;">Phase 3</div>
+                <div class="stats-label">Real-time live debate participation</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== TAB: SUB-AGENTS ==================== -->
+<div id="agents" class="tab-content">
+    <div class="card card-accent">
+        <h2>Core Sub-Agents</h2>
+        <p>Specialized agents behind the orchestrator, each mapped to a skill in the A2A AgentCard.</p>
+    </div>
+
+    <div class="grid-2">
+        <div class="card card-accent">
+            <h3>Research & Retrieval Agent</h3>
+            <p>Handles prompted queries. "What's our latest view on Discovery?" Queries knowledge graph, filters by recency, synthesizes across sources, includes H/T classification and conviction level.</p>
+            <div style="margin-top:0.5rem;">
+                <span class="flow-node flow-node-blue" style="font-size:0.75rem;">KnowledgeGraphQuery</span>
+                <span class="flow-node flow-node-blue" style="font-size:0.75rem;">InstrumentLookup</span>
+                <span class="flow-node flow-node-blue" style="font-size:0.75rem;">FinancialDataFetch</span>
+                <span class="flow-node flow-node-blue" style="font-size:0.75rem;">HoldingsLookup</span>
+                <span class="flow-node flow-node-blue" style="font-size:0.75rem;">TemporalFilter</span>
+                <span class="flow-node flow-node-blue" style="font-size:0.75rem;">ConvictionTracker</span>
+            </div>
+        </div>
+        <div class="card card-accent">
+            <h3>Comparison Agent</h3>
+            <p>"FirstRand vs Standard Bank?" Cross-sector relative analysis. A bank competes with retailers and property for capital allocation. GARP methodology with quantitative + qualitative narrative.</p>
+            <div style="margin-top:0.5rem;">
+                <span class="flow-node flow-node-blue" style="font-size:0.75rem;">CrossSectorComparison</span>
+                <span class="flow-node flow-node-blue" style="font-size:0.75rem;">RelativeValuation</span>
+                <span class="flow-node flow-node-blue" style="font-size:0.75rem;">PortfolioContext</span>
+                <span class="flow-node flow-node-blue" style="font-size:0.75rem;">H/T Comparison</span>
+            </div>
+        </div>
+        <div class="card card-gold">
+            <h3>Report Generation Agent</h3>
+            <p>Structured investment case: thesis, headwind/tailwind, quarterly results, charts, management notes, conviction trajectory, execution gaps.</p>
+            <div style="margin-top:0.5rem;">
+                <span class="flow-node flow-node-amber" style="font-size:0.75rem;">ChartGenerator</span>
+                <span class="flow-node flow-node-amber" style="font-size:0.75rem;">TemplateRenderer</span>
+                <span class="flow-node flow-node-amber" style="font-size:0.75rem;">SentimentTrajectory</span>
+            </div>
+        </div>
+        <div class="card card-gold">
+            <h3>Management Meeting Prep</h3>
+            <p>"I'm seeing Discovery for lunch" — pulls case, identifies gaps, flags contradictions, assesses H/T, generates questions, notes linguistic cue shifts.</p>
+            <div style="margin-top:0.5rem;">
+                <span class="flow-node flow-node-amber" style="font-size:0.75rem;">GapAnalysis</span>
+                <span class="flow-node flow-node-amber" style="font-size:0.75rem;">ContradictionDetector</span>
+                <span class="flow-node flow-node-amber" style="font-size:0.75rem;">QuestionGenerator</span>
+            </div>
+        </div>
+        <div class="card card-green">
+            <h3>Morning Briefing Agent</h3>
+            <p>Daily pre-market: overnight moves, unresolved threads, earnings revisions, incomplete work, benchmark gaps, high signals. Proactive nudges.</p>
+            <div style="margin-top:0.5rem;">
+                <span class="flow-node flow-node-green" style="font-size:0.75rem;">ScheduledTaskRunner</span>
+                <span class="flow-node flow-node-green" style="font-size:0.75rem;">PortfolioMonitor</span>
+                <span class="flow-node flow-node-green" style="font-size:0.75rem;">ExecutionGapDetector</span>
+                <span class="flow-node flow-node-green" style="font-size:0.75rem;">BenchmarkGapScanner</span>
+            </div>
+        </div>
+        <div class="card card-green">
+            <h3>Quantitative Screening Agent</h3>
+            <p>Identifies shares fitting Rezco style: low PE/growth, positive revisions, quality metrics, tailwind environment, benchmark gaps.</p>
+            <div style="margin-top:0.5rem;">
+                <span class="flow-node flow-node-green" style="font-size:0.75rem;">FinancialScreener</span>
+                <span class="flow-node flow-node-green" style="font-size:0.75rem;">StyleFit</span>
+                <span class="flow-node flow-node-green" style="font-size:0.75rem;">EarningsRevisionTracker</span>
+            </div>
+        </div>
+        <div class="card card-purple">
+            <h3>Model Rolling Agent</h3>
+            <p>Given existing model + latest quarterly results, roll forward: revenue, earnings, margins, valuation. Does NOT build models from scratch.</p>
+            <div style="margin-top:0.5rem;">
+                <span class="flow-node flow-node-purple" style="font-size:0.75rem;">ModelStore</span>
+                <span class="flow-node flow-node-purple" style="font-size:0.75rem;">FinancialResultsParser</span>
+                <span class="flow-node flow-node-purple" style="font-size:0.75rem;">ModelUpdater</span>
+            </div>
+        </div>
+        <div class="card card-red">
+            <h3>Incomplete Work Monitor</h3>
+            <p>Prevents the Naspers scenario: scans for stagnant ideas where market data supports original thesis. Detects distraction drift, execution gaps, missed windows.</p>
+            <div style="margin-top:0.5rem;">
+                <span class="flow-node flow-node-red" style="font-size:0.75rem;">IdeaRegistryQuery</span>
+                <span class="flow-node flow-node-red" style="font-size:0.75rem;">MarketDataCheck</span>
+                <span class="flow-node flow-node-red" style="font-size:0.75rem;">DistractionAnalysis</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== TAB: INTELLIGENCE LAYER ==================== -->
+<div id="intelligence" class="tab-content">
+    <div class="card card-gold">
+        <h2>Headwinds/Tailwinds Framework</h2>
+        <p>Core Rezco investment philosophy that the AI must deeply understand and apply.</p>
+        <div class="grid-2" style="margin-top:1rem;">
+            <div class="success-box">
+                <h4 style="color:#065f46;">Tailwind Environment</h4>
+                <p>Positive factors outweigh negatives. Companies underpromise and overdeliver. Environment is "good and getting better." Management provides positive news incrementally.</p>
+            </div>
+            <div style="background:linear-gradient(135deg,#fef2f2,#fee2e2);border-left:4px solid var(--danger-red);padding:1rem 1.2rem;border-radius:0 6px 6px 0;">
+                <h4 style="color:#991b1b;">Headwind Environment</h4>
+                <p>Binary and high-risk. Management drip-feeds bad news. "It's tough out there," "consumers are struggling." Hedging bets. Hoping conditions improve.</p>
+            </div>
+        </div>
+        <table class="data-table" style="margin-top:1rem;">
+            <tr><th>Capability</th><th>Description</th></tr>
+            <tr><td>Longitudinal Earnings Call Analysis</td><td>Detect shifts in management tone over time — from bullish to defensive or vice versa</td></tr>
+            <tr><td>Linguistic Cue Detection</td><td>Track specific phrases: "it's tough out there," "consumers are struggling," "we continue to see improvement"</td></tr>
+            <tr><td>H/T Classifier</td><td>Running classification per company: net headwind, net tailwind, or transitioning</td></tr>
+            <tr><td>Inflection Point Detection</td><td>Find points where long-term projects "bear fruit" — not yet in financial models</td></tr>
+        </table>
+    </div>
+
+    <div class="card card-accent">
+        <h2>Conviction Workflow: Ideas to Investments</h2>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.3rem;justify-content:center;margin:1rem 0;">
+            <span class="flow-node flow-node-red">Low Conviction Idea</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node flow-node-amber">Post-Debate Monitoring</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node flow-node-blue">Conviction Progression</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node flow-node-green">High Conviction Investment</span>
+        </div>
+        <div class="grid-2">
+            <div>
+                <h4>Idea Registry</h4>
+                <ul class="feature-list">
+                    <li>Every debated idea gets a record: instruments, thesis, conviction level, assumptions</li>
+                    <li>Links to original conversation/meeting</li>
+                    <li>Track what would change conviction</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Execution Gap Detection (Naspers Case)</h4>
+                <ul class="feature-list">
+                    <li>Team identified Naspers at discount, got distracted by Iran/geopolitics</li>
+                    <li>Only achieved 1.8% vs. 5% target before price rose</li>
+                    <li>System detects: consensus + no execution + reinforcing data = "incomplete work"</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-purple">
+        <h2>Contradiction & Temporal Intelligence</h2>
+        <div class="grid-2">
+            <div>
+                <h4>Conviction Tracking</h4>
+                <ul class="feature-list">
+                    <li>Record every PM view: timestamp, instrument, direction, confidence</li>
+                    <li>Build conviction curve per instrument per PM</li>
+                    <li>Surface when conviction changed without acknowledgment</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Contradiction Detection</h4>
+                <ul class="feature-list">
+                    <li>Current views vs. historical views on same instrument</li>
+                    <li>Views vs. portfolio positioning ("worried about SA macro but overweight retailers")</li>
+                    <li>Management statements vs. financial results</li>
+                    <li>Stated intentions vs. actual execution</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Signal Amplification & Noise Filtering</h2>
+        <div class="info-box" style="margin-bottom:1rem;">A PM's primary value is discerning faint signals others miss. Traditional systems use rigid filters that strip out these very signals.</div>
+        <table class="data-table">
+            <tr><th>Capability</th><th>Description</th></tr>
+            <tr><td>Signal Scoring Engine</td><td>Score information: novelty, specificity to held/debated instruments, source quality, alignment with theses</td></tr>
+            <tr><td>Manual Signal Amplification</td><td>PMs mark data points as "high signal" — system learns from overrides</td></tr>
+            <tr><td>Anchoring Bias Detector</td><td>Flag when PMs use current holdings as "true north" vs. objective valuation</td></tr>
+            <tr><td>Cognitive Bias Alerts</td><td>Confirmation bias, loss aversion, recency bias detection</td></tr>
+            <tr><td>Contextual Opportunity Triggers</td><td>Internal consensus + reinforcing market movement = high-priority signal</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Source Weighting Hierarchy</h2>
+        <div style="margin:1rem 0;">
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+                <div style="width:100%;max-width:600px;">
+                    <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.2rem;">PM Stated View (Rob, Simon, Sean)</div>
+                    <div class="progress-container"><div class="progress-bar progress-green" style="width:95%;">Highest</div></div>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+                <div style="width:100%;max-width:600px;">
+                    <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.2rem;">Internal Research (Rezco models, value grids)</div>
+                    <div class="progress-container"><div class="progress-bar progress-green" style="width:85%;">High</div></div>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+                <div style="width:100%;max-width:600px;">
+                    <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.2rem;">Management Meetings (company executives)</div>
+                    <div class="progress-container"><div class="progress-bar progress-blue" style="width:70%;">Medium-High</div></div>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+                <div style="width:100%;max-width:600px;">
+                    <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.2rem;">Bloomberg/Reuters Data</div>
+                    <div class="progress-container"><div class="progress-bar progress-blue" style="width:55%;">Medium</div></div>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+                <div style="width:100%;max-width:600px;">
+                    <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.2rem;">Sell-Side Research (conflicts of interest)</div>
+                    <div class="progress-container"><div class="progress-bar progress-amber" style="width:35%;">Low-Medium</div></div>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+                <div style="width:100%;max-width:600px;">
+                    <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.2rem;">Reddit/Twitter (sentiment only)</div>
+                    <div class="progress-container"><div class="progress-bar progress-red" style="width:15%;">Low</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== TAB: PORTFOLIO & SIGNALS ==================== -->
+<div id="portfolio" class="tab-content">
+    <div class="card card-accent">
+        <h2>Portfolio Construction Awareness</h2>
+        <p>"Benchmark-agnostic but not benchmark-ignorant." The system must support deliberate portfolio construction, ensuring deviations are intentional choices, not accidental drift.</p>
+    </div>
+
+    <div class="card">
+        <h2>Portfolio Capabilities</h2>
+        <table class="data-table">
+            <tr><th>Capability</th><th>Description</th></tr>
+            <tr><td>Benchmark Deviation Tracker</td><td>Continuously track portfolio deviations from indices. Ensure all deviations are deliberate.</td></tr>
+            <tr><td>Sector/Theme Exposure Analysis</td><td>Map holdings to sectors, themes, macro factors. Identify concentration risks and unintended bets.</td></tr>
+            <tr><td>Position Sizing Monitor</td><td>Track if executed positions reach targets. Flag partial fills (1.8% vs. 5% target).</td></tr>
+            <tr><td>Deliberate vs. Accidental Deviation</td><td>Trace every benchmark deviation to a deliberate decision or flag as drift.</td></tr>
+            <tr><td>Risk Factor Analysis <span class="badge badge-phase">Phase 3</span></td><td>How assets combine to impact portfolio risk. Correlation analysis, factor exposure.</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Scheduled Background Tasks</h2>
+        <table class="data-table">
+            <tr><th>Task</th><th>Schedule</th><th>Description</th></tr>
+            <tr><td>Morning Briefing</td><td>Daily 06:00 SAST</td><td>Overnight developments, alerts, incomplete work, signals</td></tr>
+            <tr><td>Holdings Sync</td><td>Daily post-close</td><td>Fund weights, benchmark weights from portfolio mgmt system</td></tr>
+            <tr><td>Financial Data Refresh</td><td>Weekly</td><td>PE, earnings, prices across instrument universe</td></tr>
+            <tr><td>Google Chat Processing</td><td>Continuous</td><td>Ingest and file messages as they arrive</td></tr>
+            <tr><td>Google Drive Monitoring</td><td>Continuous</td><td>Detect and ingest new PDFs, transcripts</td></tr>
+            <tr><td>Earnings Revision Monitor</td><td>Daily</td><td>Positive/negative revision flags</td></tr>
+            <tr><td>Contradiction Scan</td><td>Weekly</td><td>Portfolio positioning vs. stated views</td></tr>
+            <tr><td>Stale View Detection</td><td>Weekly</td><td>Old views + material developments = flag</td></tr>
+            <tr><td>Incomplete Work Scan</td><td>Daily</td><td>Stagnant ideas where market validates thesis</td></tr>
+            <tr><td>H/T Refresh</td><td>Weekly</td><td>Update headwind/tailwind classifications</td></tr>
+            <tr><td>Benchmark Deviation</td><td>Daily</td><td>Compare portfolio to benchmark, flag drift</td></tr>
+            <tr><td>24/7 Market Screening</td><td>Continuous</td><td>Personas screen global markets per philosophy</td></tr>
+        </table>
+    </div>
+</div>
+
+<!-- ==================== TAB: FRONT-END ==================== -->
+<div id="frontend" class="tab-content">
+    <div class="card card-accent">
+        <h2>Front-End & Interaction Layer</h2>
+        <p>Current state: a chat widget (ChatWidget.vue) and two existing consoles (data/reporting + investment team) in Vue 3 with gRPC web. Rezco needs 10 interfaces.</p>
+    </div>
+
+    <div class="grid-2">
+        <div class="card"><h3>Chat <span class="badge badge-exists">Exists</span></h3><p>Enhance with persona selector, instrument auto-complete, source citations, conviction indicators, signal scoring.</p></div>
+        <div class="card"><h3>Morning Briefing Dashboard <span class="badge badge-new">New</span></h3><p>Structured daily view: overnight moves, alerts, incomplete work, benchmark gaps, signals. Not a chat.</p></div>
+        <div class="card"><h3>Instrument Deep-Dive <span class="badge badge-new">New</span></h3><p>Per-instrument: latest view, conviction curve, H/T assessment, financial data, value grid, model, linked research, sentiment trajectory.</p></div>
+        <div class="card"><h3>Portfolio Overview <span class="badge badge-new">New</span></h3><p>Holdings, weights vs. benchmark, contribution analysis, sector/theme exposure, deliberate vs. accidental deviations.</p></div>
+        <div class="card"><h3>Ideas Pipeline <span class="badge badge-new">New</span></h3><p>Kanban-style: low conviction → medium → high → executed. Filter by sector, theme, PM.</p></div>
+        <div class="card"><h3>Report Viewer <span class="badge badge-new">New</span></h3><p>Rendered investment case reports. Exportable to PDF. Charts, data, conviction history.</p></div>
+        <div class="card"><h3>Meeting Prep View <span class="badge badge-new">New</span></h3><p>Pre-meeting: generated questions, gaps, contradictions, investment case, linguistic cue history.</p></div>
+        <div class="card"><h3>Knowledge Graph Explorer <span class="badge badge-new">New</span></h3><p>Visual spiderweb: instruments, themes, data points. Click to drill down.</p></div>
+        <div class="card"><h3>Persona Comparison <span class="badge badge-new">New</span></h3><p>Side-by-side: Rezco vs. Buffett vs. Druckenmiller on same instrument.</p></div>
+        <div class="card"><h3>Signal Feed <span class="badge badge-new">New</span></h3><p>Real-time high-scoring signals. Filterable. PMs can promote/demote scores.</p></div>
+    </div>
+</div>
+
+<!-- ==================== TAB: ARCHITECTURE ==================== -->
+<div id="architecture" class="tab-content">
+    <div class="card card-accent">
+        <h2>Integration Architecture</h2>
+        <p>Full system diagram showing the orchestrator, sub-agents, data stores, and external integrations.</p>
+    </div>
+
+    <div class="card">
+        <h2>System Architecture Diagram</h2>
+        <div class="diagram-box">
+                                 ┌──────────────────────────────┐
+                                 │        Front-End Layer        │
+                                 │  Chat │ Dashboard │ Deep Dive │
+                                 │  Ideas Pipeline │ Reports    │
+                                 │  Signal Feed │ Graph Explorer │
+                                 └──────────────┬───────────────┘
+                                                │
+                                 ┌──────────────▼───────────────┐
+                                 │       Console Gateway         │
+                                 │   (A2A + Auth + Persist)      │
+                                 └──────────────┬───────────────┘
+                                                │
+              ┌─────────────────────────────────▼──────────────────────────────┐
+              │                         ORCHESTRATOR                           │
+              │                                                                │
+              │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌───────────┐        │
+              │  │ Research │ │ Compare  │ │ Report   │ │ Meeting   │        │
+              │  │ Agent    │ │ Agent    │ │ Agent    │ │ Prep      │        │
+              │  └──────────┘ └──────────┘ └──────────┘ └───────────┘        │
+              │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌───────────┐        │
+              │  │ Morning  │ │ Screening│ │ Model    │ │ Incomplete│        │
+              │  │ Briefing │ │ Agent    │ │ Rolling  │ │ Work Mon. │        │
+              │  └──────────┘ └──────────┘ └──────────┘ └───────────┘        │
+              │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌───────────┐        │
+              │  │ Persona  │ │ Signal   │ │ Bias     │ │ Ingestor  │        │
+              │  │ Engine   │ │ Scoring  │ │ Detect.  │ │ Agents    │        │
+              │  └──────────┘ └──────────┘ └──────────┘ └───────────┘        │
+              │                                                                │
+              │  ┌────────────────────────────────────────────────────────┐    │
+              │  │   H/T + Sentiment │ Conviction │ Contradiction        │    │
+              │  │                  Cross-Cutting Layer                   │    │
+              │  └────────────────────────────────────────────────────────┘    │
+              └────────┬──────────────┬──────────────┬────────────────────────┘
+                       │              │              │
+          ┌────────────▼──┐  ┌───────▼────────┐  ┌──▼────────────┐
+          │  Knowledge    │  │  Instrument    │  │   Sessions    │
+          │   Graph       │  │  Master +      │  │   + Events    │
+          │  (Spiderweb)  │  │  Financial     │  │   (Spanner)   │
+          └───────┬───────┘  └───────┬────────┘  └───────────────┘
+                  │                  │
+          ┌───────┴───────┐  ┌───────┴───────┐
+          │ Idea Registry │  │  Conviction   │
+          │ + Exec Gaps   │  │  + Bias Track │
+          └───────┬───────┘  └───────┬───────┘
+                  │                  │
+     ┌────────────┴──────────────────┴───────────────┐
+     │            External Integrations               │
+     │                                                │
+     │  Google Chat │ Meet │ Drive │ Bloomberg        │
+     │  Reuters │ YouTube │ Morningstar │ Visible Alpha│
+     │  Data Stream │ Sell-Side │ Company Websites     │
+     └────────────────────────────────────────────────┘</div>
+    </div>
+
+    <div class="card">
+        <h2>Current Orchestrator Flow (E2E)</h2>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.3rem;justify-content:center;margin:1rem 0;">
+            <span class="flow-node flow-node-blue">Browser (ChatWidget.vue)</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node flow-node-purple">Console A2A (gRPC)</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node flow-node-amber">Orchestrator (ADK Agent)</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node flow-node-green">Streaming Response</span>
+        </div>
+        <div class="grid-2" style="margin-top:1rem;">
+            <div class="info-box">
+                <strong>Console responsibilities:</strong> Gateway, authentication, conversation/message persistence to Spanner via Conversations Service. Every user turn and agent response stored as MSG rows.
+            </div>
+            <div class="info-box">
+                <strong>Orchestrator responsibilities:</strong> A2A protocol, ADK agent graph, session/task management, streaming events. Internal state in separate Spanner tables (Sessions, SessionEvents, Tasks).
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Scope Boundaries</h2>
+        <div class="grid-3">
+            <div class="stats-box" style="border-left:4px solid var(--rezco-accent);">
+                <div class="stats-number" style="font-size:1.3rem;">Phase 1</div>
+                <div class="stats-label">SA Equities (Now)</div>
+                <p style="font-size:0.82rem;margin-top:0.5rem;color:var(--gray-600);">Full instrument-level research, models, value grids, Google Chat/Meet, conviction workflow, H/T analysis</p>
+            </div>
+            <div class="stats-box" style="border-left:4px solid var(--rezco-gold);">
+                <div class="stats-number" style="font-size:1.3rem;">Phase 2</div>
+                <div class="stats-label">Global Allocation (Later)</div>
+                <p style="font-size:0.82rem;margin-top:0.5rem;color:var(--gray-600);">Regional/thematic: European industrials, China. Macro personas active. PMIs, interest rates.</p>
+            </div>
+            <div class="stats-box" style="border-left:4px solid var(--purple);">
+                <div class="stats-number" style="font-size:1.3rem;">Phase 3</div>
+                <div class="stats-label">Attribution & Risk (~3 Years)</div>
+                <p style="font-size:0.82rem;margin-top:0.5rem;color:var(--gray-600);">Performance attribution, client reporting, risk factor analysis module.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== TAB: GAP ANALYSIS ==================== -->
+<div id="gaps" class="tab-content">
+    <div class="card card-accent">
+        <h2>Gap Analysis: Current vs. Required</h2>
+        <p>Updated to reflect existing infrastructure discovered in the Madelein classification tool meeting. Several gaps are smaller than initially assessed.</p>
+    </div>
+
+    <div class="card">
+        <table class="data-table">
+            <tr><th>Capability</th><th>Current State</th><th>Gap</th></tr>
+            <tr><td>Chat-based Q&A</td><td><span class="badge badge-exists">Exists</span> A2A + streaming</td><td><span class="badge badge-medium">Medium</span></td></tr>
+            <tr><td>Data Ingestion Pipeline</td><td><span class="badge badge-partial">Partial</span> Vertex AI, Morningstar, Data Stream, Visible Alpha</td><td><span class="badge badge-medium">Medium</span></td></tr>
+            <tr><td>Knowledge Graph (Spiderweb)</td><td><span class="badge badge-partial">Partial</span> Spanner vector DB, Vertex AI doc store</td><td><span class="badge badge-large">Medium-Large</span></td></tr>
+            <tr><td>Instrument Master Data</td><td><span class="badge badge-exists">Exists</span> FIGI DB, classifications, daily syncs</td><td><span class="badge badge-small">Small-Medium</span></td></tr>
+            <tr><td>Structured Financial Data</td><td><span class="badge badge-exists">Exists</span> EPS, EBIT, net income, balance sheets</td><td><span class="badge badge-small">Small</span></td></tr>
+            <tr><td>Research & Recommendations</td><td><span class="badge badge-exists">Exists</span> Buy/sell workflow, RAG-enabled LLM</td><td><span class="badge badge-medium">Medium</span></td></tr>
+            <tr><td>Classification Automation</td><td><span class="badge badge-partial">Partial</span> Vector suggestions, manual accept</td><td><span class="badge badge-small">Small</span></td></tr>
+            <tr><td>Analyst Personas (7)</td><td><span class="badge badge-new">Does Not Exist</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+            <tr><td>Headwind/Tailwind Analysis</td><td><span class="badge badge-new">Does Not Exist</span></td><td><span class="badge badge-large">Large</span></td></tr>
+            <tr><td>Conviction Workflow (Ideas → Investments)</td><td><span class="badge badge-new">Does Not Exist</span></td><td><span class="badge badge-large">Large</span></td></tr>
+            <tr><td>Signal Amplification / Noise Filtering</td><td><span class="badge badge-new">Does Not Exist</span></td><td><span class="badge badge-large">Large</span></td></tr>
+            <tr><td>Report Generation</td><td><span class="badge badge-partial">Partial</span> Recommendation reports exist</td><td><span class="badge badge-medium">Medium</span></td></tr>
+            <tr><td>Morning Briefing (Unprompted)</td><td><span class="badge badge-new">Does Not Exist</span></td><td><span class="badge badge-large">Large</span></td></tr>
+            <tr><td>Contradiction / Temporal Intelligence</td><td><span class="badge badge-new">Does Not Exist</span></td><td><span class="badge badge-large">Large</span></td></tr>
+            <tr><td>Source Weighting / Trust</td><td><span class="badge badge-partial">Partial</span> Data source hierarchy exists</td><td><span class="badge badge-small">Small-Medium</span></td></tr>
+            <tr><td>Portfolio Construction Awareness</td><td><span class="badge badge-new">Does Not Exist</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+            <tr><td>Scheduled Background Execution</td><td><span class="badge badge-new">Does Not Exist</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+            <tr><td>Front-End (10 interfaces)</td><td><span class="badge badge-partial">Partial</span> Chat + 2 consoles (Vue 3)</td><td><span class="badge badge-large">Medium-Large</span></td></tr>
+        </table>
+    </div>
+</div>
+
+<!-- ==================== TAB: ROADMAP ==================== -->
+<div id="roadmap" class="tab-content">
+    <div class="card card-gold">
+        <h2>Build Roadmap</h2>
+        <p>14 sprints from foundation to full feature set, structured to build on existing infrastructure first.</p>
+    </div>
+
+    <div class="timeline">
+        <div class="timeline-item" style="border-left:3px solid var(--rezco-gold);">
+            <div class="timeline-title">Pre-Sprint: Discovery & Access (1 Week)</div>
+            <p style="font-size:0.88rem;">Simon walks Techbridge through the research hub. Identify what's used vs. unused. Get access to both consoles. Inventory APIs, pipelines, Vertex AI/Spanner infrastructure. Map data source hierarchy to trust layer.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-title">Sprint 1-2: Foundation (Integrate with Existing)</div>
+            <p style="font-size:0.88rem;">Connect orchestrator to existing instrument DB, Vertex AI doc store, Spanner vector DB. Knowledge Graph schema with non-linear linking + temporal indexing. Extend RAG with graph traversal. Idea Registry service.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-title">Sprint 3-4: Core Analyst + Automation</div>
+            <p style="font-size:0.88rem;">Research & Retrieval Agent. Google Chat Listener. Meeting Transcription Pipeline. Entity resolution (FIGI/ISIN). Classification Automation Agent. Custom Field Maintenance Agent. Basic signal scoring.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-title">Sprint 5-6: Intelligence Layer</div>
+            <p style="font-size:0.88rem;">Temporal indexing + conviction tracking. Contradiction detection. Source weighting (extend existing hierarchy). Comparison Agent (GARP). Headwind/tailwind classification engine.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-title">Sprint 7-8: Proactive Capabilities</div>
+            <p style="font-size:0.88rem;">Morning Briefing Agent. Holdings Sync. Financial Data Store (PE, prices, revisions). Threshold alerts. Execution Gap Detection. Benchmark deviation tracking.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-title">Sprint 9-10: Conviction & Signal Layer</div>
+            <p style="font-size:0.88rem;">Ideas → Investments pipeline. Signal amplification + manual override. Cognitive bias detection. Longitudinal sentiment on earnings calls. Linguistic cue detection. Research curation agent.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-title">Sprint 11-12: Advanced Features</div>
+            <p style="font-size:0.88rem;">7 AI Personas (Buffett, Dalio, Druckenmiller, Gundlach, Robin Hood, Technical). Report Generation (H/T + sentiment). Meeting Prep. Model Rolling. Screening (H/T + benchmark gaps). Buy/sell automation.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-title">Sprint 13-14: Front-End Expansion</div>
+            <p style="font-size:0.88rem;">Morning briefing dashboard. Instrument deep-dive (conviction curves, H/T). Ideas pipeline (kanban). Portfolio overview. Signal feed. Knowledge graph explorer. Persona comparison. Console modernization.</p>
+        </div>
+        <div class="timeline-item" style="border-left:3px solid var(--purple);">
+            <div class="timeline-title">Ongoing: Phase 2+</div>
+            <p style="font-size:0.88rem;">Global allocation (macro personas). 24/7 market screening. Real-time synchronous debate participation. Performance attribution (Phase 3). Risk factor analysis (Phase 3). Analyst reduction as agents mature.</p>
+        </div>
+    </div>
+</div>
+
+</div><!-- end content-container -->
+
+<!-- FOOTER -->
+<div class="footer">
+    <p>Rezco AI Analyst — Orchestrator Build Requirements</p>
+    <p style="margin-top:0.5rem;">Built by <a href="#">Techbridge Innovations</a> in partnership with <a href="#">Alis Exchange</a></p>
+    <p style="margin-top:0.3rem;font-size:0.8rem;color:var(--gray-400);">Sources: Hyde Park Corner Meeting | Raw Words Sessions | Madelein Classification Tool Meeting | AI Analyst PDF | rezco.com</p>
+</div>
+
+<script>
+// Tab navigation
+document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+    });
+});
+
+// Expandable sections
+document.querySelectorAll('.expandable').forEach(el => {
+    el.addEventListener('click', () => {
+        el.classList.toggle('expanded');
+        const content = el.nextElementSibling;
+        if (content && content.classList.contains('expandable-content')) {
+            content.classList.toggle('expanded');
+        }
+    });
+});
+
+// Animate progress bars on scroll
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.width = entry.target.dataset.width || entry.target.style.width;
+        }
+    });
+}, { threshold: 0.2 });
+document.querySelectorAll('.progress-bar').forEach(bar => observer.observe(bar));
+</script>
+</body>
+</html>
