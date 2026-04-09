@@ -2666,6 +2666,275 @@
             </div>
           </div>
         </div>
+
+        <!-- MILESTONES & PRICING -->
+        <div class="card card-gold">
+          <h2>Milestones & Pricing</h2>
+          <p style="margin-bottom: 1rem">
+            Techbridge Innovations will deliver V1 for an all-in
+            milestone-based fee of
+            <strong>USD $20,000</strong>. The work is broken into six
+            milestones, each tied to a concrete deliverable Rezco can verify
+            before the next milestone is invoiced. No timeline commitments —
+            milestones are released as work is signed off.
+          </p>
+
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 1.5rem;
+              margin: 1rem 0 1.5rem;
+              padding: 1.2rem;
+              background: linear-gradient(
+                135deg,
+                #fffbeb 0%,
+                #fef3c7 100%
+              );
+              border-radius: 10px;
+              border: 2px solid var(--rezco-gold);
+            "
+          >
+            <div style="text-align: center">
+              <div
+                style="
+                  font-size: 0.7rem;
+                  text-transform: uppercase;
+                  letter-spacing: 1px;
+                  color: #92400e;
+                  font-weight: 700;
+                "
+              >
+                V1 Total
+              </div>
+              <div
+                style="
+                  font-size: 2.4rem;
+                  font-weight: 800;
+                  color: #92400e;
+                  line-height: 1;
+                "
+              >
+                $20,000
+              </div>
+              <div
+                style="
+                  font-size: 0.75rem;
+                  color: #92400e;
+                  margin-top: 0.3rem;
+                "
+              >
+                USD · all-in · milestone-based
+              </div>
+            </div>
+            <div
+              style="
+                width: 1px;
+                height: 60px;
+                background: var(--rezco-gold);
+              "
+            ></div>
+            <div style="text-align: center">
+              <div
+                style="
+                  font-size: 0.7rem;
+                  text-transform: uppercase;
+                  letter-spacing: 1px;
+                  color: #92400e;
+                  font-weight: 700;
+                "
+              >
+                Milestones
+              </div>
+              <div
+                style="
+                  font-size: 2.4rem;
+                  font-weight: 800;
+                  color: #92400e;
+                  line-height: 1;
+                "
+              >
+                6
+              </div>
+              <div
+                style="
+                  font-size: 0.75rem;
+                  color: #92400e;
+                  margin-top: 0.3rem;
+                "
+              >
+                deliverable-tied
+              </div>
+            </div>
+          </div>
+
+          <table class="data-table">
+            <tr>
+              <th style="width: 5%">#</th>
+              <th style="width: 22%">Milestone</th>
+              <th>Deliverable</th>
+              <th style="width: 12%; text-align: right">Fee (USD)</th>
+            </tr>
+            <tr>
+              <td><strong>M1</strong></td>
+              <td><strong>Discovery & Foundation</strong></td>
+              <td>
+                Walkthrough sessions with Simon and Rob to confirm V1 scope
+                against the existing research hub. Provision GCP project,
+                Vertex AI Search data store, GCS bucket
+                (<code style="font-size: 0.75rem">rezco-research</code>),
+                service accounts, OAuth credentials for Fireflies and Google
+                Workspace MCPs. Architecture sign-off document.
+              </td>
+              <td style="text-align: right; font-weight: 700">$2,000</td>
+            </tr>
+            <tr>
+              <td><strong>M2</strong></td>
+              <td>
+                <strong>Chrome Extension + Go Ingestion Microservice</strong>
+              </td>
+              <td>
+                Internal Rezco Chrome extension (DOM read, side-panel UI,
+                content type detection, first-pass tagging). Go ingestion
+                microservice with three working endpoints
+                (<code style="font-size: 0.75rem">/ingest/text</code>,
+                <code style="font-size: 0.75rem">/ingest/document</code>,
+                <code style="font-size: 0.75rem">/ingest/clip</code>) writing
+                directly to GCS and Vertex AI Search. End-to-end clip-to-
+                indexed verified with the team on real pages.
+              </td>
+              <td style="text-align: right; font-weight: 700">$5,000</td>
+            </tr>
+            <tr>
+              <td><strong>M3</strong></td>
+              <td>
+                <strong>Drive Reasoning Sync Agent</strong>
+              </td>
+              <td>
+                Eventarc-triggered Cloud Function on the watched Drive
+                folder. Gemini classification (asset, FIGI/ISIN, sector,
+                doc type, year), smart renaming, dynamic asset folder
+                creation, GCS filing under
+                <code style="font-size: 0.75rem">assets/{company}/...</code>,
+                Vertex AI Search import with metadata labels, audit log,
+                low-confidence review queue.
+              </td>
+              <td style="text-align: right; font-weight: 700">$3,000</td>
+            </tr>
+            <tr>
+              <td><strong>M4</strong></td>
+              <td>
+                <strong>Atlas Agent Core + Live MCP Routing</strong>
+              </td>
+              <td>
+                Atlas analyst agent (orchestrator with sub-agents). Live MCP
+                Query Router with single-source routing and parallel fan-out
+                for broad queries. Fireflies MCP integration (live transcript
+                queries). Google Workspace MCP integration (live Chat
+                queries). Synthesis pass that merges and de-duplicates
+                fan-out results. Recommendation generation prompts
+                ("pitch me an idea") wired to the orchestrator.
+              </td>
+              <td style="text-align: right; font-weight: 700">$5,000</td>
+            </tr>
+            <tr>
+              <td><strong>M5</strong></td>
+              <td>
+                <strong>Atlas UI + Multi-Channel</strong>
+              </td>
+              <td>
+                Custom Atlas web UI — chat-first with archive history,
+                streaming responses, source-cited answers, indexed-vs-live
+                badges, evidence feed with cross-source citations.
+                Google Chat integration so PMs can talk to Atlas inside
+                their existing chat tool. Atlas appears in both surfaces
+                with the same memory.
+              </td>
+              <td style="text-align: right; font-weight: 700">$4,000</td>
+            </tr>
+            <tr>
+              <td><strong>M6</strong></td>
+              <td>
+                <strong>Tuning, Testing & PM Handover</strong>
+              </td>
+              <td>
+                End-to-end testing across the three engagement surfaces
+                with real PM workflows. Tune Gemini classification prompts
+                against early Drive uploads. Bug fixes from initial usage.
+                Hand-over session with Rob, Simon, and the team. Light
+                operational documentation (how to run the extension, how
+                the Drive folder works, how to add a new asset).
+              </td>
+              <td style="text-align: right; font-weight: 700">$1,000</td>
+            </tr>
+            <tr style="background: #fffbeb">
+              <td colspan="3" style="text-align: right; font-weight: 700">
+                Total V1
+              </td>
+              <td
+                style="
+                  text-align: right;
+                  font-weight: 800;
+                  font-size: 1.05rem;
+                  color: #92400e;
+                "
+              >
+                $20,000
+              </td>
+            </tr>
+          </table>
+
+          <div class="grid-2" style="margin-top: 1.2rem">
+            <div class="info-box" style="margin: 0; font-size: 0.85rem">
+              <strong>What's included</strong>
+              <ul
+                class="feature-list"
+                style="font-size: 0.82rem; margin-top: 0.4rem"
+              >
+                <li>
+                  All engineering for the milestones above (backend,
+                  agent, extension, UI)
+                </li>
+                <li>
+                  Cloud architecture design and GCP setup
+                </li>
+                <li>
+                  Integration with Fireflies and Google Workspace via MCP
+                </li>
+                <li>
+                  Walkthrough and handover with the Rezco team
+                </li>
+                <li>
+                  Bug fixes from initial usage period
+                </li>
+              </ul>
+            </div>
+            <div class="warning-box" style="margin: 0; font-size: 0.85rem">
+              <strong>What's not included</strong>
+              <ul
+                class="feature-list"
+                style="font-size: 0.82rem; margin-top: 0.4rem"
+              >
+                <li>
+                  GCP infrastructure costs (Vertex AI Search, GCS, Cloud
+                  Functions, Gemini API) — billed directly to Rezco
+                </li>
+                <li>
+                  Fireflies subscription
+                </li>
+                <li>
+                  Anything in the V2 / V3 columns above (quant, personas,
+                  model rolling, portfolio construction, etc.)
+                </li>
+                <li>
+                  Ongoing support after V1 handover (separate retainer if
+                  Rezco wants it)
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- ==================== TAB: OVERVIEW ==================== -->
       <div id="overview" class="tab-content">
