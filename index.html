@@ -704,7 +704,7 @@
     <!-- V1 ARCHITECTURE - REDRAWN -->
     <div class="card card-accent">
         <h2>V1 Architecture (Reframed)</h2>
-        <p style="margin-bottom:1rem;">The Chrome Extension is now front and center as the primary ingestion path. PMs clip what they're already reading without changing behavior. The agent is the analyst — it processes, synthesizes, and recommends.</p>
+        <p style="margin-bottom:1rem;">The agent is the analyst. It draws from <strong>two classes of data sources</strong>: indexed content in Vertex AI Search (clipped pages, PDFs, docs) and <strong>live MCP queries</strong> against Fireflies (meetings) and Google Workspace (Chat, Drive, Gmail). No duplication — Atlas always sees fresh source-of-truth data.</p>
 
         <div class="diagram-box">
   ┌────────────────────────────────────────────────────────────────────────┐
@@ -736,20 +736,54 @@
         │   │  • Ingestion / Filing Agent (Drive → Vertex)    │    │
         │   │  • Research & Retrieval Agent                    │    │
         │   │  • Recommendation Generation Agent               │    │
+        │   │  • Live MCP Query Router                          │    │
         │   │  • Scheduler (daily updates, automations)        │    │
         │   └────────────────────────────────────────────────┘    │
-        └──┬──────────────┬──────────────┬───────────────────────┘
-           │              │              │
-  ┌────────▼─────┐ ┌──────▼──────┐ ┌────▼──────────┐
-  │ Vertex AI    │ │ Google Drive│ │  Sessions +   │
-  │ Search       │ │ (folders    │ │  Conversations│
-  │ (indexed     │ │  by asset)  │ │  (Spanner)    │
-  │  documents)  │ │             │ │               │
-  └────────▲─────┘ └──────▲──────┘ └───────────────┘
-           │              │
-           │              │
-  ┌────────┴──────────────┴────────────────────────────────────┐
-  │              INGESTION CHANNELS                              │
+        └──┬─────────────┬─────────────────────────┬─────────────┘
+           │             │                         │
+           │   ┌─────────┴───────────┐             │
+           │   │                     │             │
+  ┌────────▼───┐ ┌────▼──────┐ ┌────▼──────────┐ │
+  │ Vertex AI  │ │ Google    │ │  Sessions +   │ │
+  │ Search     │ │ Drive     │ │  Conversations│ │
+  │ (indexed)  │ │ (folders) │ │  (Spanner)    │ │
+  └────────▲───┘ └────▲──────┘ └───────────────┘ │
+           │          │                            │
+           │          │                            │
+           │          │      ┌─────────────────────▼──────────────┐
+           │          │      │      LIVE MCP QUERIES               │
+           │          │      │   (Atlas calls these at query time) │
+           │          │      │                                     │
+           │          │      │  ┌───────────────────────────────┐ │
+           │          │      │  │  FIREFLIES MCP                 │ │
+           │          │      │  │  api.fireflies.ai/mcp          │ │
+           │          │      │  │                                │ │
+           │          │      │  │  • fireflies_search             │ │
+           │          │      │  │  • fireflies_get_transcript     │ │
+           │          │      │  │  • fireflies_get_summary        │ │
+           │          │      │  │  • fireflies_fetch              │ │
+           │          │      │  │                                │ │
+           │          │      │  │  "What did Sean say in          │ │
+           │          │      │  │   yesterday's call about        │ │
+           │          │      │  │   Discovery?" → live query      │ │
+           │          │      │  └───────────────────────────────┘ │
+           │          │      │                                     │
+           │          │      │  ┌───────────────────────────────┐ │
+           │          │      │  │  GOOGLE WORKSPACE MCP          │ │
+           │          │      │  │                                │ │
+           │          │      │  │  • Google Chat: search msgs    │ │
+           │          │      │  │  • Gmail: search threads        │ │
+           │          │      │  │  • Drive: search files          │ │
+           │          │      │  │  • Calendar: events             │ │
+           │          │      │  │                                │ │
+           │          │      │  │  "What has the team discussed   │ │
+           │          │      │  │   about FirstRand this week?"   │ │
+           │          │      │  │   → live Chat query             │ │
+           │          │      │  └───────────────────────────────┘ │
+           │          │      └─────────────────────────────────────┘
+           │          │
+  ┌────────┴──────────┴────────────────────────────────────────┐
+  │             INGESTION → INDEXED IN VERTEX AI                 │
   │                                                              │
   │  ┌─────────────────────────────────────────────────────┐   │
   │  │  REZCO CHROME EXTENSION  (PRIMARY)                  │   │
@@ -767,17 +801,82 @@
   │  │       ├─ File in Google Drive folder (by asset)     │   │
   │  │       └─ Link entities in knowledge base            │   │
   │  └─────────────────────────────────────────────────────┘   │
-  │                                                              │
-  │  ┌─────────────────────────────────────────────────────┐   │
-  │  │  FIREFLIES MCP  (MEETINGS)                          │   │
-  │  │  Auto-captured calls → transcripts → Vertex AI      │   │
-  │  └─────────────────────────────────────────────────────┘   │
-  │                                                              │
-  │  ┌─────────────────────────────────────────────────────┐   │
-  │  │  GOOGLE WORKSPACE MCP  (CHAT / DRIVE / GMAIL)       │   │
-  │  │  PM Chat conversations + sell-side emails           │   │
-  │  └─────────────────────────────────────────────────────┘   │
-  └────────────────────────────────────────────────────────────┘</div>
+  └────────────────────────────────────────────────────────────┘
+
+  Atlas decides per query: index lookup, live MCP query, or both.
+  Citations always show whether the source was indexed or live.</div>
+    </div>
+
+    <!-- LIVE MCP QUERY CAPABILITY -->
+    <div class="card card-purple">
+        <h2>Atlas Live MCP Queries — Fresh Data, No Duplication</h2>
+        <p style="margin-bottom:1rem;">Atlas does not just rely on what's been ingested. At query time, the agent reaches out to <strong>Fireflies</strong> and <strong>Google Workspace</strong> through their MCP servers and pulls fresh data live. Meeting transcripts and PM chat conversations stay in their source systems — Atlas queries them on demand.</p>
+
+        <div class="grid-2">
+            <div class="card" style="margin-bottom:0;border-left:4px solid var(--info-cyan);">
+                <h3 style="font-size:1.05rem;">🎙 Fireflies MCP — Live Meeting Queries</h3>
+                <p style="font-size:0.85rem;margin-top:0.5rem;">Atlas hits the Fireflies MCP server at <code style="font-size:0.75rem;">api.fireflies.ai/mcp</code> to retrieve transcripts, summaries, and action items in real time.</p>
+                <h4 style="margin-top:0.8rem;">Example PM queries Atlas can answer live:</h4>
+                <ul class="feature-list" style="font-size:0.85rem;">
+                    <li>"What did Sean say about Discovery in yesterday's call?"</li>
+                    <li>"Summarize all the meetings we had with Standard Bank management last quarter."</li>
+                    <li>"Did anyone raise concerns about FirstRand's NPL ratio in the last 30 days?"</li>
+                    <li>"What action items came out of the Tuesday strategy session?"</li>
+                </ul>
+                <h4 style="margin-top:0.8rem;">Tools used by Atlas:</h4>
+                <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.3rem;">
+                    <span class="flow-node flow-node-blue" style="font-size:0.7rem;">fireflies_search</span>
+                    <span class="flow-node flow-node-blue" style="font-size:0.7rem;">fireflies_get_transcripts</span>
+                    <span class="flow-node flow-node-blue" style="font-size:0.7rem;">fireflies_get_transcript</span>
+                    <span class="flow-node flow-node-blue" style="font-size:0.7rem;">fireflies_get_summary</span>
+                    <span class="flow-node flow-node-blue" style="font-size:0.7rem;">fireflies_fetch</span>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom:0;border-left:4px solid var(--success-green);">
+                <h3 style="font-size:1.05rem;">💬 Google Workspace MCP — Live Chat Queries</h3>
+                <p style="font-size:0.85rem;margin-top:0.5rem;">Atlas queries Google Chat (and Gmail, Drive, Calendar) live via the Google Workspace MCP. The PM chatter stays where it is — Atlas reaches into it on demand.</p>
+                <h4 style="margin-top:0.8rem;">Example PM queries Atlas can answer live:</h4>
+                <ul class="feature-list" style="font-size:0.85rem;">
+                    <li>"What has the team discussed about FirstRand in the chat this week?"</li>
+                    <li>"Find the chart Sean shared about ZAR volatility two weeks ago."</li>
+                    <li>"What sell-side reports have we received about Discovery this month?"</li>
+                    <li>"Pull up the email thread where Rob flagged the SA macro concern."</li>
+                </ul>
+                <h4 style="margin-top:0.8rem;">Tools used by Atlas:</h4>
+                <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.3rem;">
+                    <span class="flow-node flow-node-green" style="font-size:0.7rem;">chat.search_messages</span>
+                    <span class="flow-node flow-node-green" style="font-size:0.7rem;">chat.list_spaces</span>
+                    <span class="flow-node flow-node-green" style="font-size:0.7rem;">gmail.search_threads</span>
+                    <span class="flow-node flow-node-green" style="font-size:0.7rem;">drive.search_files</span>
+                    <span class="flow-node flow-node-green" style="font-size:0.7rem;">calendar.list_events</span>
+                </div>
+            </div>
+        </div>
+
+        <h4 style="margin-top:1.5rem;">Why live queries instead of pre-ingestion?</h4>
+        <div class="grid-3" style="margin-top:0.5rem;">
+            <div class="info-box" style="font-size:0.85rem;margin:0;">
+                <strong>Always fresh.</strong> Meeting from this morning is queryable immediately. No nightly sync delay. No "is this stale?" question.
+            </div>
+            <div class="info-box" style="font-size:0.85rem;margin:0;">
+                <strong>No duplication.</strong> Fireflies already stores transcripts. Google already stores chat. Atlas reads from the source of truth — no parallel database to maintain.
+            </div>
+            <div class="info-box" style="font-size:0.85rem;margin:0;">
+                <strong>Permission-aware.</strong> MCP queries flow through OAuth/API key auth — Atlas only ever sees what the authenticated user is allowed to see.
+            </div>
+        </div>
+
+        <h4 style="margin-top:1.5rem;">Atlas Query Routing</h4>
+        <p style="font-size:0.9rem;margin-bottom:0.7rem;">When a PM asks a question, Atlas decides where to look:</p>
+        <table class="data-table">
+            <tr><th>PM asks…</th><th>Atlas routes to…</th><th>Why</th></tr>
+            <tr><td>"What's our latest investment thesis on Discovery?"</td><td>Vertex AI Search (indexed)</td><td>Indexed memos, models, clipped research</td></tr>
+            <tr><td>"What did Sean say in the call this morning?"</td><td>Fireflies MCP (live)</td><td>Today's meeting may not be in any index yet</td></tr>
+            <tr><td>"What did the team chat about FirstRand this week?"</td><td>Google Chat MCP (live)</td><td>Conversational data lives in Chat, queried fresh</td></tr>
+            <tr><td>"Compare our internal view on Standard Bank with the latest sell-side reports."</td><td>Vertex AI Search + Gmail MCP</td><td>Internal memos indexed; sell-side reports queried live from Gmail</td></tr>
+            <tr><td>"Summarize all our Discovery meetings from Q3 alongside our research notes."</td><td>Fireflies MCP + Vertex AI Search</td><td>Live transcripts + indexed notes synthesized in one answer</td></tr>
+        </table>
     </div>
 
     <!-- THE CHROME EXTENSION DEEP DIVE -->
@@ -845,14 +944,15 @@
         </table>
     </div>
 
-    <!-- INGESTION CHANNELS SUMMARY -->
+    <!-- ATLAS DATA SOURCES SUMMARY -->
     <div class="card card-accent">
-        <h2>V1 Ingestion Channels</h2>
+        <h2>Atlas Data Sources — Indexed vs. Live</h2>
+        <p style="margin-bottom:1rem;">Atlas has two distinct paths to data: ingested content lives in Vertex AI Search; meetings and chat are queried live via MCP every time a PM asks.</p>
         <div class="grid-3">
             <div class="card" style="margin-bottom:0;border-left:4px solid var(--rezco-gold);">
                 <h3 style="font-size:1.05rem;">Rezco Chrome Extension</h3>
-                <span class="badge badge-p0">P0 — PRIMARY</span>
-                <p style="font-size:0.85rem;margin-top:0.5rem;">PMs clip articles, sell-side reports, IR pages, Bloomberg content, emails — anything they're reading.</p>
+                <span class="badge badge-p0">P0 — INGESTED</span>
+                <p style="font-size:0.85rem;margin-top:0.5rem;">PMs clip articles, sell-side reports, IR pages, Bloomberg content, emails — anything they're reading. Content is indexed in Vertex AI Search.</p>
                 <ul class="feature-list" style="font-size:0.85rem;">
                     <li>Side panel opens on any page</li>
                     <li>DOM read + content type detection</li>
@@ -863,24 +963,24 @@
             </div>
             <div class="card" style="margin-bottom:0;border-left:4px solid var(--info-cyan);">
                 <h3 style="font-size:1.05rem;">Fireflies MCP</h3>
-                <span class="badge badge-p0">P0 — MEETINGS</span>
-                <p style="font-size:0.85rem;margin-top:0.5rem;">All PM meetings auto-captured. Transcripts with speaker attribution flow into Atlas.</p>
+                <span class="badge badge-p0">P0 — LIVE QUERY</span>
+                <p style="font-size:0.85rem;margin-top:0.5rem;">All PM meetings auto-captured by Fireflies. Atlas <strong>queries Fireflies live</strong> via MCP at runtime — transcripts stay in Fireflies, no duplication.</p>
                 <ul class="feature-list" style="font-size:0.85rem;">
-                    <li>Full transcripts + summaries</li>
-                    <li>Action items extracted</li>
+                    <li>Live transcript and summary queries</li>
+                    <li>Search by participant, date, keyword</li>
                     <li>Speaker attribution + timestamps</li>
-                    <li>8 MCP tools available</li>
-                    <li>Read-only API key auth</li>
+                    <li>8 MCP tools available to Atlas</li>
+                    <li>Today's meeting answerable immediately</li>
                 </ul>
             </div>
             <div class="card" style="margin-bottom:0;border-left:4px solid var(--success-green);">
                 <h3 style="font-size:1.05rem;">Google Workspace MCP</h3>
-                <span class="badge badge-p0">P0 — CHAT</span>
-                <p style="font-size:0.85rem;margin-top:0.5rem;">Captures PM Google Chat conversations and Gmail sell-side reports. Existing PM behavior, zero changes.</p>
+                <span class="badge badge-p0">P0 — LIVE QUERY</span>
+                <p style="font-size:0.85rem;margin-top:0.5rem;">Atlas <strong>queries Google Chat live</strong> when PMs ask about discussions. Same for Gmail sell-side reports and Drive files. No pre-ingestion, always fresh.</p>
                 <ul class="feature-list" style="font-size:0.85rem;">
-                    <li>Google Chat: search + retrieve messages</li>
-                    <li>Gmail: sell-side reports</li>
-                    <li>Drive: existing files</li>
+                    <li>Google Chat: live message search</li>
+                    <li>Gmail: live thread search</li>
+                    <li>Drive: live file search</li>
                     <li>OAuth 2.0 with token refresh</li>
                     <li>100+ tools across 12 services</li>
                 </ul>
@@ -1006,8 +1106,9 @@
                     <li>Go ingestion microservice (3 endpoints minimum)</li>
                     <li>Vertex AI Search index + RAG pipeline</li>
                     <li>Google Drive folder structure + filing agent</li>
-                    <li>Fireflies MCP integration</li>
-                    <li>Google Workspace MCP integration (Chat, Drive, Gmail)</li>
+                    <li><strong>Live MCP Query Router</strong> (decides indexed vs. live per query)</li>
+                    <li>Fireflies MCP integration (live transcript queries)</li>
+                    <li>Google Workspace MCP integration (live Chat, Gmail, Drive queries)</li>
                     <li>Entity resolution (company name → FIGI/ISIN)</li>
                     <li>Session + conversation persistence</li>
                     <li>Scheduler for automations</li>
