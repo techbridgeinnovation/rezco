@@ -1467,9 +1467,7 @@
                   <li>Extension reads DOM (email / webpage / PDF)</li>
                   <li>First-pass tag extraction (companies, themes)</li>
                   <li>POST → Go Ingestion Microservice</li>
-                  <li>
-                    <strong>→ GCS bucket</strong> (raw document storage)
-                  </li>
+                  <li><strong>→ GCS bucket</strong> (raw document storage)</li>
                   <li>
                     <strong>→ Vertex AI Search</strong> (immediate indexing)
                   </li>
@@ -1487,26 +1485,24 @@
               >
                 <h4>② 📁 Drive Sync Reasoning Agent (Bulk Upload Only)</h4>
                 <p>
-                  Used <strong>only when PMs want to upload many documents
-                  at once</strong>. A Gemini-powered reasoning agent
-                  watches a Drive folder, classifies each new file by
-                  Rezco asset and document type, files it into the right
-                  GCS bucket subfolder, and indexes it in Vertex AI Search
-                  with rich metadata labels.
+                  Used
+                  <strong
+                    >only when PMs want to upload many documents at once</strong
+                  >. A Gemini-powered reasoning agent watches a Drive folder,
+                  classifies each new file by Rezco asset and document type,
+                  files it into the right GCS bucket subfolder, and indexes it
+                  in Vertex AI Search with rich metadata labels.
                 </p>
                 <ul>
                   <li>PM (or junior staff) drops N files in Drive folder</li>
                   <li>Eventarc triggers a Cloud Function on each new file</li>
-                  <li>
-                    Gemini classifies → asset, sector, doc type, year
-                  </li>
+                  <li>Gemini classifies → asset, sector, doc type, year</li>
                   <li>
                     Smart-renamed and filed into
                     <strong>GCS bucket</strong> by asset
                   </li>
                   <li>
-                    <strong>→ Vertex AI Search</strong> (with metadata
-                    labels)
+                    <strong>→ Vertex AI Search</strong> (with metadata labels)
                   </li>
                   <li>
                     Dynamically creates new asset folders for previously
@@ -1691,15 +1687,14 @@
 
           <h4 style="margin-top: 1.5rem">Atlas Query Routing</h4>
           <p style="font-size: 0.9rem; margin-bottom: 0.7rem">
-            Atlas operates in two distinct routing modes depending on the
-            shape of the question. The agent inspects the query, picks the
-            right pattern, and either calls a single source directly or fans
-            out to multiple sub-agents in parallel and synthesizes the
-            results into one answer.
+            Atlas operates in two distinct routing modes depending on the shape
+            of the question. The agent inspects the query, picks the right
+            pattern, and either calls a single source directly or fans out to
+            multiple sub-agents in parallel and synthesizes the results into one
+            answer.
           </p>
 
           <div class="grid-2" style="margin-top: 1rem">
-
             <!-- SINGLE-SOURCE ROUTING -->
             <div
               class="card"
@@ -1709,12 +1704,10 @@
                 background: linear-gradient(135deg, #ecfeff, white);
               "
             >
-              <h4 style="color: var(--rezco-blue)">
-                ① Single-Source Routing
-              </h4>
+              <h4 style="color: var(--rezco-blue)">① Single-Source Routing</h4>
               <p style="font-size: 0.85rem; margin-top: 0.4rem">
-                Question is clearly about one type of data. Atlas calls
-                exactly one source — fast, focused, no overhead.
+                Question is clearly about one type of data. Atlas calls exactly
+                one source — fast, focused, no overhead.
               </p>
               <table class="data-table" style="font-size: 0.82rem">
                 <tr>
@@ -1764,47 +1757,35 @@
                 </tr>
                 <tr>
                   <td>"Give me a full picture on Discovery right now."</td>
-                  <td>
-                    Vertex AI + Fireflies + Google Chat + Gmail
-                  </td>
+                  <td>Vertex AI + Fireflies + Google Chat + Gmail</td>
                 </tr>
                 <tr>
                   <td>
                     "Pitch me an investment idea for the SA banks sector."
                   </td>
-                  <td>
-                    Vertex AI + Fireflies + Google Chat
-                  </td>
+                  <td>Vertex AI + Fireflies + Google Chat</td>
                 </tr>
                 <tr>
                   <td>
-                    "What are we currently saying about Standard Bank
-                    across all our sources?"
+                    "What are we currently saying about Standard Bank across all
+                    our sources?"
                   </td>
-                  <td>
-                    Vertex AI + Fireflies + Google Chat + Gmail
-                  </td>
+                  <td>Vertex AI + Fireflies + Google Chat + Gmail</td>
                 </tr>
                 <tr>
-                  <td>
-                    "Summarize all our Discovery touchpoints from Q3."
-                  </td>
-                  <td>
-                    Vertex AI + Fireflies + Calendar
-                  </td>
+                  <td>"Summarize all our Discovery touchpoints from Q3."</td>
+                  <td>Vertex AI + Fireflies + Calendar</td>
                 </tr>
               </table>
             </div>
           </div>
 
           <!-- FAN-OUT VISUAL -->
-          <h4 style="margin-top: 1.5rem">
-            How Fan-Out Consolidation Works
-          </h4>
+          <h4 style="margin-top: 1.5rem">How Fan-Out Consolidation Works</h4>
           <p style="font-size: 0.85rem; margin-bottom: 0.8rem">
-            For broad questions, Atlas runs multiple sub-agents in
-            parallel, then a synthesis pass merges and de-duplicates
-            results before responding to the PM.
+            For broad questions, Atlas runs multiple sub-agents in parallel,
+            then a synthesis pass merges and de-duplicates results before
+            responding to the PM.
           </p>
 
           <div class="arch" style="padding: 1.5rem 1rem">
@@ -1832,9 +1813,7 @@
                   class="arch-box atlas"
                   style="max-width: 480px; flex: 0 1 480px"
                 >
-                  <div class="arch-box-title">
-                    ⚡ Atlas — Query Planner
-                  </div>
+                  <div class="arch-box-title">⚡ Atlas — Query Planner</div>
                   <div class="arch-box-sub">
                     Detects multi-source intent → fans out to all relevant
                     sub-agents in parallel
@@ -1885,13 +1864,11 @@
                   class="arch-box atlas"
                   style="max-width: 560px; flex: 0 1 560px"
                 >
-                  <div class="arch-box-title">
-                    🧠 Atlas — Synthesis Pass
-                  </div>
+                  <div class="arch-box-title">🧠 Atlas — Synthesis Pass</div>
                   <div class="arch-box-sub">
                     Merges results · De-duplicates · Resolves conflicts ·
-                    Weights by recency · Generates one consolidated answer
-                    with source citations marked indexed or live
+                    Weights by recency · Generates one consolidated answer with
+                    source citations marked indexed or live
                   </div>
                 </div>
               </div>
@@ -1906,13 +1883,11 @@
                   class="arch-box surface"
                   style="max-width: 560px; flex: 0 1 560px"
                 >
-                  <div class="arch-box-title">
-                    📨 Consolidated Answer to PM
-                  </div>
+                  <div class="arch-box-title">📨 Consolidated Answer to PM</div>
                   <div class="arch-box-sub">
                     "Atlas pulled from: Vertex AI Search · Fireflies MCP ·
-                    Google Chat MCP · Gmail MCP" — with inline citations
-                    showing which source each fact came from
+                    Google Chat MCP · Gmail MCP" — with inline citations showing
+                    which source each fact came from
                   </div>
                 </div>
               </div>
@@ -1920,8 +1895,8 @@
 
             <div class="arch-footer">
               Single-source routing keeps fast questions fast. Fan-out
-              consolidation gives broad questions a complete answer.
-              Atlas decides per query.
+              consolidation gives broad questions a complete answer. Atlas
+              decides per query.
             </div>
           </div>
         </div>
@@ -2044,8 +2019,8 @@
               margin-top: 0.3rem;
             "
           >
-            Drive is bypassed entirely on this path. Documents land in GCS
-            and are indexed in Vertex AI Search in the same request.
+            Drive is bypassed entirely on this path. Documents land in GCS and
+            are indexed in Vertex AI Search in the same request.
           </p>
         </div>
 
@@ -2056,8 +2031,8 @@
             A single-purpose Go service that receives DOM payloads from the
             Chrome extension, normalizes them, writes the raw document to a
             <strong>GCS bucket</strong>, and pushes the parsed text into
-            <strong>Vertex AI Search</strong> for indexing. Drive is not in
-            this path. Stateless, horizontally scalable.
+            <strong>Vertex AI Search</strong> for indexing. Drive is not in this
+            path. Stateless, horizontally scalable.
           </p>
           <table class="data-table">
             <tr>
@@ -2069,25 +2044,25 @@
               <td><code>POST /ingest/text</code></td>
               <td>Receives extracted text from DOM (web pages, emails)</td>
               <td>
-                Tags entities, embeds, writes a text artifact to GCS, indexes
-                in Vertex AI Search, returns ingestion ID
+                Tags entities, embeds, writes a text artifact to GCS, indexes in
+                Vertex AI Search, returns ingestion ID
               </td>
             </tr>
             <tr>
               <td><code>POST /ingest/document</code></td>
               <td>Receives full PDF/document binary</td>
               <td>
-                Writes the raw binary to the GCS bucket, parses + extracts
-                text and metadata, indexes in Vertex AI Search with a
-                signed-URL pointer back to GCS
+                Writes the raw binary to the GCS bucket, parses + extracts text
+                and metadata, indexes in Vertex AI Search with a signed-URL
+                pointer back to GCS
               </td>
             </tr>
             <tr>
               <td><code>POST /ingest/clip</code></td>
               <td>Receives a partial selection from a page</td>
               <td>
-                Stores as a quote/note in GCS linked to the source URL,
-                indexes for later retrieval
+                Stores as a quote/note in GCS linked to the source URL, indexes
+                for later retrieval
               </td>
             </tr>
             <tr>
@@ -2111,10 +2086,10 @@
           <h2>Atlas Data Sources — Indexed vs. Live</h2>
           <p style="margin-bottom: 1rem">
             Atlas has two distinct paths to data: ingested content lives in a
-            GCS bucket and is indexed in Vertex AI Search; meetings and chat
-            are queried live via MCP every time a PM asks. The Chrome
-            Extension is the primary ingestion path; the Drive Sync Agent is
-            a secondary path used only for bulk uploads.
+            GCS bucket and is indexed in Vertex AI Search; meetings and chat are
+            queried live via MCP every time a PM asks. The Chrome Extension is
+            the primary ingestion path; the Drive Sync Agent is a secondary path
+            used only for bulk uploads.
           </p>
           <div class="grid-3">
             <div
@@ -2225,26 +2200,23 @@
               documents at once.</strong
             >
             The Chrome Extension is the primary, default path — and it goes
-            directly to GCS + Vertex AI Search without touching Drive. The
-            Drive sync path is a true <strong>reasoning agent</strong>, not a
-            naive file watcher: it uses Gemini to look at each new document,
+            directly to GCS + Vertex AI Search without touching Drive. The Drive
+            sync path is a true <strong>reasoning agent</strong>, not a naive
+            file watcher: it uses Gemini to look at each new document,
             understand what it's about, decide where it belongs in the GCS
             bucket structure (organized by Rezco asset, sector, and document
             type), rename it sensibly, and index it in Vertex AI Search with
-            rich metadata. If it sees an asset that doesn't exist in the
-            bucket yet, it creates a new subfolder for it on the fly.
+            rich metadata. If it sees an asset that doesn't exist in the bucket
+            yet, it creates a new subfolder for it on the fly.
           </p>
-          <div
-            class="info-box"
-            style="margin: 0.8rem 0; font-size: 0.85rem"
-          >
+          <div class="info-box" style="margin: 0.8rem 0; font-size: 0.85rem">
             <strong>Two ingestion paths, one index:</strong> the Chrome
             Extension path (primary, single-document, in-the-moment) writes
-            directly to GCS + Vertex AI Search. The Drive sync path (bulk,
-            many documents at once, agentic filing) is for moments when a PM
-            has a folder of files they want intelligently sorted and
-            indexed in one go. Both paths land in the same Vertex AI Search
-            index, so Atlas queries find everything.
+            directly to GCS + Vertex AI Search. The Drive sync path (bulk, many
+            documents at once, agentic filing) is for moments when a PM has a
+            folder of files they want intelligently sorted and indexed in one
+            go. Both paths land in the same Vertex AI Search index, so Atlas
+            queries find everything.
           </div>
 
           <h3>The Agentic Filing Workflow</h3>
@@ -2263,20 +2235,21 @@
               <td><strong>1. Trigger</strong></td>
               <td>
                 A PM drags and drops a file (or a batch of files) into the
-                watched Google Drive folder. An Apps Script or Eventarc
-                trigger fires immediately on the new file event.
+                watched Google Drive folder. An Apps Script or Eventarc trigger
+                fires immediately on the new file event.
               </td>
             </tr>
             <tr>
               <td><strong>2. Reasoning (Brain)</strong></td>
               <td>
-                A Cloud Function sends the document's filename and a snippet
-                of its parsed text to a Gemini model. The prompt asks Gemini
-                to identify: <em>which Rezco asset does this belong to</em>
-                (FIGI/ISIN if resolvable), <em>what sector / theme</em>,
-                <em>what document type</em> (earnings presentation,
-                sell-side report, management meeting note, value grid,
-                model, transcript, IR pack, etc.), and <em>what date</em>
+                A Cloud Function sends the document's filename and a snippet of
+                its parsed text to a Gemini model. The prompt asks Gemini to
+                identify:
+                <em>which Rezco asset does this belong to</em> (FIGI/ISIN if
+                resolvable), <em>what sector / theme</em>,
+                <em>what document type</em> (earnings presentation, sell-side
+                report, management meeting note, value grid, model, transcript,
+                IR pack, etc.), and <em>what date</em>
                 the document represents. Gemini returns a structured JSON
                 classification.
               </td>
@@ -2284,12 +2257,11 @@
             <tr>
               <td><strong>3. Smart Renaming</strong></td>
               <td>
-                Messy filenames are rewritten into consistent Rezco
-                conventions before they hit the bucket. Example:
+                Messy filenames are rewritten into consistent Rezco conventions
+                before they hit the bucket. Example:
+                <code style="font-size: 0.78rem">scan_final_v3.pdf</code>
+                →
                 <code style="font-size: 0.78rem"
-                  >scan_final_v3.pdf</code
-                >
-                → <code style="font-size: 0.78rem"
                   >2026_Q1_Discovery_Earnings_Call_Transcript.pdf</code
                 >.
               </td>
@@ -2297,24 +2269,24 @@
             <tr>
               <td><strong>4. Filing (GCS Bucket)</strong></td>
               <td>
-                The Cloud Function uploads the file to the GCS bucket under
-                the resolved path. Bucket layout is organized by Rezco
-                context — see the "Rezco GCS Bucket Layout" example below.
-                If the agent sees a new asset that doesn't have a folder yet
-                (e.g., a previously uncovered company), it
+                The Cloud Function uploads the file to the GCS bucket under the
+                resolved path. Bucket layout is organized by Rezco context — see
+                the "Rezco GCS Bucket Layout" example below. If the agent sees a
+                new asset that doesn't have a folder yet (e.g., a previously
+                uncovered company), it
                 <strong>creates a new subfolder dynamically</strong>.
               </td>
             </tr>
             <tr>
               <td><strong>5. Contextual Indexing</strong></td>
               <td>
-                The agent calls the Vertex AI Search API to import the new
-                file from its GCS path. It attaches the structured metadata
-                from step 2 as <strong>document labels</strong>: asset FIGI,
-                ISIN, ticker, sector, theme, document type, year, source.
-                This makes Atlas queries dramatically more powerful — Atlas
-                can filter by "all 2026 sell-side reports on SA banks" or
-                "every earnings transcript for Discovery."
+                The agent calls the Vertex AI Search API to import the new file
+                from its GCS path. It attaches the structured metadata from step
+                2 as <strong>document labels</strong>: asset FIGI, ISIN, ticker,
+                sector, theme, document type, year, source. This makes Atlas
+                queries dramatically more powerful — Atlas can filter by "all
+                2026 sell-side reports on SA banks" or "every earnings
+                transcript for Discovery."
               </td>
             </tr>
             <tr>
@@ -2323,19 +2295,19 @@
                 The agent logs every filing decision (source file → resolved
                 asset → final GCS path → Vertex AI document ID) to an audit
                 table. Low-confidence classifications surface to a PM review
-                queue so the agent can be corrected, and the correction is
-                fed back as a learning signal.
+                queue so the agent can be corrected, and the correction is fed
+                back as a learning signal.
               </td>
             </tr>
           </table>
 
           <h3 style="margin-top: 1.5rem">Rezco GCS Bucket Layout</h3>
           <p style="font-size: 0.9rem; margin-bottom: 0.7rem">
-            The bucket is organized around Rezco's investment context —
-            assets first, then sectors, then themes, then macro. Both
-            ingestion paths (Chrome Extension and Drive Sync) write into the
-            same structure. The agent decides which subfolder a new document
-            belongs in based on Gemini's classification.
+            The bucket is organized around Rezco's investment context — assets
+            first, then sectors, then themes, then macro. Both ingestion paths
+            (Chrome Extension and Drive Sync) write into the same structure. The
+            agent decides which subfolder a new document belongs in based on
+            Gemini's classification.
           </p>
 
           <div class="grid-2">
@@ -2345,7 +2317,7 @@
                 border: 1px solid var(--rezco-accent);
                 border-radius: 8px;
                 padding: 1rem;
-                font-family: 'Courier New', monospace;
+                font-family: &quot;Courier New&quot;, monospace;
                 font-size: 0.78rem;
                 line-height: 1.6;
               "
@@ -2356,7 +2328,12 @@
               <div style="margin-left: 0.8rem">
                 <div>📁 <strong>assets/</strong></div>
                 <div style="margin-left: 1.4rem">
-                  <div>📁 discovery-holdings/ <span style="color: var(--gray-600)">(FIGI: BBG000PRJBN3)</span></div>
+                  <div>
+                    📁 discovery-holdings/
+                    <span style="color: var(--gray-600)"
+                      >(FIGI: BBG000PRJBN3)</span
+                    >
+                  </div>
                   <div style="margin-left: 1.2rem">
                     📁 earnings/<br />
                     📁 sell-side/<br />
@@ -2365,10 +2342,25 @@
                     📁 news-clips/<br />
                     📁 models/
                   </div>
-                  <div>📁 firstrand/ <span style="color: var(--gray-600)">(FIGI: BBG000BTBT49)</span></div>
-                  <div>📁 standard-bank-group/ <span style="color: var(--gray-600)">(FIGI: BBG000BC8K69)</span></div>
+                  <div>
+                    📁 firstrand/
+                    <span style="color: var(--gray-600)"
+                      >(FIGI: BBG000BTBT49)</span
+                    >
+                  </div>
+                  <div>
+                    📁 standard-bank-group/
+                    <span style="color: var(--gray-600)"
+                      >(FIGI: BBG000BC8K69)</span
+                    >
+                  </div>
                   <div>📁 mr-price/</div>
-                  <div>📁 capitec/ <span style="color: var(--success-green)">⚡ created by agent</span></div>
+                  <div>
+                    📁 capitec/
+                    <span style="color: var(--success-green)"
+                      >⚡ created by agent</span
+                    >
+                  </div>
                   <div>📁 ...</div>
                 </div>
               </div>
@@ -2398,14 +2390,20 @@
                 </div>
               </div>
               <div style="margin-left: 0.8rem">
-                <div>📁 <strong>uncategorized/</strong> <span style="color: var(--warning-amber)">(awaiting PM review)</span></div>
+                <div>
+                  📁 <strong>uncategorized/</strong>
+                  <span style="color: var(--warning-amber)"
+                    >(awaiting PM review)</span
+                  >
+                </div>
               </div>
             </div>
 
             <div>
               <h4>How a real document flows through</h4>
               <p style="font-size: 0.85rem">
-                Junior staff drops <code style="font-size: 0.78rem"
+                Junior staff drops
+                <code style="font-size: 0.78rem"
                   >SBG_CMD_2026_FullPresentation.pdf</code
                 >
                 into the watched Drive folder.
@@ -2442,12 +2440,14 @@
                 </li>
                 <li style="margin: 0.4rem 0">
                   Imported into Vertex AI Search with labels: asset, FIGI,
-                  sector, doc_type, year — so Atlas can later filter
-                  precisely
+                  sector, doc_type, year — so Atlas can later filter precisely
                 </li>
                 <li style="margin: 0.4rem 0">
-                  Atlas can immediately answer: <em>"What did Standard Bank
-                    say at their 2026 CMD about African expansion?"</em>
+                  Atlas can immediately answer:
+                  <em
+                    >"What did Standard Bank say at their 2026 CMD about African
+                    expansion?"</em
+                  >
                   with a grounded citation
                 </li>
               </ol>
@@ -2456,11 +2456,9 @@
                 style="margin-top: 0.8rem; font-size: 0.82rem"
               >
                 <strong>Dynamic asset creation:</strong> if a PM uploads
-                "Capitec Q1 results" and Capitec doesn't yet have a folder,
-                the agent recognizes it as a new SA bank and creates
-                <code style="font-size: 0.72rem"
-                  >assets/capitec/earnings/</code
-                >
+                "Capitec Q1 results" and Capitec doesn't yet have a folder, the
+                agent recognizes it as a new SA bank and creates
+                <code style="font-size: 0.72rem">assets/capitec/earnings/</code>
                 on the fly — no pre-programming required.
               </div>
             </div>
@@ -2468,63 +2466,43 @@
 
           <h3 style="margin-top: 1.5rem">Why an Agent, Not a Script</h3>
           <div class="grid-3">
-            <div
-              class="info-box"
-              style="margin: 0; font-size: 0.85rem"
-            >
+            <div class="info-box" style="margin: 0; font-size: 0.85rem">
               <strong>Dynamic Asset Coverage</strong><br />
-              When the agent sees a company that has no folder yet, it
-              creates one. No need to pre-program every share Rezco might
-              ever look at — the agent adapts to whatever PMs decide to
-              research.
+              When the agent sees a company that has no folder yet, it creates
+              one. No need to pre-program every share Rezco might ever look at —
+              the agent adapts to whatever PMs decide to research.
             </div>
-            <div
-              class="info-box"
-              style="margin: 0; font-size: 0.85rem"
-            >
+            <div class="info-box" style="margin: 0; font-size: 0.85rem">
               <strong>Smart Renaming</strong><br />
               Messy filenames (<code style="font-size: 0.72rem"
                 >scan_final_v3.pdf</code
-              >) get rewritten into consistent Rezco conventions
-              (<code style="font-size: 0.72rem"
+              >) get rewritten into consistent Rezco conventions (<code
+                style="font-size: 0.72rem"
                 >2026_Q1_Discovery_EarningsCall.pdf</code
               >) so the bucket stays clean and human-browsable.
             </div>
-            <div
-              class="info-box"
-              style="margin: 0; font-size: 0.85rem"
-            >
+            <div class="info-box" style="margin: 0; font-size: 0.85rem">
               <strong>Contextual Metadata for Indexing</strong><br />
-              The agent attaches structured labels (asset FIGI, sector,
-              doc type, year) when it imports the file into Vertex AI
-              Search. Atlas can then filter precisely: "all 2026 sell-side
-              reports on SA banks" — not just keyword search.
+              The agent attaches structured labels (asset FIGI, sector, doc
+              type, year) when it imports the file into Vertex AI Search. Atlas
+              can then filter precisely: "all 2026 sell-side reports on SA
+              banks" — not just keyword search.
             </div>
-            <div
-              class="info-box"
-              style="margin: 0; font-size: 0.85rem"
-            >
+            <div class="info-box" style="margin: 0; font-size: 0.85rem">
               <strong>Confidence-Aware Routing</strong><br />
-              When Gemini is unsure (e.g., a generic news article that
-              could fit multiple themes), the file lands in
+              When Gemini is unsure (e.g., a generic news article that could fit
+              multiple themes), the file lands in
               <code style="font-size: 0.72rem">uncategorized/</code> and
               surfaces to a PM review queue rather than getting silently
               misfiled.
             </div>
-            <div
-              class="info-box"
-              style="margin: 0; font-size: 0.85rem"
-            >
+            <div class="info-box" style="margin: 0; font-size: 0.85rem">
               <strong>Learning from PM Corrections</strong><br />
               When a PM corrects a filing decision in the review queue, the
-              correction is fed back as a few-shot example for the next
-              run, so the agent gets smarter about Rezco's specific
-              taxonomy over time.
+              correction is fed back as a few-shot example for the next run, so
+              the agent gets smarter about Rezco's specific taxonomy over time.
             </div>
-            <div
-              class="info-box"
-              style="margin: 0; font-size: 0.85rem"
-            >
+            <div class="info-box" style="margin: 0; font-size: 0.85rem">
               <strong>Single Index, Two Paths</strong><br />
               Same Vertex AI Search index as the Chrome Extension path. PMs
               never need to think about "where did this come from" — Atlas
@@ -2536,194 +2514,42 @@
           <div class="grid-2">
             <ul class="feature-list">
               <li>
-                Bulk historical backfill — "here are 200 sell-side reports
-                from the last 2 years, get them indexed"
+                Bulk historical backfill — "here are 200 sell-side reports from
+                the last 2 years, get them indexed"
               </li>
               <li>
-                Junior staff dropping a batch of earnings call transcripts
-                from a results week
+                Junior staff dropping a batch of earnings call transcripts from
+                a results week
               </li>
               <li>
-                PMs uploading their existing model spreadsheets in a single
-                go
+                PMs uploading their existing model spreadsheets in a single go
               </li>
             </ul>
             <ul class="feature-list">
               <li>
-                Annual report season — drop the year's annual reports for
-                every covered name and let the agent file them
+                Annual report season — drop the year's annual reports for every
+                covered name and let the agent file them
               </li>
               <li>
                 Migrating documents from an old shared drive into the new
                 Atlas-indexed bucket
               </li>
               <li>
-                Anything where opening the Chrome Extension once per
-                document would be tedious
+                Anything where opening the Chrome Extension once per document
+                would be tedious
               </li>
             </ul>
           </div>
 
-          <div
-            class="warning-box"
-            style="margin-top: 1rem; font-size: 0.85rem"
-          >
+          <div class="warning-box" style="margin-top: 1rem; font-size: 0.85rem">
             <strong>Future shortcut — Vertex AI Agent Builder:</strong>
-            Google's Vertex AI Agent Builder offers a "Data Agent" pattern
-            that connects directly to Drive, accepts natural language
-            filing rules ("if the file mentions earnings, file it under
-            the asset's earnings folder"), and handles the import into a
-            Search Data Store automatically. Worth evaluating as a faster
-            path to V1 — could replace some of the custom Cloud Function
-            logic above.
+            Google's Vertex AI Agent Builder offers a "Data Agent" pattern that
+            connects directly to Drive, accepts natural language filing rules
+            ("if the file mentions earnings, file it under the asset's earnings
+            folder"), and handles the import into a Search Data Store
+            automatically. Worth evaluating as a faster path to V1 — could
+            replace some of the custom Cloud Function logic above.
           </div>
-        </div>
-
-        <!-- MULTI-CHANNEL ENGAGEMENT -->
-        <div class="card card-green">
-          <h2>Multi-Channel Engagement</h2>
-          <p>
-            One agent, multiple surfaces. PMs talk to Atlas wherever they
-            already are. Same memory, same context, same answers.
-          </p>
-          <table class="data-table">
-            <tr>
-              <th>Channel</th>
-              <th>Use Case</th>
-              <th>Implementation</th>
-            </tr>
-            <tr>
-              <td><strong>Google Chat</strong></td>
-              <td>
-                PMs ask Atlas questions inside their existing chat tool — no new
-                app to open
-              </td>
-              <td>
-                Google Workspace MCP integration; Atlas appears as a chat
-                participant
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Atlas Custom UI</strong></td>
-              <td>
-                Full-featured Rezco-branded interface with conversation
-                threading, archive history, evidence feed
-              </td>
-              <td>Web app (see prototype gallery above)</td>
-            </tr>
-            <tr>
-              <td><strong>Chrome Extension Side Panel</strong></td>
-              <td>
-                In-context Q&A while reading a page — "what does Atlas think
-                about this?"
-              </td>
-              <td>
-                Side panel hosts a mini-chat tied to the current page context
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Scheduled Automations</strong></td>
-              <td>"Daily market update", "Weekly position health check"</td>
-              <td>
-                Background agent runs on cron, posts results to Google Chat
-              </td>
-            </tr>
-          </table>
-        </div>
-
-        <!-- KEY DECISIONS -->
-        <div class="card card-red">
-          <h2>V1 Key Decisions & Constraints</h2>
-          <table class="data-table">
-            <tr>
-              <th>Decision</th>
-              <th>Rationale</th>
-            </tr>
-            <tr>
-              <td>Agent IS the analyst (not a tool for analysts)</td>
-              <td>
-                Per James: "An analyst is an information processing and
-                presentation machine." Build the machine, not software around
-                it.
-              </td>
-            </tr>
-            <tr>
-              <td>Aggressively strip scope</td>
-              <td>
-                Lean V1, milestone-based fee, focused on a bare-metal agent. No
-                shiny features.
-              </td>
-            </tr>
-            <tr>
-              <td>Chrome extension as primary ingestion</td>
-              <td>
-                Quickest way to ingest. PMs don't change behavior. Documents
-                go directly to a GCS bucket and Vertex AI Search — Drive is
-                bypassed entirely on this path. Bypasses sell-side portal
-                integrations too.
-              </td>
-            </tr>
-            <tr>
-              <td>GCS bucket as raw document store</td>
-              <td>
-                Every clipped or uploaded document is written to a Google
-                Cloud Storage bucket as the raw artifact, then parsed and
-                indexed in Vertex AI Search. The bucket is the source of
-                truth for the binary; Vertex AI is the search index.
-              </td>
-            </tr>
-            <tr>
-              <td>Vertex AI Search as the knowledge base</td>
-              <td>
-                Indexed RAG over all content. Grounded answers. Source
-                citations.
-              </td>
-            </tr>
-            <tr>
-              <td>Drive Sync Agent (bulk upload path only)</td>
-              <td>
-                Used only when PMs want to upload many documents at once. They
-                drop files in a designated Drive folder; the sync agent
-                detects them and pushes them into Vertex AI Search. The
-                Chrome Extension remains the primary path for everyday use.
-              </td>
-            </tr>
-            <tr>
-              <td>No quantitative feeds in V1</td>
-              <td>
-                Bloomberg/Reuters out of scope. Atlas works on qualitative
-                content only.
-              </td>
-            </tr>
-            <tr>
-              <td>Multi-channel from day one</td>
-              <td>
-                Google Chat + custom UI + extension side panel — same agent
-                everywhere.
-              </td>
-            </tr>
-            <tr>
-              <td>Chat-first interface</td>
-              <td>
-                V1 scope is "what the agent can and can't do" through chat. No
-                dashboards, no workflow managers.
-              </td>
-            </tr>
-            <tr>
-              <td>Recommendation generation in V1</td>
-              <td>
-                The agent should pitch ideas, not just retrieve information.
-                "Come pitch me an idea as a PM."
-              </td>
-            </tr>
-            <tr>
-              <td>Tool execution is the differentiator</td>
-              <td>
-                Core LLM intelligence is at par across models. Quality of tool
-                execution is what matters.
-              </td>
-            </tr>
-          </table>
         </div>
 
         <!-- WHAT GETS BUILT IN V1 -->
@@ -2738,9 +2564,7 @@
                   Go ingestion microservice (3 endpoints minimum) — writes to
                   GCS + Vertex AI Search
                 </li>
-                <li>
-                  <strong>GCS bucket</strong> for raw document storage
-                </li>
+                <li><strong>GCS bucket</strong> for raw document storage</li>
                 <li>Vertex AI Search index + RAG pipeline</li>
                 <li>
                   Drive → Vertex Sync Agent (bulk upload path only — watches
@@ -2751,9 +2575,7 @@
                   live per query, fans out for broad queries)
                 </li>
                 <li>Fireflies MCP integration (live transcript queries)</li>
-                <li>
-                  Google Workspace MCP integration (live Chat queries)
-                </li>
+                <li>Google Workspace MCP integration (live Chat queries)</li>
                 <li>Entity resolution (company name → FIGI/ISIN)</li>
                 <li>Session + conversation persistence</li>
                 <li>Scheduler for automations</li>
@@ -2843,55 +2665,6 @@
               </ul>
             </div>
           </div>
-        </div>
-
-        <!-- NEXT STEPS -->
-        <div class="card card-gold">
-          <h2>Next Steps</h2>
-          <table class="data-table">
-            <tr>
-              <th>Owner</th>
-              <th>Action</th>
-            </tr>
-            <tr>
-              <td><strong>Techbridge</strong></td>
-              <td>
-                Strip down V1 scope further if needed. Aggressively fight scope
-                creep when meeting with Simon and Rob.
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Techbridge</strong></td>
-              <td>
-                Build prototype of Rezco Chrome extension (DOM read + side panel
-                + tag + ingest).
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Techbridge</strong></td>
-              <td>
-                Build Go ingestion microservice (3 endpoints, Vertex AI Search
-                integration).
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Techbridge</strong></td>
-              <td>Refine V1 cost proposal as all-in milestone-based fee.</td>
-            </tr>
-            <tr>
-              <td><strong>Mpho + Gibson</strong></td>
-              <td>
-                Walk Simon and Rob through the prototype gallery and the
-                agent-as-analyst reframe.
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Simon + Rob</strong></td>
-              <td>
-                Confirm V1 scope, agree on fair price, sign off to start build.
-              </td>
-            </tr>
-          </table>
         </div>
       </div>
       <!-- ==================== TAB: OVERVIEW ==================== -->
