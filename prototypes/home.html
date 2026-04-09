@@ -1,125 +1,145 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Atlas — Ask Atlas</title>
-<link rel="stylesheet" href="atlas.css">
-</head>
-<body>
-
-<div class="app">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atlas — Ask Atlas</title>
+    <link rel="stylesheet" href="atlas.css" />
+  </head>
+  <body>
+    <div class="app">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
         <div class="sidebar-logo">REZCO</div>
         <nav class="sidebar-nav">
-            <a href="home.html" class="sidebar-item active">
-                <span class="icon">≡Q</span> Ask Atlas
-            </a>
-            <a href="intelligence.html" class="sidebar-item">
+          <a href="home.html" class="sidebar-item active">
+            <span class="icon">≡Q</span> Ask Atlas
+          </a>
+          <!-- <a href="intelligence.html" class="sidebar-item">
                 <span class="icon">▦</span> Atlas Intelligence
-            </a>
-            <a href="document.html" class="sidebar-item">
+            </a> -->
+          <!-- <a href="document.html" class="sidebar-item">
                 <span class="icon">▤</span> Index Mapper
-            </a>
+            </a> -->
         </nav>
         <div class="sidebar-user">
-            <div class="avatar">WB</div>
-            <div class="name">Warren Buffet</div>
+          <div class="avatar">WB</div>
+          <div class="name">Warren Buffet</div>
         </div>
-    </aside>
+      </aside>
 
-    <!-- MAIN -->
-    <main class="main">
+      <!-- MAIN -->
+      <main class="main">
         <div class="topbar">
-            <div class="topbar-welcome">Welcome, Warren</div>
-            <div class="topbar-subtitle">Start generating your alpha today</div>
+          <div class="topbar-welcome">Welcome, Warren</div>
+          <div class="topbar-subtitle">Start generating your alpha today</div>
         </div>
 
         <div class="content">
-            <div class="hero-label">Primary Interface</div>
-            <h1 class="hero-title">
-                <span class="alpha">Generate Alpha.</span><br>
-                <span class="strategy">Deploy Strategy.</span>
-            </h1>
+          <div class="hero-label">Primary Interface</div>
+          <h1 class="hero-title">
+            <span class="alpha">Generate Alpha.</span><br />
+            <span class="strategy">Deploy Strategy.</span>
+          </h1>
 
-            <div class="chat-input-box">
-                <textarea placeholder="Synthesize investment thesis or query institutional archives..."></textarea>
-                <div class="chat-input-actions">
-                    <div class="chat-input-icons">
-                        <span class="icon" title="Attach">📎</span>
-                        <span class="icon" title="Image">🖼</span>
-                        <span class="icon" title="Voice">🎙</span>
-                    </div>
-                    <button class="btn-primary" onclick="newConversation()">New Conversation</button>
-                </div>
+          <div class="chat-input-box">
+            <textarea
+              placeholder="Synthesize investment thesis or query institutional archives..."
+            ></textarea>
+            <div class="chat-input-actions">
+              <div class="chat-input-icons">
+                <span class="icon" title="Attach">📎</span>
+                <span class="icon" title="Image">🖼</span>
+                <span class="icon" title="Voice">🎙</span>
+              </div>
+              <button class="btn-primary" onclick="newConversation()">
+                New Conversation
+              </button>
             </div>
+          </div>
 
-            <div class="card-grid">
-                <a href="atlas-chat.html" style="text-decoration:none;color:inherit;">
-                    <div class="feature-card">
-                        <div class="num">01</div>
-                        <div class="icon">💡</div>
-                        <h3>Alpha Archive</h3>
-                        <p>Access previously synthesized conceptual frameworks and stored insights.</p>
-                    </div>
-                </a>
-                <a href="document.html" style="text-decoration:none;color:inherit;">
-                    <div class="feature-card">
-                        <div class="num">02</div>
-                        <div class="icon">◈</div>
-                        <h3>Institutional Vault</h3>
-                        <p>High-fidelity dossiers and multi-factor research archives.</p>
-                    </div>
-                </a>
-                <a href="intelligence.html" style="text-decoration:none;color:inherit;">
-                    <div class="feature-card">
-                        <div class="num">03</div>
-                        <div class="icon">↑</div>
-                        <h3>Shared Intelligence</h3>
-                        <p>Review analysis and insights broadcasted from other nodes.</p>
-                    </div>
-                </a>
-            </div>
+          <div class="card-grid">
+            <a
+              href="atlas-chat.html"
+              style="text-decoration: none; color: inherit"
+            >
+              <div class="feature-card">
+                <div class="num">01</div>
+                <div class="icon">💡</div>
+                <h3>Alpha Archive</h3>
+                <p>
+                  Access previously synthesized conceptual frameworks and stored
+                  insights.
+                </p>
+              </div>
+            </a>
+            <a
+              href="document.html"
+              style="text-decoration: none; color: inherit"
+            >
+              <div class="feature-card">
+                <div class="num">02</div>
+                <div class="icon">◈</div>
+                <h3>Institutional Vault</h3>
+                <p>
+                  High-fidelity dossiers and multi-factor research archives.
+                </p>
+              </div>
+            </a>
+            <a
+              href="intelligence.html"
+              style="text-decoration: none; color: inherit"
+            >
+              <div class="feature-card">
+                <div class="num">03</div>
+                <div class="icon">↑</div>
+                <h3>Shared Intelligence</h3>
+                <p>
+                  Review analysis and insights broadcasted from other nodes.
+                </p>
+              </div>
+            </a>
+          </div>
 
-            <div class="strategy-stream">
-                <div style="flex:1;">
-                    <div class="label">System Status: Active</div>
-                    <h3>Current Strategy Stream</h3>
-                    <p>The Atlas Core is currently processing 14.2 TB of global financial data. No critical anomalies detected in the last 24-hour cycle.</p>
-                </div>
-                <div class="network-viz"></div>
+          <div class="strategy-stream">
+            <div style="flex: 1">
+              <div class="label">System Status: Active</div>
+              <h3>Current Strategy Stream</h3>
+              <p>
+                The Atlas Core is currently processing 14.2 TB of global
+                financial data. No critical anomalies detected in the last
+                24-hour cycle.
+              </p>
             </div>
+            <div class="network-viz"></div>
+          </div>
         </div>
-    </main>
+      </main>
+    </div>
 
-</div>
+    <a href="../index.html" class="back-link">← Back to Project Site</a>
 
-<a href="../index.html" class="back-link">← Back to Project Site</a>
+    <script>
+      function newConversation() {
+        window.location.href = "atlas-chat.html";
+      }
 
-<script>
-function newConversation() {
-    window.location.href = 'atlas-chat.html';
-}
+      // Auto-resize textarea
+      const textarea = document.querySelector(".chat-input-box textarea");
+      textarea.addEventListener("input", () => {
+        textarea.style.height = "auto";
+        textarea.style.height = textarea.scrollHeight + "px";
+      });
 
-// Auto-resize textarea
-const textarea = document.querySelector('.chat-input-box textarea');
-textarea.addEventListener('input', () => {
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
-});
-
-// Submit on Enter (Shift+Enter for new line)
-textarea.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        if (textarea.value.trim()) {
-            window.location.href = 'atlas-chat.html';
+      // Submit on Enter (Shift+Enter for new line)
+      textarea.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          if (textarea.value.trim()) {
+            window.location.href = "atlas-chat.html";
+          }
         }
-    }
-});
-</script>
-
-</body>
+      });
+    </script>
+  </body>
 </html>

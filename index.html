@@ -1037,7 +1037,10 @@
                 <li>
                   Pitches investment ideas based on observed market signals
                 </li>
-                <li>Multi-channel: Google Chat, custom UI, more</li>
+                <li>
+                  Multi-channel: Google Workspace Chat, custom UI, Gemini
+                  Enterprise
+                </li>
                 <li>
                   Chrome extension for one-click ingestion from any web page
                 </li>
@@ -1092,38 +1095,23 @@
                   <strong>ASK ATLAS</strong> — Chat-first conversational
                   interface for information retrieval and idea generation
                 </div>
-                <div
-                  class="flow-node flow-node-purple"
-                  style="display: block; margin: 0.4rem 0; padding: 0.7rem 1rem"
-                >
-                  <strong>ATLAS INTELLIGENCE</strong> — Cross-source synthesis:
-                  Chat, Gmail, Drive, PDFs surfaced together with conflict
-                  detection
-                </div>
-                <div
-                  class="flow-node flow-node-green"
-                  style="display: block; margin: 0.4rem 0; padding: 0.7rem 1rem"
-                >
-                  <strong>INDEX MAPPER</strong> — Classification and asset
-                  metadata browser with confidence scoring
-                </div>
               </div>
             </div>
             <div>
               <h4>Why "Atlas"?</h4>
               <p style="font-size: 0.92rem">
-                Atlas carries the weight of the world — and Rezco's analyst
-                agent carries the weight of every PM's information processing
-                burden. It remembers what humans forget, links what humans miss,
-                and surfaces what humans filter out as noise.
+                The Rezco's analyst agent carries the weight of every PM's
+                information processing burden. It remembers what humans forget,
+                links what humans miss, and surfaces what humans filter out as
+                noise.
               </p>
               <div
                 class="info-box"
                 style="margin-top: 0.8rem; font-size: 0.9rem"
               >
                 <strong>Multi-channel by design:</strong> PMs can talk to Atlas
-                from Google Chat, the custom Rezco UI, or the Chrome extension
-                side panel — same agent, same memory, same context.
+                from Google Chat, the custom Rezco UI, or using the Gemini
+                Enterprise chat — same agent, same memory, same context.
               </div>
             </div>
           </div>
@@ -1200,7 +1188,7 @@
                 </p>
               </div>
             </a>
-            <a
+            <!-- <a
               href="prototypes/intelligence.html"
               target="_blank"
               style="text-decoration: none; color: inherit"
@@ -1230,7 +1218,7 @@
                   scoring, Agent Insight matching
                 </p>
               </div>
-            </a>
+            </a> -->
             <a
               href="prototypes/document.html"
               target="_blank"
@@ -1293,7 +1281,7 @@
                 </p>
               </div>
             </a>
-            <div
+            <!-- <div
               class="card"
               style="
                 margin-bottom: 0;
@@ -1319,7 +1307,7 @@
               <p style="font-size: 0.85rem; color: var(--gray-600)">
                 Additional screens evolving from PM feedback during V1 build
               </p>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -1336,22 +1324,27 @@
           </p>
 
           <div class="arch">
-
             <!-- LAYER 1: PM ENGAGEMENT SURFACES -->
             <div class="arch-layer">
               <div class="arch-layer-label">PM Engagement Surfaces</div>
               <div class="arch-row">
                 <div class="arch-box surface">
                   <div class="arch-box-title">💬 Google Chat</div>
-                  <div class="arch-box-sub">Existing PM tool — Atlas joins as participant</div>
+                  <div class="arch-box-sub">
+                    Interact with Atlas from the chat
+                  </div>
                 </div>
                 <div class="arch-box surface">
                   <div class="arch-box-title">🖥 Atlas UI</div>
-                  <div class="arch-box-sub">Custom Rezco interface (chat + threads + scheduler)</div>
+                  <div class="arch-box-sub">
+                    Custom Rezco interface (chat + threads + scheduler)
+                  </div>
                 </div>
                 <div class="arch-box surface">
                   <div class="arch-box-title">🧩 Chrome Side Panel</div>
-                  <div class="arch-box-sub">Opens on any web page — clip + chat in context</div>
+                  <div class="arch-box-sub">
+                    Opens on any web page — clip + chat in context
+                  </div>
                 </div>
               </div>
             </div>
@@ -1363,7 +1356,9 @@
               <div class="arch-row">
                 <div class="arch-box gateway">
                   <div class="arch-box-title">🛡 Console Gateway</div>
-                  <div class="arch-box-sub">Auth · A2A protocol · Conversation persistence</div>
+                  <div class="arch-box-sub">
+                    Auth · A2A protocol · Conversation persistence
+                  </div>
                 </div>
               </div>
             </div>
@@ -1375,13 +1370,30 @@
               <div class="arch-row">
                 <div class="arch-box atlas">
                   <div class="arch-box-title">⚡ ATLAS — The Analyst Agent</div>
-                  <div class="arch-box-sub">Processes info requests · Synthesizes across sources · Generates investment recommendations · Pitches ideas to PMs</div>
+                  <div class="arch-box-sub">
+                    Processes info requests · Synthesizes across sources ·
+                    Generates investment recommendations · Pitches ideas to PMs
+                  </div>
                   <div class="arch-sub-agents">
-                    <div class="arch-sub-agent"><strong>Drive → Vertex Sync Agent</strong>Watches Drive for new uploads, indexes them in Vertex AI Search</div>
-                    <div class="arch-sub-agent"><strong>Research &amp; Retrieval Agent</strong>Grounded RAG over indexed content</div>
-                    <div class="arch-sub-agent"><strong>Recommendation Agent</strong>Generates pitches and investment ideas</div>
-                    <div class="arch-sub-agent"><strong>Live MCP Query Router</strong>Decides indexed vs. live per query</div>
-                    <div class="arch-sub-agent"><strong>Scheduler</strong>Daily updates, automations</div>
+                    <div class="arch-sub-agent">
+                      <strong>Drive → Vertex Sync Agent</strong>Watches Drive
+                      for new uploads, indexes them in Vertex AI Search
+                    </div>
+                    <div class="arch-sub-agent">
+                      <strong>Research &amp; Retrieval Agent</strong>Grounded
+                      RAG over indexed content
+                    </div>
+                    <div class="arch-sub-agent">
+                      <strong>Recommendation Agent</strong>Generates pitches and
+                      investment ideas
+                    </div>
+                    <div class="arch-sub-agent">
+                      <strong>Live MCP Query Router</strong>Decides indexed vs.
+                      live per query
+                    </div>
+                    <div class="arch-sub-agent">
+                      <strong>Scheduler</strong>Daily updates, automations
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1391,11 +1403,15 @@
 
             <!-- LAYER 4: DATA SOURCES SPLIT INTO INDEXED VS LIVE -->
             <div class="arch-data-row">
-
               <!-- INDEXED SIDE -->
               <div class="arch-data-col indexed-col">
                 <h4>⚙ Indexed (Vertex AI Search)</h4>
-                <p>Content lives inside Vertex AI Search after being clipped or uploaded to Drive. The Drive → Vertex Sync Agent watches the folder and pushes new uploads into the index. Atlas does grounded RAG retrieval at query time.</p>
+                <p>
+                  Content lives inside Vertex AI Search after being clipped or
+                  uploaded to Drive. The Drive → Vertex Sync Agent watches the
+                  folder and pushes new uploads into the index. Atlas does
+                  grounded RAG retrieval at query time.
+                </p>
                 <ul>
                   <li>Vertex AI Search index</li>
                   <li>Google Drive (watched by sync agent)</li>
@@ -1406,13 +1422,22 @@
               <!-- LIVE MCP SIDE -->
               <div class="arch-data-col live-col">
                 <h4><span class="live-dot"></span> Live MCP Queries</h4>
-                <p>Atlas queries these <strong>live at runtime</strong> — no duplication. Source-of-truth data, always fresh, today's meeting answerable immediately.</p>
+                <p>
+                  Atlas queries these <strong>live at runtime</strong> — no
+                  duplication. Source-of-truth data, always fresh, today's
+                  meeting answerable immediately.
+                </p>
                 <ul>
-                  <li><strong>Fireflies MCP</strong> — meeting transcripts and summaries (api.fireflies.ai/mcp)</li>
-                  <li><strong>Google Chat MCP</strong> — live PM conversations</li>
-                  <li><strong>Gmail MCP</strong> — sell-side reports</li>
+                  <li>
+                    <strong>Fireflies MCP</strong> — meeting transcripts and
+                    summaries (api.fireflies.ai/mcp)
+                  </li>
+                  <li>
+                    <strong>Google Chat MCP</strong> — live PM conversations
+                  </li>
+                  <!-- <li><strong>Gmail MCP</strong> — sell-side reports</li>
                   <li><strong>Drive MCP</strong> — file search</li>
-                  <li><strong>Calendar MCP</strong> — meeting context</li>
+                  <li><strong>Calendar MCP</strong> — meeting context</li> -->
                 </ul>
               </div>
             </div>
@@ -1421,21 +1446,33 @@
             <div class="arch-divider"><span>Feeds the Indexed Side</span></div>
             <div class="arch-layer">
               <div class="arch-row">
-                <div class="arch-box ingest" style="max-width: 100%; flex: 0 1 720px; text-align: left;">
-                  <div class="arch-box-title" style="text-align: center;">📥 Rezco Chrome Extension → Go Ingestion Microservice</div>
-                  <div class="arch-box-sub" style="margin-top: 0.5rem;">
-                    <strong>1.</strong> PM clicks Rezco icon on any page (Bloomberg, Gmail, IR site, sell-side PDF) — side panel opens<br>
-                    <strong>2.</strong> Extension reads the DOM directly (detects email vs. webpage vs. PDF)<br>
-                    <strong>3.</strong> First-pass tagging extracts companies, themes, sectors<br>
-                    <strong>4.</strong> POST → Go Microservice<br>
-                    <strong>5.</strong> Service parses + normalizes → pushes to Vertex AI Search → files in Drive → links entities
+                <div
+                  class="arch-box ingest"
+                  style="max-width: 100%; flex: 0 1 720px; text-align: left"
+                >
+                  <div class="arch-box-title" style="text-align: center">
+                    📥 Rezco Chrome Extension → Go Ingestion Microservice
+                  </div>
+                  <div class="arch-box-sub" style="margin-top: 0.5rem">
+                    <strong>1.</strong> PM clicks Rezco icon on any page
+                    (Bloomberg, Gmail, IR site, sell-side PDF) — side panel
+                    opens<br />
+                    <strong>2.</strong> Extension reads the DOM directly
+                    (detects email vs. webpage vs. PDF)<br />
+                    <strong>3.</strong> First-pass tagging extracts companies,
+                    themes, sectors<br />
+                    <strong>4.</strong> POST → Go Microservice<br />
+                    <strong>5.</strong> Service parses + normalizes → pushes to
+                    Vertex AI Search → files in Drive → links entities
                   </div>
                 </div>
               </div>
             </div>
 
             <div class="arch-footer">
-              Atlas decides per query: index lookup, live MCP query, or both. Citations always show whether the source was <strong>indexed</strong> or <strong>live</strong>.
+              Atlas decides per query: index lookup, live MCP query, or both.
+              Citations always show whether the source was
+              <strong>indexed</strong> or <strong>live</strong>.
             </div>
           </div>
         </div>
@@ -1607,51 +1644,239 @@
 
           <h4 style="margin-top: 1.5rem">Atlas Query Routing</h4>
           <p style="font-size: 0.9rem; margin-bottom: 0.7rem">
-            When a PM asks a question, Atlas decides where to look:
+            Atlas operates in two distinct routing modes depending on the
+            shape of the question. The agent inspects the query, picks the
+            right pattern, and either calls a single source directly or fans
+            out to multiple sub-agents in parallel and synthesizes the
+            results into one answer.
           </p>
-          <table class="data-table">
-            <tr>
-              <th>PM asks…</th>
-              <th>Atlas routes to…</th>
-              <th>Why</th>
-            </tr>
-            <tr>
-              <td>"What's our latest investment thesis on Discovery?"</td>
-              <td>Vertex AI Search (indexed)</td>
-              <td>Indexed memos, models, clipped research</td>
-            </tr>
-            <tr>
-              <td>"What did Sean say in the call this morning?"</td>
-              <td>Fireflies MCP (live)</td>
-              <td>Today's meeting may not be in any index yet</td>
-            </tr>
-            <tr>
-              <td>"What did the team chat about FirstRand this week?"</td>
-              <td>Google Chat MCP (live)</td>
-              <td>Conversational data lives in Chat, queried fresh</td>
-            </tr>
-            <tr>
-              <td>
-                "Compare our internal view on Standard Bank with the latest
-                sell-side reports."
-              </td>
-              <td>Vertex AI Search + Gmail MCP</td>
-              <td>
-                Internal memos indexed; sell-side reports queried live from
-                Gmail
-              </td>
-            </tr>
-            <tr>
-              <td>
-                "Summarize all our Discovery meetings from Q3 alongside our
-                research notes."
-              </td>
-              <td>Fireflies MCP + Vertex AI Search</td>
-              <td>
-                Live transcripts + indexed notes synthesized in one answer
-              </td>
-            </tr>
-          </table>
+
+          <div class="grid-2" style="margin-top: 1rem">
+
+            <!-- SINGLE-SOURCE ROUTING -->
+            <div
+              class="card"
+              style="
+                margin-bottom: 0;
+                border-left: 4px solid var(--info-cyan);
+                background: linear-gradient(135deg, #ecfeff, white);
+              "
+            >
+              <h4 style="color: var(--rezco-blue)">
+                ① Single-Source Routing
+              </h4>
+              <p style="font-size: 0.85rem; margin-top: 0.4rem">
+                Question is clearly about one type of data. Atlas calls
+                exactly one source — fast, focused, no overhead.
+              </p>
+              <table class="data-table" style="font-size: 0.82rem">
+                <tr>
+                  <th>PM asks…</th>
+                  <th>Routes to…</th>
+                </tr>
+                <tr>
+                  <td>"What did Sean say in the call this morning?"</td>
+                  <td><strong>Fireflies MCP</strong></td>
+                </tr>
+                <tr>
+                  <td>"Pull up the chat thread about ZAR volatility."</td>
+                  <td><strong>Google Chat MCP</strong></td>
+                </tr>
+                <tr>
+                  <td>"What's our latest indexed thesis on Discovery?"</td>
+                  <td><strong>Vertex AI Search</strong></td>
+                </tr>
+                <tr>
+                  <td>"Did Morgan Stanley email us a report this week?"</td>
+                  <td><strong>Gmail MCP</strong></td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- MULTI-AGENT FAN-OUT -->
+            <div
+              class="card"
+              style="
+                margin-bottom: 0;
+                border-left: 4px solid var(--success-green);
+                background: linear-gradient(135deg, #f0fdf4, white);
+              "
+            >
+              <h4 style="color: #065f46">
+                ② Multi-Agent Fan-Out & Consolidate
+              </h4>
+              <p style="font-size: 0.85rem; margin-top: 0.4rem">
+                Question is broad. Atlas fires off multiple sub-agents in
+                parallel, each querying its own source, then synthesizes
+                everything into one consolidated answer with citations.
+              </p>
+              <table class="data-table" style="font-size: 0.82rem">
+                <tr>
+                  <th>PM asks…</th>
+                  <th>Sub-agents invoked…</th>
+                </tr>
+                <tr>
+                  <td>"Give me a full picture on Discovery right now."</td>
+                  <td>
+                    Vertex AI + Fireflies + Google Chat + Gmail
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    "Pitch me an investment idea for the SA banks sector."
+                  </td>
+                  <td>
+                    Vertex AI + Fireflies + Google Chat
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    "What are we currently saying about Standard Bank
+                    across all our sources?"
+                  </td>
+                  <td>
+                    Vertex AI + Fireflies + Google Chat + Gmail
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    "Summarize all our Discovery touchpoints from Q3."
+                  </td>
+                  <td>
+                    Vertex AI + Fireflies + Calendar
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <!-- FAN-OUT VISUAL -->
+          <h4 style="margin-top: 1.5rem">
+            How Fan-Out Consolidation Works
+          </h4>
+          <p style="font-size: 0.85rem; margin-bottom: 0.8rem">
+            For broad questions, Atlas runs multiple sub-agents in
+            parallel, then a synthesis pass merges and de-duplicates
+            results before responding to the PM.
+          </p>
+
+          <div class="arch" style="padding: 1.5rem 1rem">
+            <!-- PM query -->
+            <div class="arch-layer">
+              <div class="arch-row">
+                <div
+                  class="arch-box surface"
+                  style="max-width: 480px; flex: 0 1 480px"
+                >
+                  <div class="arch-box-title">
+                    💬 "Pitch me an investment idea on Discovery"
+                  </div>
+                  <div class="arch-box-sub">PM query — broad scope</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-connector"></div>
+
+            <!-- Atlas planner -->
+            <div class="arch-layer">
+              <div class="arch-row">
+                <div
+                  class="arch-box atlas"
+                  style="max-width: 480px; flex: 0 1 480px"
+                >
+                  <div class="arch-box-title">
+                    ⚡ Atlas — Query Planner
+                  </div>
+                  <div class="arch-box-sub">
+                    Detects multi-source intent → fans out to all relevant
+                    sub-agents in parallel
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-connector"></div>
+
+            <!-- Parallel sub-agents -->
+            <div class="arch-layer">
+              <div class="arch-layer-label">Parallel Sub-Agent Calls</div>
+              <div class="arch-row">
+                <div class="arch-box indexed">
+                  <div class="arch-box-title">⚙ Vertex AI Search</div>
+                  <div class="arch-box-sub">
+                    Pulls indexed memos, clipped research, value grids
+                  </div>
+                </div>
+                <div class="arch-box live">
+                  <div class="arch-box-title">🎙 Fireflies MCP</div>
+                  <div class="arch-box-sub">
+                    Live query: meeting transcripts about Discovery
+                  </div>
+                </div>
+                <div class="arch-box live">
+                  <div class="arch-box-title">💬 Google Chat MCP</div>
+                  <div class="arch-box-sub">
+                    Live query: PM discussions in chat
+                  </div>
+                </div>
+                <div class="arch-box live">
+                  <div class="arch-box-title">✉ Gmail MCP</div>
+                  <div class="arch-box-sub">
+                    Live query: sell-side reports in inbox
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-connector"></div>
+
+            <!-- Synthesis -->
+            <div class="arch-layer">
+              <div class="arch-row">
+                <div
+                  class="arch-box atlas"
+                  style="max-width: 560px; flex: 0 1 560px"
+                >
+                  <div class="arch-box-title">
+                    🧠 Atlas — Synthesis Pass
+                  </div>
+                  <div class="arch-box-sub">
+                    Merges results · De-duplicates · Resolves conflicts ·
+                    Weights by recency · Generates one consolidated answer
+                    with source citations marked indexed or live
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-connector"></div>
+
+            <!-- Answer to PM -->
+            <div class="arch-layer">
+              <div class="arch-row">
+                <div
+                  class="arch-box surface"
+                  style="max-width: 560px; flex: 0 1 560px"
+                >
+                  <div class="arch-box-title">
+                    📨 Consolidated Answer to PM
+                  </div>
+                  <div class="arch-box-sub">
+                    "Atlas pulled from: Vertex AI Search · Fireflies MCP ·
+                    Google Chat MCP · Gmail MCP" — with inline citations
+                    showing which source each fact came from
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-footer">
+              Single-source routing keeps fast questions fast. Fan-out
+              consolidation gives broad questions a complete answer.
+              Atlas decides per query.
+            </div>
+          </div>
         </div>
 
         <!-- THE CHROME EXTENSION DEEP DIVE -->
@@ -1961,13 +2186,12 @@
                 </li>
                 <li>
                   <strong>Behavior-preserving</strong> — anyone (PM or junior
-                  staff) can drop a file in Drive and it just becomes
-                  queryable
+                  staff) can drop a file in Drive and it just becomes queryable
                 </li>
                 <li>
                   <strong>No complex filing logic</strong> — Rezco can organize
-                  the Drive however they want; the agent indexes everything
-                  in scope regardless of subfolder
+                  the Drive however they want; the agent indexes everything in
+                  scope regardless of subfolder
                 </li>
                 <li>
                   <strong>Idempotent</strong> — re-running on the same file is
@@ -2075,9 +2299,9 @@
             <tr>
               <td>Drive → Vertex Sync Agent</td>
               <td>
-                Rezco doesn't have a Drive set up. V1 provisions a watched
-                Drive folder; the sync agent detects new uploads and pushes
-                them into Vertex AI Search for indexing.
+                Rezco doesn't have a Drive set up. V1 provisions a watched Drive
+                folder; the sync agent detects new uploads and pushes them into
+                Vertex AI Search for indexing.
               </td>
             </tr>
             <tr>
@@ -2128,7 +2352,9 @@
                 <li>Atlas analyst agent (orchestrator with sub-agents)</li>
                 <li>Go ingestion microservice (3 endpoints minimum)</li>
                 <li>Vertex AI Search index + RAG pipeline</li>
-                <li>Drive → Vertex Sync Agent (watches Drive, indexes uploads)</li>
+                <li>
+                  Drive → Vertex Sync Agent (watches Drive, indexes uploads)
+                </li>
                 <li>
                   <strong>Live MCP Query Router</strong> (decides indexed vs.
                   live per query)
