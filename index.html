@@ -1405,16 +1405,18 @@
             <div class="arch-data-row">
               <!-- INDEXED SIDE -->
               <div class="arch-data-col indexed-col">
-                <h4>⚙ Indexed (Vertex AI Search)</h4>
+                <h4>⚙ Indexed (Vertex AI Search + GCS Bucket)</h4>
                 <p>
-                  Content lives inside Vertex AI Search after being clipped or
-                  uploaded to Drive. The Drive → Vertex Sync Agent watches the
-                  folder and pushes new uploads into the index. Atlas does
-                  grounded RAG retrieval at query time.
+                  Documents are stored in a Google Cloud Storage bucket and
+                  indexed in Vertex AI Search. Two ingestion paths feed this
+                  store: the Chrome Extension (default) and the Drive → Vertex
+                  Sync Agent (bulk uploads only). Atlas does grounded RAG
+                  retrieval at query time.
                 </p>
                 <ul>
                   <li>Vertex AI Search index</li>
-                  <li>Google Drive (watched by sync agent)</li>
+                  <li>GCS bucket (raw document storage)</li>
+                  <li>Google Drive (bulk-upload landing only)</li>
                   <li>Sessions + Conversations (Spanner)</li>
                 </ul>
               </div>
@@ -1435,37 +1437,71 @@
                   <li>
                     <strong>Google Chat MCP</strong> — live PM conversations
                   </li>
-                  <!-- <li><strong>Gmail MCP</strong> — sell-side reports</li>
-                  <li><strong>Drive MCP</strong> — file search</li>
-                  <li><strong>Calendar MCP</strong> — meeting context</li> -->
                 </ul>
               </div>
             </div>
 
-            <!-- LAYER 5: INGESTION FEEDING THE INDEX -->
-            <div class="arch-divider"><span>Feeds the Indexed Side</span></div>
-            <div class="arch-layer">
-              <div class="arch-row">
-                <div
-                  class="arch-box ingest"
-                  style="max-width: 100%; flex: 0 1 720px; text-align: left"
-                >
-                  <div class="arch-box-title" style="text-align: center">
-                    📥 Rezco Chrome Extension → Go Ingestion Microservice
-                  </div>
-                  <div class="arch-box-sub" style="margin-top: 0.5rem">
-                    <strong>1.</strong> PM clicks Rezco icon on any page
-                    (Bloomberg, Gmail, IR site, sell-side PDF) — side panel
-                    opens<br />
-                    <strong>2.</strong> Extension reads the DOM directly
-                    (detects email vs. webpage vs. PDF)<br />
-                    <strong>3.</strong> First-pass tagging extracts companies,
-                    themes, sectors<br />
-                    <strong>4.</strong> POST → Go Microservice<br />
-                    <strong>5.</strong> Service parses + normalizes → pushes to
-                    Vertex AI Search → files in Drive → links entities
-                  </div>
-                </div>
+            <!-- LAYER 5: TWO INGESTION PATHS -->
+            <div class="arch-divider">
+              <span>Two Paths Feed the Indexed Side</span>
+            </div>
+
+            <div class="arch-data-row">
+              <!-- PATH 1: CHROME EXTENSION (PRIMARY, DIRECT) -->
+              <div
+                class="arch-data-col"
+                style="
+                  border-color: var(--rezco-gold);
+                  background: linear-gradient(135deg, #fffbeb, white);
+                "
+              >
+                <h4>① 🧩 Chrome Extension (Primary Path)</h4>
+                <p>
+                  Single-document, in-the-moment ingestion. PM clips what
+                  they're reading. Document goes
+                  <strong>directly to GCS bucket and Vertex AI Search</strong>
+                  — Drive is bypassed entirely.
+                </p>
+                <ul>
+                  <li>PM clicks Rezco icon on any page</li>
+                  <li>Extension reads DOM (email / webpage / PDF)</li>
+                  <li>First-pass tag extraction (companies, themes)</li>
+                  <li>POST → Go Ingestion Microservice</li>
+                  <li>
+                    <strong>→ GCS bucket</strong> (raw document storage)
+                  </li>
+                  <li>
+                    <strong>→ Vertex AI Search</strong> (immediate indexing)
+                  </li>
+                  <li>Atlas can query the new content within seconds</li>
+                </ul>
+              </div>
+
+              <!-- PATH 2: DRIVE BULK UPLOAD -->
+              <div
+                class="arch-data-col"
+                style="
+                  border-color: var(--info-cyan);
+                  background: linear-gradient(135deg, #ecfeff, white);
+                "
+              >
+                <h4>② 📁 Drive Sync Agent (Bulk Upload Only)</h4>
+                <p>
+                  Used <strong>only when PMs want to upload many documents
+                  at once</strong>. PMs drop files in a designated Drive
+                  folder; the sync agent watches it and pushes everything
+                  into Vertex AI Search.
+                </p>
+                <ul>
+                  <li>PM (or junior staff) drops N files in Drive folder</li>
+                  <li>Drive Sync Agent detects new uploads via change feed</li>
+                  <li>Downloads each file, parses text, extracts entities</li>
+                  <li>
+                    <strong>→ Vertex AI Search</strong> (batched indexing)
+                  </li>
+                  <li>Logs each sync for audit / re-indexing</li>
+                  <li>Idempotent: re-running on the same file is safe</li>
+                </ul>
               </div>
             </div>
 
@@ -1915,8 +1951,10 @@
                   Payload POST'd to Rezco's Go ingestion microservice
                 </li>
                 <li style="margin: 0.5rem 0">
-                  Microservice normalizes (text or document), pushes to Vertex
-                  AI Search, files in Drive folder, links entities
+                  Microservice writes the raw document to a
+                  <strong>GCS bucket</strong> and pushes the parsed text into
+                  <strong>Vertex AI Search</strong> for indexing.
+                  <strong>Drive is bypassed entirely</strong> on this path.
                 </li>
                 <li style="margin: 0.5rem 0">
                   Atlas can immediately query the new content via grounded RAG
@@ -1982,8 +2020,22 @@
             <span class="flow-arrow">→</span>
             <span class="flow-node flow-node-amber">Go Microservice</span>
             <span class="flow-arrow">→</span>
+            <span class="flow-node flow-node-green">GCS Bucket</span>
+            <span class="flow-arrow">+</span>
             <span class="flow-node flow-node-green">Vertex AI Search</span>
           </div>
+          <p
+            style="
+              text-align: center;
+              font-size: 0.8rem;
+              color: var(--gray-600);
+              font-style: italic;
+              margin-top: 0.3rem;
+            "
+          >
+            Drive is bypassed entirely on this path. Documents land in GCS
+            and are indexed in Vertex AI Search in the same request.
+          </p>
         </div>
 
         <!-- GO MICROSERVICE -->
@@ -1991,8 +2043,10 @@
           <h2>Go Ingestion Microservice</h2>
           <p style="margin-bottom: 1rem">
             A single-purpose Go service that receives DOM payloads from the
-            Chrome extension, normalizes them, and routes them to Vertex AI
-            Search and Google Drive. Stateless, horizontally scalable.
+            Chrome extension, normalizes them, writes the raw document to a
+            <strong>GCS bucket</strong>, and pushes the parsed text into
+            <strong>Vertex AI Search</strong> for indexing. Drive is not in
+            this path. Stateless, horizontally scalable.
           </p>
           <table class="data-table">
             <tr>
@@ -2004,24 +2058,25 @@
               <td><code>POST /ingest/text</code></td>
               <td>Receives extracted text from DOM (web pages, emails)</td>
               <td>
-                Tags entities, embeds, indexes in Vertex AI Search, returns
-                ingestion ID
+                Tags entities, embeds, writes a text artifact to GCS, indexes
+                in Vertex AI Search, returns ingestion ID
               </td>
             </tr>
             <tr>
               <td><code>POST /ingest/document</code></td>
               <td>Receives full PDF/document binary</td>
               <td>
-                Parses, extracts text + metadata, files in Drive folder by
-                asset, indexes in Vertex AI
+                Writes the raw binary to the GCS bucket, parses + extracts
+                text and metadata, indexes in Vertex AI Search with a
+                signed-URL pointer back to GCS
               </td>
             </tr>
             <tr>
               <td><code>POST /ingest/clip</code></td>
               <td>Receives a partial selection from a page</td>
               <td>
-                Stores as a quote/note linked to the source URL, indexes for
-                later retrieval
+                Stores as a quote/note in GCS linked to the source URL,
+                indexes for later retrieval
               </td>
             </tr>
             <tr>
@@ -2044,9 +2099,11 @@
         <div class="card card-accent">
           <h2>Atlas Data Sources — Indexed vs. Live</h2>
           <p style="margin-bottom: 1rem">
-            Atlas has two distinct paths to data: ingested content lives in
-            Vertex AI Search; meetings and chat are queried live via MCP every
-            time a PM asks.
+            Atlas has two distinct paths to data: ingested content lives in a
+            GCS bucket and is indexed in Vertex AI Search; meetings and chat
+            are queried live via MCP every time a PM asks. The Chrome
+            Extension is the primary ingestion path; the Drive Sync Agent is
+            a secondary path used only for bulk uploads.
           </p>
           <div class="grid-3">
             <div
@@ -2057,13 +2114,14 @@
               <span class="badge badge-p0">P0 — INGESTED</span>
               <p style="font-size: 0.85rem; margin-top: 0.5rem">
                 PMs clip articles, sell-side reports, IR pages, Bloomberg
-                content, emails — anything they're reading. Content is indexed
-                in Vertex AI Search.
+                content, emails — anything they're reading. Documents go
+                <strong>directly to GCS bucket + Vertex AI Search</strong>.
+                Drive is bypassed entirely on this path.
               </p>
               <ul class="feature-list" style="font-size: 0.85rem">
                 <li>Side panel opens on any page</li>
                 <li>DOM read + content type detection</li>
-                <li>One-click ingest to Vertex AI</li>
+                <li>Direct to GCS bucket + Vertex AI Search</li>
                 <li>First-pass tag suggestions</li>
                 <li>No behavior change for PMs</li>
               </ul>
@@ -2149,15 +2207,30 @@
 
         <!-- DRIVE → VERTEX SYNC AGENT -->
         <div class="card">
-          <h2>Drive → Vertex Sync Agent</h2>
+          <h2>Drive → Vertex Sync Agent (Bulk Upload Path Only)</h2>
           <p>
-            A small, single-purpose sub-agent that watches a designated Google
-            Drive folder for new uploads. When a document lands in Drive, the
-            agent picks it up and pushes it into Vertex AI Search for indexing —
-            making it immediately queryable by Atlas. Rezco doesn't currently
-            have a Drive set up; V1 will provision the watched folder and the
-            sync agent will populate the index from there onward.
+            <strong
+              >This is a secondary path used only when PMs want to upload many
+              documents at once.</strong
+            >
+            The Chrome Extension is the primary, default path — and it goes
+            directly to GCS + Vertex AI Search without touching Drive. The
+            Drive sync agent only kicks in when a PM (or junior staff) drops a
+            batch of files into a designated Google Drive folder. The agent
+            watches the folder, detects new uploads, and pushes each document
+            into Vertex AI Search for indexing.
           </p>
+          <div
+            class="info-box"
+            style="margin: 0.8rem 0; font-size: 0.85rem"
+          >
+            <strong>Two ingestion paths, one index:</strong> the Chrome
+            Extension path (primary, single-document, in-the-moment) writes
+            directly to GCS + Vertex AI Search. The Drive sync path (bulk,
+            many documents at once) is for moments when a PM has a folder of
+            files they want indexed in one go. Both paths land in the same
+            Vertex AI Search index, so Atlas queries find everything.
+          </div>
           <div class="grid-2">
             <div>
               <h4>What it does</h4>
@@ -2178,29 +2251,39 @@
               </ul>
             </div>
             <div>
-              <h4>Why this is the right shape</h4>
+              <h4>When PMs use this path</h4>
               <ul class="feature-list">
                 <li>
-                  <strong>Single responsibility</strong> — it only does one
-                  thing: Drive → Vertex AI Search
+                  Bulk historical backfill (e.g. "here are 200 sell-side
+                  reports we want indexed")
                 </li>
                 <li>
-                  <strong>Behavior-preserving</strong> — anyone (PM or junior
-                  staff) can drop a file in Drive and it just becomes queryable
+                  Junior staff dropping a batch of earnings transcripts at
+                  once
                 </li>
                 <li>
-                  <strong>No complex filing logic</strong> — Rezco can organize
-                  the Drive however they want; the agent indexes everything in
-                  scope regardless of subfolder
+                  PMs uploading their existing model spreadsheets in a single
+                  go
                 </li>
                 <li>
-                  <strong>Idempotent</strong> — re-running on the same file is
-                  safe; it updates the existing index entry
+                  Anything where opening the Chrome Extension once per
+                  document would be tedious
+                </li>
+              </ul>
+              <h4 style="margin-top: 0.8rem">Why this shape</h4>
+              <ul class="feature-list">
+                <li>
+                  <strong>Single responsibility</strong> — Drive → Vertex AI
+                  Search and nothing else
                 </li>
                 <li>
-                  <strong>Complements the Chrome Extension</strong> — extension
-                  handles "I'm reading this now"; Drive sync handles "this got
-                  emailed to us / saved manually"
+                  <strong>Idempotent</strong> — re-running on the same file
+                  is safe
+                </li>
+                <li>
+                  <strong>Complements the Chrome Extension</strong> —
+                  extension handles "I'm reading this now"; Drive sync
+                  handles "I have a stack of these to upload"
                 </li>
               </ul>
             </div>
@@ -2285,8 +2368,19 @@
             <tr>
               <td>Chrome extension as primary ingestion</td>
               <td>
-                Quickest way to ingest. PMs don't change behavior. Bypasses
-                sell-side portal integrations.
+                Quickest way to ingest. PMs don't change behavior. Documents
+                go directly to a GCS bucket and Vertex AI Search — Drive is
+                bypassed entirely on this path. Bypasses sell-side portal
+                integrations too.
+              </td>
+            </tr>
+            <tr>
+              <td>GCS bucket as raw document store</td>
+              <td>
+                Every clipped or uploaded document is written to a Google
+                Cloud Storage bucket as the raw artifact, then parsed and
+                indexed in Vertex AI Search. The bucket is the source of
+                truth for the binary; Vertex AI is the search index.
               </td>
             </tr>
             <tr>
@@ -2297,11 +2391,12 @@
               </td>
             </tr>
             <tr>
-              <td>Drive → Vertex Sync Agent</td>
+              <td>Drive Sync Agent (bulk upload path only)</td>
               <td>
-                Rezco doesn't have a Drive set up. V1 provisions a watched Drive
-                folder; the sync agent detects new uploads and pushes them into
-                Vertex AI Search for indexing.
+                Used only when PMs want to upload many documents at once. They
+                drop files in a designated Drive folder; the sync agent
+                detects them and pushes them into Vertex AI Search. The
+                Chrome Extension remains the primary path for everyday use.
               </td>
             </tr>
             <tr>
@@ -2350,19 +2445,25 @@
               <h4>Backend / Infrastructure</h4>
               <ul class="feature-list">
                 <li>Atlas analyst agent (orchestrator with sub-agents)</li>
-                <li>Go ingestion microservice (3 endpoints minimum)</li>
+                <li>
+                  Go ingestion microservice (3 endpoints minimum) — writes to
+                  GCS + Vertex AI Search
+                </li>
+                <li>
+                  <strong>GCS bucket</strong> for raw document storage
+                </li>
                 <li>Vertex AI Search index + RAG pipeline</li>
                 <li>
-                  Drive → Vertex Sync Agent (watches Drive, indexes uploads)
+                  Drive → Vertex Sync Agent (bulk upload path only — watches
+                  Drive folder, indexes uploads in Vertex AI Search)
                 </li>
                 <li>
                   <strong>Live MCP Query Router</strong> (decides indexed vs.
-                  live per query)
+                  live per query, fans out for broad queries)
                 </li>
                 <li>Fireflies MCP integration (live transcript queries)</li>
                 <li>
-                  Google Workspace MCP integration (live Chat, Gmail, Drive
-                  queries)
+                  Google Workspace MCP integration (live Chat queries)
                 </li>
                 <li>Entity resolution (company name → FIGI/ISIN)</li>
                 <li>Session + conversation persistence</li>
