@@ -565,491 +565,527 @@
 <!-- ==================== TAB: VERSION 1 ==================== -->
 <div id="v1" class="tab-content active">
 
+    <!-- HERO -->
     <div class="card card-gold">
-        <h2>Version 1: Qualitative Research Agent</h2>
-        <p>V1 is a lean, qualitative-first tool that replaces the analyst function for 3 Portfolio Managers. No quantitative feeds, no portfolio construction, no personas. Pure signal-in-the-noise retrieval and workflow intelligence.</p>
+        <h2>Version 1: The Analyst Agent</h2>
+        <p style="font-size:1.05rem;line-height:1.7;">V1 is not software for analysts — it <strong>is</strong> the analyst. A bare-metal agent that processes information requests, synthesizes data across sources, generates investment recommendations, and pitches ideas to PMs. The fundamental business problem: instead of paying 3 human analysts, run an analyst agent that does functionally the same work at scale.</p>
         <div class="grid-4" style="margin-top:1rem;">
             <div class="stats-box">
                 <div class="stats-number">3</div>
                 <div class="stats-label">PMs Supported</div>
             </div>
             <div class="stats-box">
-                <div class="stats-number">0</div>
-                <div class="stats-label">Quant Feeds</div>
+                <div class="stats-number">1</div>
+                <div class="stats-label">Bare-Metal Agent</div>
             </div>
             <div class="stats-box">
-                <div class="stats-number">2</div>
-                <div class="stats-label">Front-End Views</div>
+                <div class="stats-number">3</div>
+                <div class="stats-label">Ingestion Channels</div>
             </div>
             <div class="stats-box">
                 <div class="stats-number" style="font-size:1.4rem;">Lean</div>
-                <div class="stats-label">Budget Constrained</div>
+                <div class="stats-label">Aggressively Stripped</div>
             </div>
         </div>
     </div>
 
+    <!-- THE REFRAME -->
     <div class="card card-accent">
-        <h2>V1 Definition of Success</h2>
+        <h2>The Reframe: Agent IS the Analyst</h2>
         <div class="info-box" style="font-size:1rem;">
-            <strong>"The ability to link, organize, and intelligently query a large volume of information — retrieving smart responses that help PMs remember and process more information than a human brain can naturally. The tool enhances the PM's thought process, prioritizes information by highlighting key details, and links them to past views."</strong>
-            <br><span style="color:var(--gray-600);font-size:0.85rem;">— Simon Sylvester, Rezco</span>
+            <strong>"You're not building software for public markets analysts. You're building a public markets analyst. An analyst is an information processing and presentation machine — your job is to respond to requests for information and suggest good ideas based on what we're observing in the market. Come pitch me an idea as a PM."</strong>
+            <br><span style="color:var(--gray-600);font-size:0.85rem;">— James Spanjaard, on the V1 framing</span>
         </div>
         <div class="grid-2" style="margin-top:1rem;">
             <div class="success-box">
-                <h4 style="color:#065f46;">What V1 IS</h4>
+                <h4 style="color:#065f46;">V1 IS</h4>
                 <ul class="feature-list">
-                    <li>Enhanced memory for PMs — compensates for human bias</li>
-                    <li>Qualitatively heavy research tool</li>
-                    <li>Non-linear data linking and smart retrieval</li>
-                    <li>Links current events to past PM views with timestamps</li>
-                    <li>Flags inconsistencies in past thinking</li>
-                    <li>Contrastive analysis (e.g., Shoprite vs. sector, not vs. gold mines)</li>
-                    <li>Replaces and improves upon the analyst function</li>
+                    <li>An <strong>analyst agent</strong> — does the analytical work itself</li>
+                    <li>Processes information requests from PMs</li>
+                    <li>Generates investment recommendations</li>
+                    <li>Pitches investment ideas based on observed market signals</li>
+                    <li>Multi-channel: Google Chat, custom UI, more</li>
+                    <li>Chrome extension for one-click ingestion from any web page</li>
+                    <li>Grounded in Vertex AI Search over indexed documents</li>
                 </ul>
             </div>
             <div style="background:linear-gradient(135deg,#fef2f2,#fee2e2);border-left:4px solid var(--danger-red);padding:1rem 1.2rem;border-radius:0 6px 6px 0;">
-                <h4 style="color:#991b1b;">What V1 is NOT</h4>
+                <h4 style="color:#991b1b;">V1 is NOT</h4>
                 <ul class="feature-list">
-                    <li>Not a PM replacement — PMs are best at decisions</li>
-                    <li>Not an AI-generated sell-side report (that's "beta")</li>
-                    <li>Not quantitative — Bloomberg/Reuters feeds ditched</li>
-                    <li>No portfolio review or construction</li>
-                    <li>No AI personas or morning briefings</li>
-                    <li>No automated model updates (possibly V2)</li>
-                    <li>Not a feature-bloated v1 — lean and focused</li>
+                    <li>NOT a tool that helps an analyst — the agent <strong>is</strong> the analyst</li>
+                    <li>NOT a workflow management UI with shiny dashboards</li>
+                    <li>NOT a complex spiderweb visualization</li>
+                    <li>NOT quantitative — Bloomberg/Reuters feeds out of scope</li>
+                    <li>NOT portfolio construction or attribution</li>
+                    <li>NOT AI personas or morning briefings</li>
+                    <li>NOT an AI-generated sell-side report (that's "beta", no edge)</li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <!-- V1 ARCHITECTURE -->
+    <!-- ATLAS BRAND -->
     <div class="card">
-        <h2>V1 Architecture</h2>
-        <p style="margin-bottom:1rem;">The V1 system uses MCP (Model Context Protocol) servers to connect the orchestrator to external data sources — Fireflies.ai for meeting transcriptions and Google Workspace for PM chat data.</p>
+        <h2>Meet Atlas — Rezco's Analyst Agent</h2>
+        <div class="grid-2">
+            <div>
+                <h4 style="color:var(--rezco-accent);font-size:1.4rem;">Generate Alpha. Deploy Strategy.</h4>
+                <p>Atlas is the agent. PMs interact with Atlas through three primary surfaces, all backed by the same orchestrator and the same indexed knowledge base.</p>
+                <div style="margin-top:1rem;">
+                    <div class="flow-node flow-node-blue" style="display:block;margin:0.4rem 0;padding:0.7rem 1rem;">
+                        <strong>ASK ATLAS</strong> — Chat-first conversational interface for information retrieval and idea generation
+                    </div>
+                    <div class="flow-node flow-node-purple" style="display:block;margin:0.4rem 0;padding:0.7rem 1rem;">
+                        <strong>ATLAS INTELLIGENCE</strong> — Cross-source synthesis: Chat, Gmail, Drive, PDFs surfaced together with conflict detection
+                    </div>
+                    <div class="flow-node flow-node-green" style="display:block;margin:0.4rem 0;padding:0.7rem 1rem;">
+                        <strong>INDEX MAPPER</strong> — Classification and asset metadata browser with confidence scoring
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h4>Why "Atlas"?</h4>
+                <p style="font-size:0.92rem;">Atlas carries the weight of the world — and Rezco's analyst agent carries the weight of every PM's information processing burden. It remembers what humans forget, links what humans miss, and surfaces what humans filter out as noise.</p>
+                <div class="info-box" style="margin-top:0.8rem;font-size:0.9rem;">
+                    <strong>Multi-channel by design:</strong> PMs can talk to Atlas from Google Chat, the custom Rezco UI, or the Chrome extension side panel — same agent, same memory, same context.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DESIGN PREVIEW GALLERY -->
+    <div class="card card-gold">
+        <h2>V1 Design Preview</h2>
+        <p style="margin-bottom:1rem;">Click any preview to open the live HTML prototype. Each prototype is a working, responsive replica of the Figma design.</p>
+        <div class="grid-3">
+            <a href="prototypes/home.html" target="_blank" style="text-decoration:none;color:inherit;">
+                <div class="card" style="margin-bottom:0;cursor:pointer;border:2px solid var(--gray-200);transition:all 0.3s ease;">
+                    <img src="images/Screenshot 2026-04-08 at 4.27.04 PM.png" alt="Atlas Home" style="width:100%;border-radius:6px;border:1px solid var(--gray-200);">
+                    <h4 style="margin-top:0.8rem;color:var(--rezco-accent);">Home — Ask Atlas</h4>
+                    <p style="font-size:0.85rem;color:var(--gray-600);">Welcome screen with primary chat input, Alpha Archive, Institutional Vault, Shared Intelligence cards</p>
+                </div>
+            </a>
+            <a href="prototypes/atlas-chat.html" target="_blank" style="text-decoration:none;color:inherit;">
+                <div class="card" style="margin-bottom:0;cursor:pointer;border:2px solid var(--gray-200);">
+                    <img src="images/Screenshot 2026-04-08 at 4.28.11 PM.png" alt="Atlas Chat" style="width:100%;border-radius:6px;border:1px solid var(--gray-200);">
+                    <h4 style="margin-top:0.8rem;color:var(--rezco-accent);">Atlas Chat — With Evidence Feed</h4>
+                    <p style="font-size:0.85rem;color:var(--gray-600);">Three-pane: Archive History, streaming strategy draft with Vault and Fireflies citations, live Evidence Feed</p>
+                </div>
+            </a>
+            <a href="prototypes/intelligence.html" target="_blank" style="text-decoration:none;color:inherit;">
+                <div class="card" style="margin-bottom:0;cursor:pointer;border:2px solid var(--gray-200);">
+                    <img src="images/Screenshot 2026-04-08 at 4.28.30 PM.png" alt="Cross-Source Intelligence" style="width:100%;border-radius:6px;border:1px solid var(--gray-200);">
+                    <h4 style="margin-top:0.8rem;color:var(--rezco-accent);">Cross-Source Intelligence</h4>
+                    <p style="font-size:0.85rem;color:var(--gray-600);">Source breadcrumb across Chat → Gmail → Doc → PDF, Team Vibe scoring, Agent Insight matching</p>
+                </div>
+            </a>
+            <a href="prototypes/document.html" target="_blank" style="text-decoration:none;color:inherit;">
+                <div class="card" style="margin-bottom:0;cursor:pointer;border:2px solid var(--gray-200);">
+                    <img src="images/Screenshot 2026-04-08 at 4.28.42 PM.png" alt="Document Viewer" style="width:100%;border-radius:6px;border:1px solid var(--gray-200);">
+                    <h4 style="margin-top:0.8rem;color:var(--rezco-accent);">Document Viewer</h4>
+                    <p style="font-size:0.85rem;color:var(--gray-600);">PDF reader with Metadata Registry, live conflict detection vs. meeting sentiment</p>
+                </div>
+            </a>
+            <a href="prototypes/extension.html" target="_blank" style="text-decoration:none;color:inherit;">
+                <div class="card" style="margin-bottom:0;cursor:pointer;border:2px solid var(--gray-200);">
+                    <img src="images/Screenshot 2026-04-08 at 4.28.51 PM.png" alt="Chrome Extension" style="width:100%;border-radius:6px;border:1px solid var(--gray-200);">
+                    <h4 style="margin-top:0.8rem;color:var(--rezco-accent);">Rezco Chrome Extension</h4>
+                    <p style="font-size:0.85rem;color:var(--gray-600);">Side panel on any page — DOM-based ingestion, instant Atlas Insights, one-click clip to Vertex AI</p>
+                </div>
+            </a>
+            <div class="card" style="margin-bottom:0;border:2px dashed var(--gray-300);background:var(--gray-50);">
+                <div style="display:flex;align-items:center;justify-content:center;height:140px;color:var(--gray-400);font-size:2rem;">+</div>
+                <h4 style="margin-top:0.8rem;color:var(--gray-600);">More to come</h4>
+                <p style="font-size:0.85rem;color:var(--gray-600);">Additional screens evolving from PM feedback during V1 build</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- V1 ARCHITECTURE - REDRAWN -->
+    <div class="card card-accent">
+        <h2>V1 Architecture (Reframed)</h2>
+        <p style="margin-bottom:1rem;">The Chrome Extension is now front and center as the primary ingestion path. PMs clip what they're already reading without changing behavior. The agent is the analyst — it processes, synthesizes, and recommends.</p>
 
         <div class="diagram-box">
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                        FRONT-END (V1)                            │
-  │                                                                   │
-  │   ┌─────────────────────────┐   ┌─────────────────────────────┐  │
-  │   │   Workflow Manager      │   │   Query Interface           │  │
-  │   │   • Flags & alerts      │   │   • Gemini-style chat       │  │
-  │   │   • Price vs. view      │   │   • Smart retrieval         │  │
-  │   │     mismatches          │   │   • Source citations         │  │
-  │   │   • Stale views         │   │   • Temporal context        │  │
-  │   │   • Incomplete work     │   │   • Contrastive analysis    │  │
-  │   └─────────────────────────┘   └─────────────────────────────┘  │
-  └──────────────────────────┬────────────────────────────────────────┘
-                             │
-  ┌──────────────────────────▼────────────────────────────────────────┐
-  │                     CONSOLE GATEWAY                               │
-  │                 (A2A + Auth + Persist)                             │
-  └──────────────────────────┬────────────────────────────────────────┘
-                             │
-  ┌──────────────────────────▼────────────────────────────────────────┐
-  │                      ORCHESTRATOR                                 │
-  │                                                                   │
-  │   ┌─────────────┐  ┌─────────────┐  ┌──────────────────────┐    │
-  │   │  Research &  │  │  Workflow   │  │  Ingestion Agents    │    │
-  │   │  Retrieval   │  │  Monitor    │  │  • Manual Upload     │    │
-  │   │  Agent       │  │  Agent      │  │  • Fireflies Sync    │    │
-  │   │              │  │             │  │  • Google Chat Sync   │    │
-  │   └──────┬───────┘  └──────┬──────┘  └──────────┬───────────┘    │
-  │          │                 │                     │                 │
-  │   ┌──────▼─────────────────▼─────────────────────▼───────────┐    │
-  │   │           Cross-Cutting: Temporal Awareness              │    │
-  │   │           Entity Resolution │ Timestamp Linking          │    │
-  │   └──────────────────────────────────────────────────────────┘    │
-  └──────┬──────────────────┬────────────────────┬───────────────────┘
-         │                  │                    │
-  ┌──────▼──────┐   ┌──────▼──────┐   ┌─────────▼─────────┐
-  │  Knowledge  │   │  Instrument │   │  Sessions +       │
-  │  Base       │   │  Registry   │   │  Events           │
-  │  (Vertex AI │   │  (FIGI/ISIN │   │  (Spanner)        │
-  │  + Spanner) │   │  existing)  │   │                   │
-  └──────┬──────┘   └─────────────┘   └───────────────────┘
-         │
-  ┌──────▼────────────────────────────────────────────────────┐
-  │                    MCP INTEGRATIONS                        │
-  │                                                            │
-  │  ┌──────────────────┐   ┌──────────────────────────────┐  │
-  │  │  Fireflies.ai    │   │  Google Workspace MCP        │  │
-  │  │  MCP Server      │   │                              │  │
-  │  │                  │   │  • Google Chat (PM convos)   │  │
-  │  │  • Transcripts   │   │  • Google Drive (PDFs,       │  │
-  │  │  • Summaries     │   │    presentations)            │  │
-  │  │  • Action items  │   │  • Gmail (sell-side reports) │  │
-  │  │  • Speaker attr. │   │                              │  │
-  │  │  • Timestamps    │   │  Auth: OAuth 2.0             │  │
-  │  │                  │   │  Server: google_workspace_mcp│  │
-  │  │  Auth: API Key   │   │                              │  │
-  │  │  Mode: Read-only │   │                              │  │
-  │  └──────────────────┘   └──────────────────────────────┘  │
-  │                                                            │
-  │  ┌──────────────────────────────────────────────────────┐  │
-  │  │  Manual Upload (Junior Staff)                        │  │
-  │  │  • Earnings presentations (PDF)                      │  │
-  │  │  • Sell-side reports (curated, trusted analysts)     │  │
-  │  │  • Annual reports (outlook & prospects pages)        │  │
-  │  │  • Investor relations documents                      │  │
-  │  └──────────────────────────────────────────────────────┘  │
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │                       PM ENGAGEMENT SURFACES                            │
+  │                                                                         │
+  │    ┌──────────────┐    ┌──────────────┐    ┌──────────────────┐       │
+  │    │ Google Chat  │    │  Atlas UI    │    │  Chrome Side     │       │
+  │    │ (existing    │    │ (custom Rezco│    │  Panel (open on  │       │
+  │    │  PM tool)    │    │  interface)  │    │  any web page)   │       │
+  │    └──────┬───────┘    └──────┬───────┘    └────────┬─────────┘       │
+  └───────────┼────────────────────┼─────────────────────┼─────────────────┘
+              │                    │                     │
+              └────────────────────┼─────────────────────┘
+                                   │
+                    ┌──────────────▼──────────────┐
+                    │    CONSOLE GATEWAY           │
+                    │   (Auth, A2A, Persist)        │
+                    └──────────────┬──────────────┘
+                                   │
+        ┌──────────────────────────▼──────────────────────────────┐
+        │                  ATLAS — THE ANALYST AGENT               │
+        │                                                          │
+        │   Processes info requests │ Synthesizes across sources   │
+        │   Generates investment recs │ Pitches ideas to PMs       │
+        │                                                          │
+        │   ┌────────────────────────────────────────────────┐    │
+        │   │            SPECIALIZED SUB-AGENTS               │    │
+        │   │                                                  │    │
+        │   │  • Ingestion / Filing Agent (Drive → Vertex)    │    │
+        │   │  • Research & Retrieval Agent                    │    │
+        │   │  • Recommendation Generation Agent               │    │
+        │   │  • Scheduler (daily updates, automations)        │    │
+        │   └────────────────────────────────────────────────┘    │
+        └──┬──────────────┬──────────────┬───────────────────────┘
+           │              │              │
+  ┌────────▼─────┐ ┌──────▼──────┐ ┌────▼──────────┐
+  │ Vertex AI    │ │ Google Drive│ │  Sessions +   │
+  │ Search       │ │ (folders    │ │  Conversations│
+  │ (indexed     │ │  by asset)  │ │  (Spanner)    │
+  │  documents)  │ │             │ │               │
+  └────────▲─────┘ └──────▲──────┘ └───────────────┘
+           │              │
+           │              │
+  ┌────────┴──────────────┴────────────────────────────────────┐
+  │              INGESTION CHANNELS                              │
+  │                                                              │
+  │  ┌─────────────────────────────────────────────────────┐   │
+  │  │  REZCO CHROME EXTENSION  (PRIMARY)                  │   │
+  │  │                                                      │   │
+  │  │  PM clicks icon on any page (Bloomberg, Gmail,      │   │
+  │  │  IR site, sell-side PDF)  →  Side panel opens       │   │
+  │  │                                                      │   │
+  │  │  Reads DOM directly (detects email/webpage/PDF)     │   │
+  │  │  First-pass tagging (companies, themes, sectors)    │   │
+  │  │                                                      │   │
+  │  │  POST → Go Microservice (Ingestion Service)         │   │
+  │  │       │                                              │   │
+  │  │       ├─ Parse + normalize to text/document format  │   │
+  │  │       ├─ Push to Vertex AI Search (indexed)         │   │
+  │  │       ├─ File in Google Drive folder (by asset)     │   │
+  │  │       └─ Link entities in knowledge base            │   │
+  │  └─────────────────────────────────────────────────────┘   │
+  │                                                              │
+  │  ┌─────────────────────────────────────────────────────┐   │
+  │  │  FIREFLIES MCP  (MEETINGS)                          │   │
+  │  │  Auto-captured calls → transcripts → Vertex AI      │   │
+  │  └─────────────────────────────────────────────────────┘   │
+  │                                                              │
+  │  ┌─────────────────────────────────────────────────────┐   │
+  │  │  GOOGLE WORKSPACE MCP  (CHAT / DRIVE / GMAIL)       │   │
+  │  │  PM Chat conversations + sell-side emails           │   │
+  │  └─────────────────────────────────────────────────────┘   │
   └────────────────────────────────────────────────────────────┘</div>
     </div>
 
-    <!-- V1 DATA INGESTION -->
-    <div class="card card-accent">
-        <h2>V1 Data Ingestion Strategy</h2>
-        <p style="margin-bottom:1rem;">Three ingestion channels, prioritizing data quality over automation. Quantitative feeds (Bloomberg, Reuters) are <strong>out of scope</strong>.</p>
+    <!-- THE CHROME EXTENSION DEEP DIVE -->
+    <div class="card card-gold">
+        <h2>The Rezco Chrome Extension — Primary Ingestion Path</h2>
+        <p style="margin-bottom:1rem;">Inspired by Otter.ai's side-panel pattern. Opens on any web page. Reads the DOM directly. PMs clip what they read — no behavior change, no integrations with sell-side portals required.</p>
 
-        <div class="grid-3">
-            <div class="card" style="margin-bottom:0;border-left:4px solid var(--info-cyan);">
-                <h3 style="font-size:1.05rem;">Fireflies.ai MCP</h3>
-                <span class="badge badge-p0">P0 — Meetings</span>
-                <p style="font-size:0.85rem;margin-top:0.5rem;">All PM meetings and calls recorded via Fireflies. The MCP server provides:</p>
-                <ul class="feature-list" style="font-size:0.85rem;">
-                    <li>Full transcripts with speaker attribution</li>
-                    <li>Per-sentence timestamps</li>
-                    <li>AI-generated summaries and action items</li>
-                    <li>Search across all meetings by keyword, date, participant</li>
-                    <li>Read-only, account-scoped access via API key</li>
+        <div class="grid-2">
+            <div>
+                <h4>How It Works</h4>
+                <ol style="padding-left:1.2rem;font-size:0.92rem;">
+                    <li style="margin:0.5rem 0;">PM is browsing Bloomberg, Gmail, an IR website, or reading a PDF</li>
+                    <li style="margin:0.5rem 0;">Clicks the Rezco extension icon → side panel slides in from the right</li>
+                    <li style="margin:0.5rem 0;">Extension detects content type via DOM inspection: email, webpage, PDF</li>
+                    <li style="margin:0.5rem 0;">First-pass enrichment: extracts companies, themes, industries from the DOM</li>
+                    <li style="margin:0.5rem 0;">PM confirms tags (or just clicks "Ingest")</li>
+                    <li style="margin:0.5rem 0;">Payload POST'd to Rezco's Go ingestion microservice</li>
+                    <li style="margin:0.5rem 0;">Microservice normalizes (text or document), pushes to Vertex AI Search, files in Drive folder, links entities</li>
+                    <li style="margin:0.5rem 0;">Atlas can immediately query the new content via grounded RAG</li>
+                </ol>
+            </div>
+            <div>
+                <h4>Why DOM-Based?</h4>
+                <ul class="feature-list">
+                    <li><strong>Quickest path to ingest</strong> — pulls structured content directly from the page</li>
+                    <li><strong>Precise content type detection</strong> — JavaScript runs against DOM to differentiate email vs. webpage vs. PDF</li>
+                    <li><strong>No portal integrations needed</strong> — bypasses Morgan Stanley sell-side portal complexity</li>
+                    <li><strong>Internal-only</strong> — no Chrome Web Store approval</li>
+                    <li><strong>Behavior-preserving</strong> — PMs already read these pages, this just adds a click</li>
+                    <li><strong>First-pass enrichment</strong> — happens client-side before payload is sent</li>
                 </ul>
-                <div class="info-box" style="font-size:0.8rem;margin-top:0.5rem;">
-                    <strong>Key tools:</strong> <code>fireflies_search</code>, <code>fireflies_get_transcript</code>, <code>fireflies_get_summary</code>, <code>fireflies_fetch</code>
+                <div class="info-box" style="margin-top:1rem;font-size:0.88rem;">
+                    <strong>Inspiration:</strong> Otter.ai side-panel pattern (opens on any page) + ID8 extension being built by Ruan (DOM-based, ATIO-loop inspired)
                 </div>
             </div>
+        </div>
 
+        <h4 style="margin-top:1.5rem;">Extension → Microservice Data Flow</h4>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.3rem;justify-content:center;margin:1rem 0;">
+            <span class="flow-node flow-node-blue">DOM Read</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node flow-node-blue">Type Detection</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node flow-node-purple">Tag Extraction</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node flow-node-purple">POST /ingest</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node flow-node-amber">Go Microservice</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node flow-node-green">Vertex AI Search</span>
+        </div>
+    </div>
+
+    <!-- GO MICROSERVICE -->
+    <div class="card">
+        <h2>Go Ingestion Microservice</h2>
+        <p style="margin-bottom:1rem;">A single-purpose Go service that receives DOM payloads from the Chrome extension, normalizes them, and routes them to Vertex AI Search and Google Drive. Stateless, horizontally scalable.</p>
+        <table class="data-table">
+            <tr><th>Endpoint</th><th>Purpose</th><th>Behavior</th></tr>
+            <tr><td><code>POST /ingest/text</code></td><td>Receives extracted text from DOM (web pages, emails)</td><td>Tags entities, embeds, indexes in Vertex AI Search, returns ingestion ID</td></tr>
+            <tr><td><code>POST /ingest/document</code></td><td>Receives full PDF/document binary</td><td>Parses, extracts text + metadata, files in Drive folder by asset, indexes in Vertex AI</td></tr>
+            <tr><td><code>POST /ingest/clip</code></td><td>Receives a partial selection from a page</td><td>Stores as a quote/note linked to the source URL, indexes for later retrieval</td></tr>
+            <tr><td><code>GET /assets/{figi}/documents</code></td><td>Retrieve all documents for an asset</td><td>Returns indexed documents tagged to the FIGI</td></tr>
+            <tr><td><code>POST /tag/suggest</code></td><td>Get tag suggestions for a payload</td><td>Returns company / theme / sector candidates from a vector similarity search</td></tr>
+        </table>
+    </div>
+
+    <!-- INGESTION CHANNELS SUMMARY -->
+    <div class="card card-accent">
+        <h2>V1 Ingestion Channels</h2>
+        <div class="grid-3">
+            <div class="card" style="margin-bottom:0;border-left:4px solid var(--rezco-gold);">
+                <h3 style="font-size:1.05rem;">Rezco Chrome Extension</h3>
+                <span class="badge badge-p0">P0 — PRIMARY</span>
+                <p style="font-size:0.85rem;margin-top:0.5rem;">PMs clip articles, sell-side reports, IR pages, Bloomberg content, emails — anything they're reading.</p>
+                <ul class="feature-list" style="font-size:0.85rem;">
+                    <li>Side panel opens on any page</li>
+                    <li>DOM read + content type detection</li>
+                    <li>One-click ingest to Vertex AI</li>
+                    <li>First-pass tag suggestions</li>
+                    <li>No behavior change for PMs</li>
+                </ul>
+            </div>
+            <div class="card" style="margin-bottom:0;border-left:4px solid var(--info-cyan);">
+                <h3 style="font-size:1.05rem;">Fireflies MCP</h3>
+                <span class="badge badge-p0">P0 — MEETINGS</span>
+                <p style="font-size:0.85rem;margin-top:0.5rem;">All PM meetings auto-captured. Transcripts with speaker attribution flow into Atlas.</p>
+                <ul class="feature-list" style="font-size:0.85rem;">
+                    <li>Full transcripts + summaries</li>
+                    <li>Action items extracted</li>
+                    <li>Speaker attribution + timestamps</li>
+                    <li>8 MCP tools available</li>
+                    <li>Read-only API key auth</li>
+                </ul>
+            </div>
             <div class="card" style="margin-bottom:0;border-left:4px solid var(--success-green);">
                 <h3 style="font-size:1.05rem;">Google Workspace MCP</h3>
-                <span class="badge badge-p0">P0 — Chat & Drive</span>
-                <p style="font-size:0.85rem;margin-top:0.5rem;">Captures the PM conversation layer — the unstructured chat where Rob, Simon, and Sean share articles, charts, clips, and ideas daily.</p>
+                <span class="badge badge-p0">P0 — CHAT</span>
+                <p style="font-size:0.85rem;margin-top:0.5rem;">Captures PM Google Chat conversations and Gmail sell-side reports. Existing PM behavior, zero changes.</p>
                 <ul class="feature-list" style="font-size:0.85rem;">
-                    <li>Google Chat: search messages across spaces, retrieve conversations</li>
-                    <li>Google Drive: search and retrieve uploaded PDFs, presentations</li>
-                    <li>Gmail: access sell-side reports received via email</li>
-                    <li>OAuth 2.0 authentication with token refresh</li>
-                    <li>100+ tools across 12 Google services</li>
-                </ul>
-                <div class="info-box" style="font-size:0.8rem;margin-top:0.5rem;">
-                    <strong>Server:</strong> <code>google_workspace_mcp</code> (taylorwilsdon) — covers Chat, Drive, Gmail, Calendar, Docs
-                </div>
-            </div>
-
-            <div class="card" style="margin-bottom:0;border-left:4px solid var(--rezco-gold);">
-                <h3 style="font-size:1.05rem;">Manual Upload</h3>
-                <span class="badge badge-p0">P0 — Curated Docs</span>
-                <p style="font-size:0.85rem;margin-top:0.5rem;">Junior staff manually uploads curated documents to maintain data quality. No automated scraping.</p>
-                <ul class="feature-list" style="font-size:0.85rem;">
-                    <li>Company earnings presentations (PDF)</li>
-                    <li>Selected sell-side reports from trusted analysts</li>
-                    <li>Annual reports — focus on "outlook & prospects" pages</li>
-                    <li>Investor relations website documents</li>
-                    <li>Each document tagged to asset/sector on upload</li>
-                </ul>
-                <div class="warning-box" style="font-size:0.8rem;margin-top:0.5rem;">
-                    <strong>Why manual?</strong> Rob: "Essential for controlling data quality and content." Automated ingestion risks flooding the system with noise.
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- V1 DATA STRUCTURE -->
-    <div class="card">
-        <h2>V1 Data Structure: Three Layers</h2>
-        <p style="margin-bottom:1rem;">Mpho's synthesis, confirmed by Simon — information organized in three interconnected layers, not isolated buckets.</p>
-
-        <div style="display:flex;flex-wrap:wrap;align-items:stretch;gap:1rem;justify-content:center;margin:1rem 0;">
-            <div style="flex:1;min-width:220px;background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid var(--rezco-accent);border-radius:10px;padding:1.2rem;text-align:center;">
-                <div style="font-size:1.8rem;margin-bottom:0.3rem;">1</div>
-                <h4 style="color:var(--rezco-blue);margin-bottom:0.5rem;">File Vault</h4>
-                <p style="font-size:0.85rem;color:var(--gray-700);">Specific to each asset. Earnings reports, models, sell-side research, annual reports — all tagged to the instrument via FIGI/ISIN.</p>
-            </div>
-            <div style="flex:0;display:flex;align-items:center;font-size:1.5rem;color:var(--gray-400);">⟷</div>
-            <div style="flex:1;min-width:220px;background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid var(--rezco-gold);border-radius:10px;padding:1.2rem;text-align:center;">
-                <div style="font-size:1.8rem;margin-bottom:0.3rem;">2</div>
-                <h4 style="color:#92400e;margin-bottom:0.5rem;">Sector Context</h4>
-                <p style="font-size:0.85rem;color:var(--gray-700);">Asset in the context of its sector and geography. SA Retail, Banks, Global Macro. Cross-references between related instruments.</p>
-            </div>
-            <div style="flex:0;display:flex;align-items:center;font-size:1.5rem;color:var(--gray-400);">⟷</div>
-            <div style="flex:1;min-width:220px;background:linear-gradient(135deg,#f0fdf4,#d1fae5);border:2px solid var(--success-green);border-radius:10px;padding:1.2rem;text-align:center;">
-                <div style="font-size:1.8rem;margin-bottom:0.3rem;">3</div>
-                <h4 style="color:#065f46;margin-bottom:0.5rem;">PM Intelligence</h4>
-                <p style="font-size:0.85rem;color:var(--gray-700);">Unstructured PM discussions (Chat, meetings) mapped to assets/themes with timestamps. The "spiderweb" of internal views, debates, and conviction.</p>
-            </div>
-        </div>
-
-        <div class="warning-box" style="margin-top:1rem;">
-            <strong>Interconnection is mandatory:</strong> "A macro view on the Rand needs to be linked to a company's benefit from a weaker currency. The tool needs external context to interpret internal data." — Simon
-        </div>
-    </div>
-
-    <!-- V1 INVESTMENT UNIVERSE -->
-    <div class="card">
-        <h2>V1 Investment Universe</h2>
-        <div class="grid-2">
-            <div>
-                <h4>Granular (Individual Instruments)</h4>
-                <div class="info-box">
-                    <strong>South African Equities</strong><br>
-                    Full instrument-level detail. Individual company research, earnings, management meetings, sell-side coverage. Mapped via FIGI/ISIN.
-                </div>
-            </div>
-            <div>
-                <h4>Broad Buckets (Thematic/Regional)</h4>
-                <div class="info-box">
-                    <strong>Global Macro</strong><br>
-                    Broad categories only: "Developed Market Equity", "Emerging Market Debt", "China", "European Industrials". No individual global stock coverage in V1.
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- V1 HISTORICAL DATA APPROACH -->
-    <div class="card">
-        <h2>V1 Historical Data Approach</h2>
-        <div class="grid-2">
-            <div>
-                <h4>Exponential Decay (Default)</h4>
-                <p style="font-size:0.9rem;">Most recent earnings reports are more relevant than older ones. The system weights recent data higher by default. Rob: "backward-looking exponential decay."</p>
-                <div style="margin:1rem 0;">
-                    <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.2rem;">Latest Quarter</div>
-                    <div class="progress-container"><div class="progress-bar progress-green" style="width:95%;">Highest Weight</div></div>
-                    <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.2rem;">1 Year Ago</div>
-                    <div class="progress-container"><div class="progress-bar progress-blue" style="width:60%;">Medium</div></div>
-                    <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.2rem;">3+ Years Ago</div>
-                    <div class="progress-container"><div class="progress-bar progress-amber" style="width:25%;">Low (unless queried)</div></div>
-                </div>
-            </div>
-            <div>
-                <h4>Deep History (On-Demand)</h4>
-                <p style="font-size:0.9rem;">Some queries require full history. Simon's example: "Has this CEO delivered on promises over 7 years?" The system must retain all data but surface it only when the query demands it.</p>
-                <div class="info-box" style="margin-top:1rem;">
-                    <strong>User discipline matters:</strong> PMs must phrase queries carefully. The system should focus on easily digestible, relevant components — e.g., the one-page "outlook and prospects" from an annual report rather than the full 200-page document.
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- V1 FRONT-END -->
-    <div class="card card-accent">
-        <h2>V1 Front-End: Two Components</h2>
-        <p style="margin-bottom:1rem;">Simon outlined exactly two interfaces for V1. Portfolio review, personas, dashboards — all reserved for later versions.</p>
-        <div class="grid-2">
-            <div class="card" style="margin-bottom:0;border:2px solid var(--rezco-accent);">
-                <h3>Workflow Manager</h3>
-                <p style="font-size:0.9rem;margin-bottom:0.8rem;">A thoughtful workflow management tool that proactively flags potential issues and incomplete work.</p>
-                <ul class="feature-list">
-                    <li><strong>Price-vs-view alerts:</strong> "Share price dropped 15% since your positive discussion on [date]"</li>
-                    <li><strong>Stale view detection:</strong> "No update on Discovery in 3 months despite material developments"</li>
-                    <li><strong>Incomplete work flags:</strong> "You discussed X but never followed up"</li>
-                    <li><strong>Inconsistency detection:</strong> "You said Y was too expensive at R50, it's now R42"</li>
-                    <li><strong>Timestamp-aware:</strong> All flags include when the original view was expressed</li>
-                </ul>
-            </div>
-            <div class="card" style="margin-bottom:0;border:2px solid var(--rezco-gold);">
-                <h3>Query Interface</h3>
-                <p style="font-size:0.9rem;margin-bottom:0.8rem;">A simple, Gemini-style querying tool for information retrieval. Natural language, smart responses.</p>
-                <ul class="feature-list">
-                    <li><strong>Natural language queries:</strong> "What's our latest view on Shoprite?"</li>
-                    <li><strong>Contrastive analysis:</strong> "Compare Shoprite with its sector peers" (not with gold mines)</li>
-                    <li><strong>Temporal queries:</strong> "What did we discuss about FirstRand last quarter?"</li>
-                    <li><strong>Deep history:</strong> "Has Discovery's CEO delivered on promises over 5 years?"</li>
-                    <li><strong>Source-cited responses:</strong> Every answer links back to the meeting/document/chat</li>
-                    <li><strong>Cross-reference:</strong> Links internal views to external data automatically</li>
+                    <li>Google Chat: search + retrieve messages</li>
+                    <li>Gmail: sell-side reports</li>
+                    <li>Drive: existing files</li>
+                    <li>OAuth 2.0 with token refresh</li>
+                    <li>100+ tools across 12 services</li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <!-- V1 MCP INTEGRATION DETAIL -->
-    <div class="card">
-        <h2>V1 MCP Integration Detail</h2>
-        <table class="data-table">
-            <tr><th>Integration</th><th>MCP Server</th><th>Auth</th><th>Key Capabilities</th><th>Data Flow</th></tr>
-            <tr>
-                <td><strong>Meeting Transcription</strong></td>
-                <td>Fireflies.ai Data MCP<br><code style="font-size:0.75rem;">api.fireflies.ai/mcp</code></td>
-                <td>API Key (Bearer Token)</td>
-                <td>8 tools: search transcripts, get summaries, fetch full meetings with speaker attribution + timestamps, action items, analytics</td>
-                <td>PMs record calls via Fireflies → Orchestrator queries MCP for transcripts → Entity resolution maps content to instruments → Stored in knowledge base</td>
-            </tr>
-            <tr>
-                <td><strong>PM Chat Data</strong></td>
-                <td>Google Workspace MCP<br><code style="font-size:0.75rem;">google_workspace_mcp</code></td>
-                <td>OAuth 2.0 (auto-refresh)</td>
-                <td>Chat: search messages, retrieve conversations. Drive: search/retrieve files. Gmail: access reports. 100+ tools across 12 services.</td>
-                <td>PMs chat in Google Chat as normal → Orchestrator queries MCP for messages → Maps discussions to instruments/themes with timestamps → Stored in knowledge base</td>
-            </tr>
-            <tr>
-                <td><strong>Curated Documents</strong></td>
-                <td>Manual upload interface</td>
-                <td>App auth</td>
-                <td>PDF upload, document tagging to instrument/sector, ingestion into Vertex AI document store</td>
-                <td>Junior staff uploads PDF → Tags to asset → Parsed, chunked, embedded → Stored in Vertex AI doc store + knowledge base</td>
-            </tr>
-        </table>
-    </div>
-
-    <!-- V1 FIREFLIES DETAIL -->
+    <!-- VERTEX AI SEARCH -->
     <div class="card card-purple">
-        <h2>Fireflies.ai MCP — Technical Detail</h2>
-        <div class="grid-2">
+        <h2>Vertex AI Search — The Indexed Knowledge Base</h2>
+        <p>All ingested content (clipped pages, PDFs, transcripts, chat messages) flows into Vertex AI Search where it is indexed and made queryable via grounded RAG. Atlas accesses Vertex AI Search to provide smart, source-cited answers.</p>
+        <div class="grid-2" style="margin-top:1rem;">
             <div>
-                <h4>Available Tools (8)</h4>
-                <table class="data-table">
-                    <tr><th>Tool</th><th>Purpose</th></tr>
-                    <tr><td><code>fireflies_search</code></td><td>Advanced search with grammar syntax: keyword, date range, participants, scope</td></tr>
-                    <tr><td><code>fireflies_get_transcripts</code></td><td>Query multiple meetings with filters. Returns metadata + summaries.</td></tr>
-                    <tr><td><code>fireflies_get_transcript</code></td><td>Full transcript for single meeting with speaker attribution + timestamps</td></tr>
-                    <tr><td><code>fireflies_fetch</code></td><td>Complete meeting data in one call (transcript + summary + analytics)</td></tr>
-                    <tr><td><code>fireflies_get_summary</code></td><td>Meeting summary, action items, keywords, topics, outline</td></tr>
-                    <tr><td><code>fireflies_get_user</code></td><td>User account details, transcript count</td></tr>
-                    <tr><td><code>fireflies_get_usergroups</code></td><td>Team groups with members and roles</td></tr>
-                    <tr><td><code>fireflies_get_user_contacts</code></td><td>Contact list sorted by most recent meeting</td></tr>
-                </table>
+                <h4>What gets indexed</h4>
+                <ul class="feature-list">
+                    <li>PDF documents (sell-side, IR packs, annual reports)</li>
+                    <li>Web page text clipped via the extension</li>
+                    <li>Email content (sell-side reports from Gmail)</li>
+                    <li>Meeting transcripts (Fireflies)</li>
+                    <li>Google Chat messages (PM discussions)</li>
+                    <li>Internal Rezco notes added directly</li>
+                </ul>
             </div>
             <div>
-                <h4>Configuration</h4>
-                <div style="background:var(--gray-900);color:#e6e6e6;padding:1rem;border-radius:6px;font-family:'Courier New',monospace;font-size:0.78rem;overflow-x:auto;margin-bottom:1rem;">
-{<br>
-&nbsp;&nbsp;"mcpServers": {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"fireflies": {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"command": "npx",<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"args": [<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"mcp-remote",<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"https://api.fireflies.ai/mcp",<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"--header",<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Authorization: Bearer API_KEY"<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
-&nbsp;&nbsp;&nbsp;&nbsp;}<br>
-&nbsp;&nbsp;}<br>
-}
-                </div>
-                <h4>Constraints</h4>
-                <ul class="feature-list" style="font-size:0.85rem;">
-                    <li>Read-only — no creating/editing transcripts</li>
-                    <li>Max 50 results per query</li>
-                    <li>Account-scoped access only</li>
-                    <li>3 response formats: toon (token-efficient), json, text</li>
+                <h4>How Atlas queries it</h4>
+                <ul class="feature-list">
+                    <li>Grounded RAG — every answer cites sources</li>
+                    <li>Cross-source retrieval (PDFs + transcripts + chat)</li>
+                    <li>Filter by FIGI / asset / theme / sector</li>
+                    <li>Temporal filtering (most recent first by default)</li>
+                    <li>Confidence scoring on retrieved chunks</li>
+                    <li>Conflict detection across sources</li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <!-- V1 GOOGLE WORKSPACE DETAIL -->
+    <!-- INGESTION FILING AGENT -->
+    <div class="card">
+        <h2>Specialized Ingestion / Filing Agent</h2>
+        <p>A specialized sub-agent that handles the document filing flow. Rezco does not currently have a Drive folder structure — V1 builds it.</p>
+        <div class="grid-2">
+            <div>
+                <h4>What it does</h4>
+                <ul class="feature-list">
+                    <li>Creates Google Drive folder structure on first run (by asset, then by document type)</li>
+                    <li>Receives documents from the Go microservice</li>
+                    <li>Determines correct destination folder based on extracted entities</li>
+                    <li>Files the document in Drive with consistent naming</li>
+                    <li>Pushes the indexed version to Vertex AI Search</li>
+                    <li>Links the document to entities in the knowledge base</li>
+                    <li>Surfaces filing decisions for PM review when confidence is low</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Drive folder structure (initial)</h4>
+                <div class="diagram-box" style="font-size:0.78rem;">
+/Rezco/
+├── Assets/
+│   ├── Discovery/
+│   │   ├── Earnings/
+│   │   ├── Sell-Side/
+│   │   ├── Management Meetings/
+│   │   └── News Clips/
+│   ├── FirstRand/
+│   ├── Standard Bank/
+│   └── ...
+├── Sectors/
+│   ├── SA Retail/
+│   ├── SA Banks/
+│   └── ...
+├── Themes/
+│   ├── SA Consumer/
+│   ├── Online Gambling/
+│   └── ...
+└── Macro/
+    ├── SA GDP/
+    ├── Interest Rates/
+    └── ...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MULTI-CHANNEL ENGAGEMENT -->
     <div class="card card-green">
-        <h2>Google Workspace MCP — Technical Detail</h2>
-        <div class="grid-2">
-            <div>
-                <h4>V1-Relevant Services</h4>
-                <table class="data-table">
-                    <tr><th>Service</th><th>V1 Usage</th></tr>
-                    <tr><td><strong>Google Chat</strong></td><td>Search PM conversations across spaces. Retrieve messages with context. Map discussions to instruments. This is where Rob, Simon, Sean share articles, charts, and daily ideas.</td></tr>
-                    <tr><td><strong>Google Drive</strong></td><td>Search and retrieve uploaded documents — earnings presentations, sell-side PDFs, internal models.</td></tr>
-                    <tr><td><strong>Gmail</strong></td><td>Access sell-side reports received via email from trusted analysts.</td></tr>
-                    <tr><td><strong>Google Calendar</strong></td><td>Meeting context — when did we meet company management? Link calendar events to meeting transcripts.</td></tr>
-                </table>
-            </div>
-            <div>
-                <h4>Server Selection</h4>
-                <div class="info-box" style="margin-bottom:1rem;">
-                    <strong>Recommended:</strong> <code>google_workspace_mcp</code> (taylorwilsdon)<br>
-                    <span style="font-size:0.85rem;">Covers 12 Google services, 100+ tools, OAuth 2.1, tiered tool access (core/extended/complete). Supports Claude Desktop, Cursor, and custom agents.</span>
-                </div>
-                <h4>Authentication</h4>
-                <ul class="feature-list" style="font-size:0.85rem;">
-                    <li>OAuth 2.0/2.1 via Google Cloud project</li>
-                    <li>Requires: <code>GOOGLE_OAUTH_CLIENT_ID</code> + <code>GOOGLE_OAUTH_CLIENT_SECRET</code></li>
-                    <li>Browser-based consent on first run</li>
-                    <li>Automatic token refresh</li>
-                    <li>Cherry-pick services: <code>--tools chat drive gmail calendar</code></li>
-                </ul>
-                <h4 style="margin-top:0.8rem;">Alternative for Deep Chat Access</h4>
-                <ul class="feature-list" style="font-size:0.85rem;">
-                    <li><code>pueteam/google-chat-mcp-server</code> — 25 Chat-specific tools</li>
-                    <li>Message search, space management, webhooks</li>
-                    <li>Service account auth (Chat Bot scopes)</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- V1 KEY CONSTRAINTS -->
-    <div class="card card-red">
-        <h2>V1 Key Constraints & Decisions</h2>
+        <h2>Multi-Channel Engagement</h2>
+        <p>One agent, multiple surfaces. PMs talk to Atlas wherever they already are. Same memory, same context, same answers.</p>
         <table class="data-table">
-            <tr><th>Decision</th><th>Rationale</th><th>Impact</th></tr>
-            <tr><td>No quantitative feeds</td><td>Simon: "V1 is qualitatively heavy, very light or possibly zero quant." Bloomberg/Reuters API costs are high for marginal V1 value.</td><td>No PE ratios, share prices, earnings revisions in V1. PMs use Bloomberg terminal directly.</td></tr>
-            <tr><td>Manual curation of external docs</td><td>Rob: "Essential for controlling data quality." Automated scraping risks noise.</td><td>Junior person uploads PDFs. Slower but higher quality. No web scraping agents.</td></tr>
-            <tr><td>Record more meetings</td><td>Simon: "We are willing to slightly change behavior." Past coffee machine chats are lost, future ones will be recorded.</td><td>PMs conduct important discussions on Fireflies-recorded calls.</td></tr>
-            <tr><td>SA equities granular, global broad</td><td>SA is the core portfolio. Global is allocation-level decisions.</td><td>Individual FIGI/ISIN mapping for SA. Broad buckets ("Developed Market Equity") for global.</td></tr>
-            <tr><td>Lean feature set</td><td>Rob: "Be cautious about features that significantly increase complexity but only offer minimal value." Budget constrained.</td><td>No personas, no morning briefing, no portfolio review, no model updates.</td></tr>
-            <tr><td>Model updates deferred</td><td>Simon considers it complex. Rob wants it. Undecided but leaning V2.</td><td>PMs continue updating models manually. Existing models can be uploaded for reference.</td></tr>
-            <tr><td>LLM as research tool, not summarizer</td><td>Rob: "PMs are trying to think. The LLM should flag information rather than merely summarizing the PMs' existing thoughts."</td><td>System surfaces relevant data and flags inconsistencies, doesn't just echo PM views back.</td></tr>
+            <tr><th>Channel</th><th>Use Case</th><th>Implementation</th></tr>
+            <tr><td><strong>Google Chat</strong></td><td>PMs ask Atlas questions inside their existing chat tool — no new app to open</td><td>Google Workspace MCP integration; Atlas appears as a chat participant</td></tr>
+            <tr><td><strong>Atlas Custom UI</strong></td><td>Full-featured Rezco-branded interface with conversation threading, archive history, evidence feed</td><td>Web app (see prototype gallery above)</td></tr>
+            <tr><td><strong>Chrome Extension Side Panel</strong></td><td>In-context Q&A while reading a page — "what does Atlas think about this?"</td><td>Side panel hosts a mini-chat tied to the current page context</td></tr>
+            <tr><td><strong>Scheduled Automations</strong></td><td>"Daily market update", "Weekly position health check"</td><td>Background agent runs on cron, posts results to Google Chat</td></tr>
         </table>
     </div>
 
-    <!-- V1 WHAT COMES NEXT -->
+    <!-- KEY DECISIONS -->
+    <div class="card card-red">
+        <h2>V1 Key Decisions & Constraints</h2>
+        <table class="data-table">
+            <tr><th>Decision</th><th>Rationale</th></tr>
+            <tr><td>Agent IS the analyst (not a tool for analysts)</td><td>Per James: "An analyst is an information processing and presentation machine." Build the machine, not software around it.</td></tr>
+            <tr><td>Aggressively strip scope</td><td>Lean V1, milestone-based fee, focused on a bare-metal agent. No shiny features.</td></tr>
+            <tr><td>Chrome extension as primary ingestion</td><td>Quickest way to ingest. PMs don't change behavior. Bypasses sell-side portal integrations.</td></tr>
+            <tr><td>Vertex AI Search as the knowledge base</td><td>Indexed RAG over all content. Grounded answers. Source citations.</td></tr>
+            <tr><td>Build Drive folder structure</td><td>Rezco has no existing Drive structure. The filing agent creates and maintains it.</td></tr>
+            <tr><td>No quantitative feeds in V1</td><td>Bloomberg/Reuters out of scope. Atlas works on qualitative content only.</td></tr>
+            <tr><td>Multi-channel from day one</td><td>Google Chat + custom UI + extension side panel — same agent everywhere.</td></tr>
+            <tr><td>Chat-first interface</td><td>V1 scope is "what the agent can and can't do" through chat. No dashboards, no workflow managers.</td></tr>
+            <tr><td>Recommendation generation in V1</td><td>The agent should pitch ideas, not just retrieve information. "Come pitch me an idea as a PM."</td></tr>
+            <tr><td>Tool execution is the differentiator</td><td>Core LLM intelligence is at par across models. Quality of tool execution is what matters.</td></tr>
+        </table>
+    </div>
+
+    <!-- WHAT GETS BUILT IN V1 -->
     <div class="card">
-        <h2>V1 → V2 → V3 Versioning Strategy</h2>
-        <p style="margin-bottom:1rem;">Simon: "Versioning is a way to communicate priorities. Future versions will change based on learning from using the previous tool."</p>
+        <h2>V1 Build Checklist</h2>
+        <div class="grid-2">
+            <div>
+                <h4>Backend / Infrastructure</h4>
+                <ul class="feature-list">
+                    <li>Atlas analyst agent (orchestrator with sub-agents)</li>
+                    <li>Go ingestion microservice (3 endpoints minimum)</li>
+                    <li>Vertex AI Search index + RAG pipeline</li>
+                    <li>Google Drive folder structure + filing agent</li>
+                    <li>Fireflies MCP integration</li>
+                    <li>Google Workspace MCP integration (Chat, Drive, Gmail)</li>
+                    <li>Entity resolution (company name → FIGI/ISIN)</li>
+                    <li>Session + conversation persistence</li>
+                    <li>Scheduler for automations</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Front-End / Client</h4>
+                <ul class="feature-list">
+                    <li>Atlas custom UI — chat-first with archive history</li>
+                    <li>Evidence Feed component (cross-source citations)</li>
+                    <li>Document viewer with metadata panel</li>
+                    <li>Index Mapper (asset classification browser)</li>
+                    <li>Rezco Chrome extension (side panel, DOM read, tag, ingest)</li>
+                    <li>Google Chat integration (Atlas as a participant)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- VERSIONING -->
+    <div class="card">
+        <h2>V1 → V2 → V3 Strategy</h2>
+        <p style="margin-bottom:1rem;">V1 is intentionally stripped. Future versions add capability based on what V1 teaches us.</p>
         <div class="grid-3">
-            <div style="background:linear-gradient(135deg,#dbeafe,#eff6ff);border:2px solid var(--rezco-accent);border-radius:10px;padding:1.2rem;">
-                <h4 style="color:var(--rezco-blue);text-align:center;">V1 — Now</h4>
+            <div style="background:linear-gradient(135deg,#fef2f2,#fee2e2);border:2px solid var(--danger-red);border-radius:10px;padding:1.2rem;">
+                <h4 style="color:#991b1b;text-align:center;">V1 — Now</h4>
                 <ul class="feature-list" style="font-size:0.82rem;">
-                    <li>Qualitative research agent</li>
-                    <li>Fireflies meeting transcription</li>
-                    <li>Google Chat PM data ingestion</li>
-                    <li>Manual curated doc upload</li>
-                    <li>Workflow manager (flags/alerts)</li>
-                    <li>Query interface (Gemini-style)</li>
-                    <li>SA equities granular</li>
-                    <li>Temporal awareness + entity resolution</li>
+                    <li>Atlas analyst agent</li>
+                    <li>Chrome extension (DOM ingestion)</li>
+                    <li>Go ingestion microservice</li>
+                    <li>Vertex AI Search indexed RAG</li>
+                    <li>Drive folder structure + filing agent</li>
+                    <li>Fireflies + Google Workspace MCP</li>
+                    <li>Multi-channel chat (3 surfaces)</li>
+                    <li>Recommendation generation</li>
                 </ul>
             </div>
             <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border:2px solid var(--rezco-gold);border-radius:10px;padding:1.2rem;">
                 <h4 style="color:#92400e;text-align:center;">V2 — When V1 Proves Value</h4>
                 <ul class="feature-list" style="font-size:0.82rem;">
-                    <li>Quantitative data layer (Bloomberg/prices)</li>
-                    <li>Automated model updates (Claude rolling)</li>
-                    <li>Portfolio review interface</li>
-                    <li>AI personas (Buffett, Druckenmiller, etc.)</li>
-                    <li>Morning briefing agent</li>
+                    <li>Quantitative data layer (Bloomberg, prices, PE)</li>
+                    <li>Automated model rolling (financial models)</li>
                     <li>Headwind/tailwind classification</li>
-                    <li>Signal scoring engine</li>
+                    <li>AI personas (Buffett, Druckenmiller, etc.)</li>
+                    <li>Scheduled morning briefings</li>
+                    <li>Signal scoring + bias detection</li>
+                    <li>File system sandbox + code execution</li>
                 </ul>
             </div>
             <div style="background:linear-gradient(135deg,#ede9fe,#f5f3ff);border:2px solid var(--purple);border-radius:10px;padding:1.2rem;">
                 <h4 style="color:#5b21b6;text-align:center;">V3 — Future</h4>
                 <ul class="feature-list" style="font-size:0.82rem;">
+                    <li>Portfolio review + construction</li>
                     <li>Performance attribution</li>
                     <li>Risk factor analysis</li>
                     <li>Global instrument-level coverage</li>
-                    <li>Real-time synchronous debate</li>
-                    <li>24/7 autonomous screening</li>
-                    <li>Cognitive bias detection</li>
-                    <li>Full benchmark construction</li>
+                    <li>Real-time synchronous debate participation</li>
+                    <li>24/7 autonomous market screening</li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <!-- V1 NEXT STEPS -->
+    <!-- NEXT STEPS -->
     <div class="card card-gold">
         <h2>Next Steps</h2>
         <table class="data-table">
             <tr><th>Owner</th><th>Action</th></tr>
-            <tr><td><strong>Techbridge</strong></td><td>Flag expensive features for potential removal. Define focused V1 feature set.</td></tr>
-            <tr><td><strong>Techbridge</strong></td><td>Develop Figma drafts for V1 UI (Workflow Manager + Query Interface).</td></tr>
-            <tr><td><strong>Techbridge</strong></td><td>Assess technical complexity of automated model updates (Claude integration) for V2 scoping.</td></tr>
-            <tr><td><strong>Mpho + Gibson</strong></td><td>Internal review: relisten to recording, consult lead engineers on agent construction.</td></tr>
-            <tr><td><strong>Mpho + Gibson</strong></td><td>Calculate estimated cost for V1 functionality.</td></tr>
-            <tr><td><strong>Mpho + Gibson</strong></td><td>Schedule follow-up with Simon to agree on V1 features and review Figma designs.</td></tr>
-            <tr><td><strong>Simon + Rob</strong></td><td>Review V1 cost proposal. Agree on fair price with James.</td></tr>
+            <tr><td><strong>Techbridge</strong></td><td>Strip down V1 scope further if needed. Aggressively fight scope creep when meeting with Simon and Rob.</td></tr>
+            <tr><td><strong>Techbridge</strong></td><td>Build prototype of Rezco Chrome extension (DOM read + side panel + tag + ingest).</td></tr>
+            <tr><td><strong>Techbridge</strong></td><td>Build Go ingestion microservice (3 endpoints, Vertex AI Search integration).</td></tr>
+            <tr><td><strong>Techbridge</strong></td><td>Refine V1 cost proposal as all-in milestone-based fee.</td></tr>
+            <tr><td><strong>Mpho + Gibson</strong></td><td>Walk Simon and Rob through the prototype gallery and the agent-as-analyst reframe.</td></tr>
+            <tr><td><strong>Simon + Rob</strong></td><td>Confirm V1 scope, agree on fair price, sign off to start build.</td></tr>
         </table>
     </div>
 
 </div>
-
 <!-- ==================== TAB: OVERVIEW ==================== -->
 <div id="overview" class="tab-content">
     <div class="card card-gold">

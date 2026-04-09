@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rezco Chrome Extension Preview</title>
+<link rel="stylesheet" href="atlas.css">
+<style>
+body {
+    background: #2d3748;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.preview-header {
+    background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0f1419 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+.preview-header h1 {
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+.preview-header h1 span { color: var(--rezco-red); font-weight: 700; }
+.preview-header p {
+    font-size: 0.9rem;
+    color: #8da4c2;
+    margin-top: 0.5rem;
+}
+
+.browser-frame {
+    max-width: 1500px;
+    margin: 2rem auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    overflow: hidden;
+    border: 1px solid #1f2937;
+}
+
+.browser-tabs-bar {
+    background: #2d3748;
+    padding: 0.5rem 0.5rem 0;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.browser-tab {
+    background: #4a5568;
+    color: #cbd5e1;
+    padding: 0.55rem 1rem;
+    border-radius: 6px 6px 0 0;
+    font-size: 0.78rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 240px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.browser-tab.active {
+    background: #f6f7f9;
+    color: #1a1a1a;
+}
+
+.browser-tab .close {
+    margin-left: auto;
+    color: #94a3b8;
+    cursor: pointer;
+}
+
+.browser-toolbar {
+    background: #f6f7f9;
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    border-bottom: 1px solid var(--rezco-border);
+}
+
+.browser-nav-btns {
+    display: flex;
+    gap: 0.4rem;
+    color: #6b7280;
+    font-size: 1.1rem;
+}
+
+.browser-nav-btns .btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.browser-nav-btns .btn:hover {
+    background: #e5e7eb;
+}
+
+.browser-url-bar {
+    flex: 1;
+    background: white;
+    border: 1px solid var(--rezco-border);
+    padding: 0.4rem 0.9rem;
+    border-radius: 16px;
+    color: #1a1a1a;
+    font-size: 0.78rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.browser-url-bar .lock {
+    color: #6b7280;
+    font-size: 0.85rem;
+}
+
+.browser-url-bar .url-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.browser-extensions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.ext-icon {
+    width: 26px;
+    height: 26px;
+    background: var(--rezco-red);
+    color: white;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Georgia, serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    box-shadow: 0 0 0 2px rgba(200,32,44,0.2);
+    animation: pulse-icon 2s infinite;
+}
+
+@keyframes pulse-icon {
+    0%, 100% { box-shadow: 0 0 0 2px rgba(200,32,44,0.2); }
+    50% { box-shadow: 0 0 0 5px rgba(200,32,44,0.4); }
+}
+
+.browser-content-area {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    background: white;
+    min-height: 700px;
+}
+
+@media (max-width: 1100px) {
+    .browser-content-area { grid-template-columns: 1fr 340px; }
+}
+@media (max-width: 900px) {
+    .browser-content-area { grid-template-columns: 1fr; }
+    .ext-side-panel { display: none; }
+}
+
+/* Mock PDF page */
+.pdf-page-area {
+    background: #525659;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.pdf-thumbnails {
+    display: none;
+}
+
+.pdf-document {
+    background: white;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.sb-header {
+    background: #003a7e;
+    color: white;
+    padding: 0.7rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: -2rem -2.5rem 1.5rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+.sb-tabs {
+    display: flex;
+    gap: 0.3rem;
+    margin-bottom: 1.5rem;
+}
+
+.sb-tab {
+    background: #f0f4f8;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px 4px 0 0;
+    font-size: 0.75rem;
+    color: #003a7e;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.sb-tab.active {
+    background: #003a7e;
+    color: white;
+}
+
+.sb-title {
+    color: #003a7e;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.sb-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.sb-opportunity h4 {
+    font-size: 0.95rem;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.sb-chart-mock {
+    background: linear-gradient(180deg, #f0f4f8, #ffffff);
+    height: 180px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem 0;
+    position: relative;
+}
+
+.sb-chart-mock::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 30% 80%, transparent 30%, rgba(0,58,126,0.05) 31%, transparent 33%),
+        radial-gradient(circle at 60% 60%, transparent 30%, rgba(0,58,126,0.05) 31%, transparent 33%);
+}
+
+.sb-percent-circle {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #003a7e, #0066cc);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 800;
+    box-shadow: 0 4px 16px rgba(0,58,126,0.3);
+}
+
+.sb-bullets {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.sb-bullet {
+    background: #f0f4f8;
+    border-radius: 4px;
+    padding: 0.7rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.78rem;
+    color: #1a1a1a;
+}
+
+.sb-bullet .number {
+    width: 24px;
+    height: 24px;
+    background: #003a7e;
+    color: white;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+/* EXTENSION SIDE PANEL */
+.ext-side-panel {
+    background: white;
+    border-left: 1px solid var(--rezco-border);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -4px 0 16px rgba(0,0,0,0.05);
+}
+
+.ext-panel-header {
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--rezco-border);
+}
+
+.ext-panel-logo {
+    font-family: Georgia, serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--rezco-text);
+    letter-spacing: 1.5px;
+}
+
+.ext-panel-actions {
+    display: flex;
+    gap: 0.6rem;
+    color: var(--rezco-text-light);
+    font-size: 1rem;
+}
+
+.ext-panel-actions span {
+    cursor: pointer;
+    padding: 0.2rem;
+}
+
+.ext-panel-body {
+    flex: 1;
+    padding: 1.2rem;
+    overflow-y: auto;
+}
+
+.ext-panel-body .section-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--rezco-text-light);
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+}
+
+.insight-card {
+    background: white;
+    border: 1px solid var(--rezco-border);
+    border-radius: 4px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.7rem;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+}
+
+.insight-card.green { border-left-color: var(--success); }
+.insight-card.amber { border-left-color: var(--warning); }
+.insight-card.red { border-left-color: var(--danger); }
+
+.insight-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.insight-card h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--rezco-text);
+    margin-bottom: 0.5rem;
+}
+
+.insight-card h4 .icon {
+    font-size: 0.9rem;
+}
+.insight-card.green h4 .icon { color: var(--success); }
+.insight-card.amber h4 .icon { color: var(--warning); }
+.insight-card.red h4 .icon { color: var(--danger); }
+
+.insight-card p {
+    font-size: 0.78rem;
+    color: var(--rezco-text-light);
+    line-height: 1.55;
+}
+
+.reference-list {
+    margin-top: 1rem;
+}
+
+.reference-item {
+    background: var(--rezco-bg-light);
+    border: 1px solid var(--rezco-border);
+    padding: 0.7rem 0.9rem;
+    border-radius: 3px;
+    font-size: 0.78rem;
+    color: var(--rezco-text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.reference-item .name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.reference-item .pill {
+    background: white;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.62rem;
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--rezco-text-light);
+    border: 1px solid var(--rezco-border);
+    flex-shrink: 0;
+}
+
+.dropzone {
+    border: 2px dashed var(--rezco-border-dark);
+    border-radius: 4px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.dropzone:hover {
+    border-color: var(--rezco-red);
+    background: #fef9f9;
+}
+
+.dropzone p {
+    font-size: 0.85rem;
+    color: var(--rezco-text);
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+}
+
+.dropzone .sub {
+    font-size: 0.7rem;
+    color: var(--rezco-text-light);
+    line-height: 1.4;
+    margin-bottom: 0.9rem;
+}
+
+.btn-select-files {
+    background: var(--rezco-text);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btn-select-files:hover {
+    background: var(--rezco-red);
+}
+
+.ext-panel-input {
+    border-top: 1px solid var(--rezco-border);
+    padding: 0.9rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.ext-panel-input span.attach {
+    color: var(--rezco-text-light);
+}
+
+.ext-panel-input input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 0.85rem;
+    color: var(--rezco-text);
+    padding: 0.3rem 0;
+}
+
+.ext-panel-input input::placeholder {
+    color: #9ca3af;
+}
+
+.btn-send-mini {
+    background: var(--rezco-red);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+}
+
+/* Tooltip explainer */
+.explainer {
+    max-width: 1500px;
+    margin: 1rem auto 2rem;
+    background: rgba(255,255,255,0.95);
+    border-radius: 8px;
+    padding: 2rem;
+    color: var(--rezco-text);
+}
+
+.explainer h3 {
+    color: var(--rezco-red);
+    margin-bottom: 1rem;
+}
+
+.explainer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.explainer-step {
+    background: var(--rezco-bg-light);
+    padding: 1rem 1.2rem;
+    border-radius: 4px;
+    border-left: 3px solid var(--rezco-red);
+}
+
+.explainer-step .num {
+    display: inline-block;
+    background: var(--rezco-red);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    font-weight: 700;
+    font-size: 0.78rem;
+    margin-bottom: 0.5rem;
+}
+
+.explainer-step h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+
+.explainer-step p {
+    font-size: 0.78rem;
+    color: var(--rezco-text-light);
+    line-height: 1.4;
+}
+</style>
+</head>
+<body>
+
+<div class="preview-header">
+    <h1>Rezco <span>Chrome Extension</span></h1>
+    <p>Click the Rezco icon on any page → side panel slides in → DOM is read → tag and ingest to Vertex AI Search</p>
+</div>
+
+<div class="browser-frame">
+
+    <!-- Browser tabs -->
+    <div class="browser-tabs-bar">
+        <div class="browser-tab">📊 Capital Markets Day presentation <span class="close">×</span></div>
+        <div class="browser-tab active">📕 SBG CMD2026 <span class="close">×</span></div>
+        <div class="browser-tab" style="background:#3a4556;color:#94a3b8;">+</div>
+    </div>
+
+    <!-- Address bar -->
+    <div class="browser-toolbar">
+        <div class="browser-nav-btns">
+            <span class="btn">‹</span>
+            <span class="btn">›</span>
+            <span class="btn">↻</span>
+        </div>
+        <div class="browser-url-bar">
+            <span class="lock">🔒</span>
+            <span class="url-text">standardbank.com/static_file/Investor%20Relations/CMD_2026/downloadable%20files/Standard-Bank-Group-CMD_Full-Presentation.pdf</span>
+            <span style="color:#6b7280;">⭐</span>
+        </div>
+        <div class="browser-extensions">
+            <div class="ext-icon" title="Rezco Atlas">R</div>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="browser-content-area">
+
+        <!-- Mock PDF page -->
+        <div class="pdf-page-area">
+            <div class="pdf-document">
+                <div class="sb-header">
+                    <span>Standard Bank Group · Capital Markets Day · March 2026</span>
+                    <span>Strategy Update | Sim Tshabalala · 9</span>
+                </div>
+
+                <div class="sb-tabs">
+                    <button class="sb-tab">SBG today</button>
+                    <button class="sb-tab active">Opportunities</button>
+                    <button class="sb-tab">Strategy 2028</button>
+                    <button class="sb-tab">Targets</button>
+                    <button class="sb-tab">Key takeaways</button>
+                </div>
+
+                <h2 class="sb-title">Rapid economic growth and demographic dividend</h2>
+
+                <div class="sb-content-grid">
+                    <div class="sb-opportunity">
+                        <h4>The opportunity</h4>
+                        <p style="font-size:0.78rem;color:#4a5568;">Rapid growth in our markets... drives SBG's growth.</p>
+                        <div class="sb-chart-mock">
+                            <div class="sb-percent-circle">&gt;7%</div>
+                        </div>
+                        <p style="font-size:0.7rem;color:#6b7280;margin-top:0.4rem;">Real GDP growth 2024 — 2028</p>
+                    </div>
+
+                    <div class="sb-bullets">
+                        <h4 style="font-size:0.95rem;color:#1a1a1a;margin-bottom:0.5rem;">We are well-positioned to benefit</h4>
+                        <div class="sb-bullet"><span class="number">1</span> Unmatched on-the-ground presence in 21 countries in Africa</div>
+                        <div class="sb-bullet"><span class="number">2</span> Focused on high-growth markets</div>
+                        <div class="sb-bullet"><span class="number">3</span> Best-in-class client propositions, including payments and digital offerings</div>
+                        <div class="sb-bullet"><span class="number">4</span> Integrated insurance and wealth proposition</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rezco extension side panel -->
+        <aside class="ext-side-panel">
+            <div class="ext-panel-header">
+                <div class="ext-panel-logo">REZCO</div>
+                <div class="ext-panel-actions">
+                    <span title="Settings">⚙</span>
+                    <span title="Close">×</span>
+                </div>
+            </div>
+
+            <div class="ext-panel-body">
+                <div class="section-label">Atlas Insights</div>
+
+                <div class="insight-card green">
+                    <h4><span class="icon">📈</span> Growth Dynamics</h4>
+                    <p>Focus on accelerated digitalization across sub-Saharan markets, targeting a 15% increase in ROE by FY2025.</p>
+                </div>
+
+                <div class="insight-card amber">
+                    <h4><span class="icon">◎</span> Market Needs</h4>
+                    <p>Identified critical gap in SME financing and cross-border payment infrastructure for regional trade expansion.</p>
+                </div>
+
+                <div class="insight-card red">
+                    <h4><span class="icon">▤</span> Regional Performance</h4>
+                    <p>East African cluster showing strongest resilience; West African volatility managed through diverse asset allocation.</p>
+                </div>
+
+                <div class="section-label" style="margin-top:1.5rem;">Reference Data</div>
+
+                <div class="reference-list">
+                    <div class="reference-item">
+                        <div class="name">📕 SBG CMD2026 Presentati...</div>
+                        <span class="pill">PDF</span>
+                    </div>
+                    <div class="reference-item">
+                        <div class="name">📍 Johannesburg, South Africa</div>
+                        <span class="pill">HQ</span>
+                    </div>
+                </div>
+
+                <div class="dropzone">
+                    <p>Drop files here</p>
+                    <p class="sub">Drag and drop your presentation templates or use the button below to browse your local storage.</p>
+                    <button class="btn-select-files">Select Files</button>
+                </div>
+            </div>
+
+            <div class="ext-panel-input">
+                <span class="attach">📎</span>
+                <input type="text" placeholder="Ask Atlas..." />
+                <span class="kbd">CMD + K</span>
+                <button class="btn-send-mini">→</button>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<div class="explainer">
+    <h3>How the Rezco Chrome Extension Works</h3>
+    <p style="font-size:0.9rem;color:var(--rezco-text-light);">Inspired by Otter.ai's side-panel pattern. Reads the DOM directly. PMs clip what they're reading without changing behavior.</p>
+
+    <div class="explainer-grid">
+        <div class="explainer-step">
+            <span class="num">1</span>
+            <h4>PM browses</h4>
+            <p>Bloomberg, Gmail, IR website, sell-side PDF — anywhere relevant.</p>
+        </div>
+        <div class="explainer-step">
+            <span class="num">2</span>
+            <h4>Click Rezco icon</h4>
+            <p>Side panel slides in from the right. No tab switch needed.</p>
+        </div>
+        <div class="explainer-step">
+            <span class="num">3</span>
+            <h4>DOM read</h4>
+            <p>Detects email vs. webpage vs. PDF. Extracts structured content via JavaScript.</p>
+        </div>
+        <div class="explainer-step">
+            <span class="num">4</span>
+            <h4>Auto-tag</h4>
+            <p>First-pass enrichment: companies, themes, sectors surfaced for confirmation.</p>
+        </div>
+        <div class="explainer-step">
+            <span class="num">5</span>
+            <h4>POST to Go service</h4>
+            <p>Payload sent to Rezco's Go ingestion microservice.</p>
+        </div>
+        <div class="explainer-step">
+            <span class="num">6</span>
+            <h4>Indexed</h4>
+            <p>Pushed to Vertex AI Search, filed in Drive, linked to entities. Atlas can query immediately.</p>
+        </div>
+    </div>
+</div>
+
+<a href="../index.html" class="back-link">← Back to Project Site</a>
+
+</body>
+</html>

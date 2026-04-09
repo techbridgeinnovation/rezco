@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas — Document Viewer</title>
+<link rel="stylesheet" href="atlas.css">
+<style>
+.app-doc {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    height: 100vh;
+}
+.mini-sidebar {
+    background: white;
+    border-right: 1px solid var(--rezco-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 0;
+    gap: 1.5rem;
+}
+.mini-sidebar .logo {
+    font-family: Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--rezco-text);
+}
+.mini-sidebar .nav-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--rezco-text-light);
+    cursor: pointer;
+    border-radius: 4px;
+    text-decoration: none;
+}
+.mini-sidebar .nav-icon:hover {
+    background: var(--rezco-bg-light);
+    color: var(--rezco-red);
+}
+.mini-sidebar .user {
+    margin-top: auto;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6b7280, #4a5568);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 0.75rem;
+}
+.doc-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+.doc-header-top {
+    padding: 1rem 2rem;
+    background: white;
+    border-bottom: 1px solid var(--rezco-border);
+}
+.doc-header-top h2 {
+    color: var(--rezco-red);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+@media (max-width: 900px) {
+    .doc-layout { grid-template-columns: 1fr; }
+    .doc-toolbar { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-doc">
+
+    <aside class="mini-sidebar">
+        <div class="logo">R</div>
+        <a href="home.html" class="nav-icon" title="Home">▦</a>
+        <a href="atlas-chat.html" class="nav-icon" title="Chat">≡Q</a>
+        <a href="intelligence.html" class="nav-icon" title="Intelligence">⬡</a>
+        <a href="document.html" class="nav-icon" title="Documents" style="color:var(--rezco-red);">▤</a>
+        <div class="user">WB</div>
+    </aside>
+
+    <div class="doc-page-wrapper">
+        <div class="doc-header-top">
+            <h2>Atlas Chat</h2>
+        </div>
+
+        <div class="doc-toolbar">
+            <div class="doc-title">
+                <h3>Outlook & Prospects</h3>
+                <span class="doc-tag">Q4_STRATEGY.PDF</span>
+            </div>
+            <div class="doc-controls">
+                <span class="control">⊖</span>
+                <span>125%</span>
+                <span class="control">⊕</span>
+                <span style="margin-left:1rem;">‹ Page 14 of 42 ›</span>
+            </div>
+        </div>
+
+        <div class="doc-layout">
+            <main class="doc-main">
+
+                <div class="doc-page">
+                    <div class="doc-page-header">
+                        <h1 class="doc-page-title">Outlook &<br>Prospects</h1>
+                        <div class="doc-page-meta">Restricted Strategy<br>Doc</div>
+                    </div>
+
+                    <div class="doc-columns">
+                        <div class="doc-col">
+                            <h4>Executive Summary</h4>
+                            <p>The shift towards integrated neural architectures is expected to accelerate throughout the third quarter. While competitors remain focused on consumer-facing LLMs, our internal benchmarks suggest a pivotal move toward "Invisible Intelligence" — autonomous agents that function as corporate connective tissue.</p>
+                            <div class="doc-chart"></div>
+                        </div>
+                        <div class="doc-col">
+                            <h4>Risk Vectors</h4>
+                            <p>Key risks include hardware supply chain volatility and the increasing commoditization of reasoning tokens. We propose a "Moat of Execution" that prioritizes private data synthesis over generic inference speed.</p>
+                            <div class="critical-note">
+                                <div class="label">Critical Note</div>
+                                <p>"Speed is no longer a differentiator. Synthesis is the only remaining sovereign advantage for the modern strategist."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+
+            <aside class="intel-panel">
+
+                <div class="intel-section">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem;">
+                        <div class="intel-section-title" style="margin-bottom:0;">Metadata Registry</div>
+                        <span class="po-verified">✓ PO Verified</span>
+                    </div>
+
+                    <div class="metadata-registry">
+                        <div class="metadata-row">
+                            <span class="key">Sector</span>
+                            <span class="value">TECH_INFRA</span>
+                        </div>
+                        <div class="metadata-row">
+                            <span class="key">Primary Asset</span>
+                            <span class="value">APPLE_INC</span>
+                        </div>
+                        <div class="metadata-row">
+                            <span class="key">Confidence</span>
+                            <span class="value" style="background:none;font-family:inherit;">
+                                <span class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+                            </span>
+                        </div>
+                        <div class="metadata-row">
+                            <span class="key">Last Updated</span>
+                            <span class="value" style="background:none;font-family:inherit;font-size:0.75rem;color:var(--rezco-text-light);">14 min ago</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="intel-section">
+                    <div class="intel-section-title">
+                        <span class="live-dot"></span> Live Agent Insight
+                    </div>
+
+                    <div style="background:linear-gradient(135deg,#fef2f2,#fee2e2);border-left:3px solid var(--rezco-red);padding:0.9rem;border-radius:0 4px 4px 0;">
+                        <h4 style="font-size:0.85rem;font-weight:700;color:var(--rezco-text);margin-bottom:0.4rem;">⚠ This contradicts today's meeting sentiment</h4>
+                        <p style="font-size:0.75rem;color:var(--rezco-text-light);line-height:1.5;">Document suggests aggressive pivoting, while PM sync emphasized stability through Q4.</p>
+                    </div>
+                </div>
+
+                <div class="intel-section">
+                    <div class="intel-section-title">
+                        <span>⊕</span> Cross-Source Intelligence
+                    </div>
+
+                    <div class="cross-source">
+                        <div class="cross-source-header">
+                            <span>vs Fireflies.ai (Meeting)</span>
+                            <span style="color:var(--rezco-text-light);">↗</span>
+                        </div>
+                        <p>"Executive team discussed reducing R&D spend by 12% to protect margins."</p>
+                        <div class="conflict-bar">
+                            <div class="bar"><div class="fill" style="width:74%;"></div></div>
+                            <span class="value">Conflict 74%</span>
+                        </div>
+                    </div>
+
+                    <div class="cross-source">
+                        <div class="cross-source-header">
+                            <span>vs Slack Momentum</span>
+                            <span style="color:var(--rezco-text-light);">↗</span>
+                        </div>
+                        <p>Channel sentiment is <strong style="color:var(--success);">Bullish</strong>. Engineers are already prototyping the transition.</p>
+                        <div class="cross-source-tags">
+                            <span class="tag-pill success">High Vibe Sync</span>
+                            <span class="tag-pill">#product-alpha</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chat-input-bar">
+            <span style="color:var(--rezco-text-light);">📎</span>
+            <input type="text" placeholder="Ask Atlas..." />
+            <span class="kbd">CMD + K</span>
+            <button class="btn-send">→</button>
+        </div>
+    </div>
+</div>
+
+<a href="../index.html" class="back-link">← Back to Project Site</a>
+
+</body>
+</html>

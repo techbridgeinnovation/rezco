@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas — Chat</title>
+<link rel="stylesheet" href="atlas.css">
+<style>
+.app-chat {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    height: 100vh;
+}
+.mini-sidebar {
+    background: white;
+    border-right: 1px solid var(--rezco-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 0;
+    gap: 1.5rem;
+}
+.mini-sidebar .logo {
+    font-family: Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--rezco-text);
+    margin-bottom: 0.8rem;
+}
+.mini-sidebar .nav-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--rezco-text-light);
+    cursor: pointer;
+    border-radius: 4px;
+    text-decoration: none;
+}
+.mini-sidebar .nav-icon:hover {
+    background: var(--rezco-bg-light);
+    color: var(--rezco-red);
+}
+.mini-sidebar .user {
+    margin-top: auto;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6b7280, #4a5568);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 0.75rem;
+}
+.chat-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+.chat-page-header {
+    padding: 1rem 2rem;
+    background: white;
+    border-bottom: 1px solid var(--rezco-border);
+}
+.chat-page-header h2 {
+    color: var(--rezco-red);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+.chat-page-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 240px 1fr 320px;
+    overflow: hidden;
+}
+@media (max-width: 1100px) {
+    .chat-page-body { grid-template-columns: 200px 1fr 280px; }
+}
+@media (max-width: 900px) {
+    .chat-page-body { grid-template-columns: 1fr; }
+    .chat-archive, .evidence-feed { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-chat">
+
+    <!-- MINI SIDEBAR -->
+    <aside class="mini-sidebar">
+        <div class="logo">R</div>
+        <a href="home.html" class="nav-icon" title="Home">▦</a>
+        <a href="atlas-chat.html" class="nav-icon" title="Chat" style="color:var(--rezco-red);">≡Q</a>
+        <a href="intelligence.html" class="nav-icon" title="Intelligence">⬡</a>
+        <a href="document.html" class="nav-icon" title="Documents">▤</a>
+        <div class="user">WB</div>
+    </aside>
+
+    <div class="chat-page">
+        <div class="chat-page-header">
+            <h2>Atlas Chat</h2>
+        </div>
+
+        <div class="chat-page-body">
+
+            <!-- ARCHIVE HISTORY -->
+            <aside class="chat-archive">
+                <div class="chat-archive-header">
+                    <span class="label">Archive History</span>
+                    <button class="btn-new-chat">+ New Chat</button>
+                </div>
+                <div class="archive-item active">
+                    <div class="title">Standard Bank Analysis</div>
+                    <div class="preview">Exposure to EMEA volatility metrics...</div>
+                    <div class="timestamp">14:28 GMT</div>
+                </div>
+                <div class="archive-item">
+                    <div class="title">ZAR Volatility Strategy</div>
+                    <div class="preview">Hedge positioning for Q4 cycle...</div>
+                    <div class="timestamp">Yesterday</div>
+                </div>
+                <div class="archive-item">
+                    <div class="title">Global Tech Outlook</div>
+                    <div class="preview">Semiconductor supply chain signals...</div>
+                    <div class="timestamp">Oct 22</div>
+                </div>
+                <div class="archive-item">
+                    <div class="title">Consumer Outlook</div>
+                    <div class="preview">SA retail headwinds across cycle...</div>
+                    <div class="timestamp">Oct 22</div>
+                </div>
+                <div class="archive-item">
+                    <div class="title">Discovery Holdings Re-rating</div>
+                    <div class="preview">Insurance arm growth signals...</div>
+                    <div class="timestamp">Oct 22</div>
+                </div>
+                <div class="archive-item">
+                    <div class="title">Rezco Fund Positioning</div>
+                    <div class="preview">Asset allocation alpha report...</div>
+                    <div class="timestamp">Oct 20</div>
+                </div>
+            </aside>
+
+            <!-- MAIN CHAT -->
+            <main class="chat-main">
+
+                <div class="user-message">
+                    Draft the Risks section for Project X based on the Vault document.
+                    <div class="meta">14:02 · Sent by Analyst</div>
+                </div>
+
+                <div class="agent-message">
+                    <div class="lightning-icon">⚡</div>
+                    <div class="agent-message-header">
+                        <h3>Strategy Draft: Project X Risks</h3>
+                        <span class="streaming-badge">Drafting State: Streaming</span>
+                    </div>
+
+                    <h4>1. Operational Exposure</h4>
+                    <p>The transition to decentralized nodes introduces a critical failure point at the data ingestion layer. Current infrastructure lacks the redundancy required for 99.9% uptime in high-volatility sessions <span class="citation">📎 VAULT-402</span>.</p>
+
+                    <h4>2. Regulatory Misalignment</h4>
+                    <p>Preliminary audit findings from the Q3 Briefing indicate a potential mismatch between cross-border data transfer protocols and upcoming EU sovereign cloud mandates <span class="citation">📎 FIREFLIES_TRANSCRIPT</span>. This could delay regional deployment by up to 180 days.</p>
+
+                    <button class="btn-references">⇄ View References</button>
+                </div>
+
+                <div class="user-message">
+                    What are the main risks from the 14% latency spikes discussed?
+                    <div class="meta">Warren Buffet · 14:22 GMT</div>
+                </div>
+
+                <div class="analysis-card">
+                    <div class="analysis-header">
+                        <span class="icon">●</span> Atlas Analysis
+                    </div>
+
+                    <div class="analysis-grid">
+                        <div>
+                            <h2 class="analysis-title">Latency Anomaly Analysis <span class="risk-tag">High Risk</span></h2>
+                            <div class="analysis-meta">Event: Alpha-6 Cluster Stress Test · Timestamp: 14:02 - 14:08</div>
+                            <p style="font-size:0.85rem;line-height:1.6;color:var(--rezco-text);">The 14% latency spikes observed during the Alpha-6 integration represent a critical "signal disconnect" between the consensus layer and the execution engine. Based on the transcript synthesis, three primary risks have been identified:</p>
+
+                            <div class="network-health">
+                                <div class="label">
+                                    <span class="name">Network Health Index</span>
+                                    <span class="value">72.4 <span class="delta">(-14.2%)</span></span>
+                                </div>
+                                <div class="bar-chart">
+                                    <div class="bar" style="height:60%;"></div>
+                                    <div class="bar" style="height:55%;"></div>
+                                    <div class="bar" style="height:50%;"></div>
+                                    <div class="bar danger" style="height:35%;"></div>
+                                    <div class="bar danger" style="height:25%;"></div>
+                                    <div class="bar" style="height:55%;"></div>
+                                    <div class="bar" style="height:60%;"></div>
+                                    <div class="bar" style="height:65%;"></div>
+                                    <div class="bar" style="height:70%;"></div>
+                                    <div class="bar" style="height:75%;"></div>
+                                    <div class="bar" style="height:72%;"></div>
+                                    <div class="bar" style="height:78%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="transcript-segments">
+                            <h5>Verified Transcript Segments</h5>
+                            <div class="transcript-quote">"...the 14% drop is not just a rounding error, it's a structural bottleneck in the P2P layer..."</div>
+                            <div class="transcript-attribution"><span>Chief Architect</span><span>14:04:12</span></div>
+                            <div class="transcript-quote">"...if we don't patch the Alpha-6 sequencer by EOD, the latency will cascade into the primary vault..."</div>
+                            <div class="transcript-attribution"><span>Systems Lead</span><span>14:07:45</span></div>
+                        </div>
+                    </div>
+
+                    <div class="action-row">
+                        <div class="action-button">
+                            <span class="label">⊙ Priority Action</span>
+                            <div class="name">Review Validator Incentives</div>
+                        </div>
+                        <div class="action-button">
+                            <span class="label">⚡ Suggested Query</span>
+                            <div class="name">Simulate Cluster Rollback</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="height:60px;"></div>
+            </main>
+
+            <!-- EVIDENCE FEED -->
+            <aside class="evidence-feed">
+                <div class="evidence-feed-header">
+                    <span class="label">Evidence Feed</span>
+                    <span style="color:var(--rezco-text-light);">≡</span>
+                </div>
+
+                <div class="evidence-card">
+                    <div class="label"><span>Vault Asset: Infrastructure_v4</span><span class="ago">2m ago</span></div>
+                    <div class="chart-mock"></div>
+                    <div class="quote">"...infrastructure lacks the redundancy required for 99.9% uptime..."</div>
+                    <div class="badges">
+                        <span class="mini-badge">Section 4.2</span>
+                        <span class="mini-badge critical">Critical</span>
+                    </div>
+                </div>
+
+                <div class="evidence-card">
+                    <div class="label"><span>Meeting Intel: Fireflies</span><span class="ago">5m ago</span></div>
+                    <div class="analyst-quote">
+                        <span class="arrow">↓</span>
+                        <div>
+                            <div class="text">"The EU sovereign cloud mandates are stricter than our current roadmap accounts for. We need a 180-day buffer."</div>
+                            <div class="analyst-name">Analyst: Sarah Chen</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="evidence-card alert">
+                    <div class="alert-title">Active Mismatch Detected · 12m ago</div>
+                    <div class="alert-headline">Fiscal Conflict</div>
+                    <div class="quote" style="font-style:normal;font-size:0.78rem;margin-top:0.4rem;">Budget allocation for Project X (2.4M) does not align with proposed risk mitigation costs (3.1M).</div>
+                    <div class="reconcile-link" style="margin-top:0.6rem;">Reconcile Now →</div>
+                </div>
+            </aside>
+        </div>
+
+        <div class="chat-input-bar">
+            <span style="color:var(--rezco-text-light);">📎</span>
+            <input type="text" placeholder="Ask Atlas..." />
+            <span class="kbd">CMD + K</span>
+            <button class="btn-send">→</button>
+        </div>
+    </div>
+</div>
+
+<a href="../index.html" class="back-link">← Back to Project Site</a>
+
+<script>
+// Active item switching
+document.querySelectorAll('.archive-item').forEach(item => {
+    item.addEventListener('click', () => {
+        document.querySelectorAll('.archive-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+    });
+});
+
+// Citation hover handler
+document.querySelectorAll('.citation').forEach(c => {
+    c.addEventListener('click', () => {
+        alert('Reference: ' + c.textContent);
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas — Cross-Source Intelligence</title>
+<link rel="stylesheet" href="atlas.css">
+<style>
+.app-intel {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    height: 100vh;
+}
+.mini-sidebar {
+    background: white;
+    border-right: 1px solid var(--rezco-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 0;
+    gap: 1.5rem;
+}
+.mini-sidebar .logo {
+    font-family: Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--rezco-text);
+}
+.mini-sidebar .nav-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--rezco-text-light);
+    cursor: pointer;
+    border-radius: 4px;
+    text-decoration: none;
+}
+.mini-sidebar .nav-icon:hover {
+    background: var(--rezco-bg-light);
+    color: var(--rezco-red);
+}
+.mini-sidebar .user {
+    margin-top: auto;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6b7280, #4a5568);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 0.75rem;
+}
+.intel-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+@media (max-width: 900px) {
+    .intelligence-layout { grid-template-columns: 1fr; }
+    .intel-panel { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-intel">
+
+    <aside class="mini-sidebar">
+        <div class="logo">R</div>
+        <a href="home.html" class="nav-icon" title="Home">▦</a>
+        <a href="atlas-chat.html" class="nav-icon" title="Chat">≡Q</a>
+        <a href="intelligence.html" class="nav-icon" title="Intelligence" style="color:var(--rezco-red);">⬡</a>
+        <a href="document.html" class="nav-icon" title="Documents">▤</a>
+        <div class="user">WB</div>
+    </aside>
+
+    <div class="intel-page">
+
+        <div class="source-breadcrumb">
+            <span class="source-pill"><span class="icon">💬</span> Chat Message</span>
+            <span class="source-arrow">→</span>
+            <span class="source-pill"><span class="icon">✉</span> Gmail</span>
+            <span class="source-arrow">→</span>
+            <span class="source-pill"><span class="icon">📄</span> Google Doc</span>
+            <span class="source-arrow">→</span>
+            <span class="source-pill"><span class="icon">📕</span> Drive PDF</span>
+        </div>
+
+        <div class="intelligence-layout">
+
+            <main class="intelligence-main">
+
+                <div class="source-card chat">
+                    <div class="source-card-header">
+                        <div class="source-card-title">
+                            <span class="icon">💬</span> Sean Miller
+                            <span style="font-size:0.7rem;color:var(--rezco-text-light);font-weight:500;">14:22:18 UTC</span>
+                        </div>
+                        <span class="source-card-id">ID: MSG-44021</span>
+                    </div>
+                    <div class="source-card-content">
+                        The recent volatility in Asset X seems to be decoupling from the benchmark. I've compiled the latest chart analysis in the shared terminal. We need to evaluate the pivot potential before the Tokyo open.
+                    </div>
+                    <div class="attached-chart">
+                        <div class="filename">📎 CHART_ATTACHMENT_01.PNG</div>
+                        <div class="chart-img"></div>
+                    </div>
+                </div>
+
+                <div class="source-card email">
+                    <div class="source-card-header">
+                        <div class="source-card-title">
+                            <span class="icon">✉</span> Institutional Risk Desk
+                            <span style="font-size:0.7rem;color:var(--rezco-text-light);font-weight:500;">14:45:55 UTC</span>
+                        </div>
+                        <button class="learn-more">Learn More</button>
+                    </div>
+                    <h4 style="font-size:0.9rem;margin-bottom:0.5rem;color:var(--rezco-text);">Re: Exposure Warning - Emerging Markets</h4>
+                    <div class="source-card-content">
+                        Confirmed alignment with Sean's observation. Cross-asset correlations are hitting 2-year lows. We recommend a tactical shift of 15% from the primary bond ladder into Asset X derivatives.
+                    </div>
+                </div>
+
+                <div class="source-card bot">
+                    <div class="source-card-header">
+                        <div class="source-card-title">
+                            <span class="icon">🤖</span> Sovereign Analyst Bot
+                            <span style="font-size:0.7rem;color:var(--rezco-text-light);font-weight:500;">15:10:02 UTC</span>
+                        </div>
+                        <button class="learn-more">Learn More</button>
+                    </div>
+                    <div class="draft-block">
+                        <div class="filename">DRAFT: ASSET_X_STRATEGY_MEMO.GDOC</div>
+                        <blockquote>"The convergence of institutional chatter and technical breakout signals a unique entry window. Risk protocols suggest immediate reallocation..."</blockquote>
+                    </div>
+                    <div class="draft-actions">
+                        <button class="btn-secondary">Open in Workspace</button>
+                        <button class="btn-outline">Download PDF</button>
+                    </div>
+                </div>
+
+            </main>
+
+            <aside class="intel-panel">
+
+                <div class="intel-section">
+                    <div class="intel-section-title">
+                        <span class="icon">⬢</span> Team Vibe
+                    </div>
+                    <p style="font-size:0.78rem;color:var(--rezco-text);line-height:1.5;margin-bottom:0.8rem;">Team is pivoting toward <strong>Asset X</strong> based on Sean's chart and the subsequent risk desk confirmation.</p>
+
+                    <div class="confidence-bar">
+                        <div class="label"><span>Strategic Confidence</span><span class="value">85%</span></div>
+                        <div class="bar"><div class="fill" style="width:85%;"></div></div>
+                    </div>
+                    <div style="font-size:0.68rem;color:var(--rezco-text-light);margin-top:0.4rem;">Based on 53 cross-platform messages</div>
+
+                    <div class="risk-detected">
+                        <div class="label">⚠ Risk Detected</div>
+                        <div class="text">Exposure limit for Sector B exceeded in draft.</div>
+                    </div>
+                </div>
+
+                <div class="intel-section">
+                    <div class="intel-section-title">
+                        <span style="color:var(--rezco-red);">+</span> Agent Insight
+                        <div class="live-status"><span class="live-dot"></span> Status // Live</div>
+                    </div>
+
+                    <div class="insight-quote">"This PDF matches discussion from 9 AM call"</div>
+
+                    <div class="reasoning">
+                        <div class="label">▼ Reasoning</div>
+                        <ul>
+                            <li>The Q3 revenue projections in 'Q3 Outlook' align with the 15% growth target mentioned by Sarah.</li>
+                            <li>Section 4.2 specifically addresses the 'pricing pivot' concern raised during the sync.</li>
+                        </ul>
+                    </div>
+
+                    <div class="live-intel-box">
+                        <span class="icon">⚡</span>
+                        <span class="text">The agent is currently correlating these findings with the Historical Data archive to identify potential long-term trends.</span>
+                    </div>
+                </div>
+
+                <div class="intel-section sources-list">
+                    <h5>Sources</h5>
+                    <ul>
+                        <li><span class="file-icon">📄</span> EMEA Macro Outlook 2024.pdf</li>
+                        <li><span class="file-icon">⚙</span> Historical Correlation Matrix.csv</li>
+                        <li><span class="file-icon">◈</span> Rezco Risk Policy v4.0.doc</li>
+                    </ul>
+                </div>
+
+            </aside>
+        </div>
+
+        <div class="chat-input-bar">
+            <span style="color:var(--rezco-text-light);">📎</span>
+            <input type="text" placeholder="Query Intelligence Archive (e.g., 'Simulate 20% latency impact')..." />
+            <span class="kbd">CMD + K</span>
+            <button class="btn-send">→</button>
+        </div>
+    </div>
+</div>
+
+<a href="../index.html" class="back-link">← Back to Project Site</a>
+
+</body>
+</html>
