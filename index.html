@@ -1485,22 +1485,33 @@
                   background: linear-gradient(135deg, #ecfeff, white);
                 "
               >
-                <h4>② 📁 Drive Sync Agent (Bulk Upload Only)</h4>
+                <h4>② 📁 Drive Sync Reasoning Agent (Bulk Upload Only)</h4>
                 <p>
                   Used <strong>only when PMs want to upload many documents
-                  at once</strong>. PMs drop files in a designated Drive
-                  folder; the sync agent watches it and pushes everything
-                  into Vertex AI Search.
+                  at once</strong>. A Gemini-powered reasoning agent
+                  watches a Drive folder, classifies each new file by
+                  Rezco asset and document type, files it into the right
+                  GCS bucket subfolder, and indexes it in Vertex AI Search
+                  with rich metadata labels.
                 </p>
                 <ul>
                   <li>PM (or junior staff) drops N files in Drive folder</li>
-                  <li>Drive Sync Agent detects new uploads via change feed</li>
-                  <li>Downloads each file, parses text, extracts entities</li>
+                  <li>Eventarc triggers a Cloud Function on each new file</li>
                   <li>
-                    <strong>→ Vertex AI Search</strong> (batched indexing)
+                    Gemini classifies → asset, sector, doc type, year
                   </li>
-                  <li>Logs each sync for audit / re-indexing</li>
-                  <li>Idempotent: re-running on the same file is safe</li>
+                  <li>
+                    Smart-renamed and filed into
+                    <strong>GCS bucket</strong> by asset
+                  </li>
+                  <li>
+                    <strong>→ Vertex AI Search</strong> (with metadata
+                    labels)
+                  </li>
+                  <li>
+                    Dynamically creates new asset folders for previously
+                    uncovered companies
+                  </li>
                 </ul>
               </div>
             </div>
@@ -2207,7 +2218,7 @@
 
         <!-- DRIVE → VERTEX SYNC AGENT -->
         <div class="card">
-          <h2>Drive → Vertex Sync Agent (Bulk Upload Path Only)</h2>
+          <h2>Drive → Vertex Sync Agent (Reasoning Agent for Bulk Uploads)</h2>
           <p>
             <strong
               >This is a secondary path used only when PMs want to upload many
@@ -2215,10 +2226,13 @@
             >
             The Chrome Extension is the primary, default path — and it goes
             directly to GCS + Vertex AI Search without touching Drive. The
-            Drive sync agent only kicks in when a PM (or junior staff) drops a
-            batch of files into a designated Google Drive folder. The agent
-            watches the folder, detects new uploads, and pushes each document
-            into Vertex AI Search for indexing.
+            Drive sync path is a true <strong>reasoning agent</strong>, not a
+            naive file watcher: it uses Gemini to look at each new document,
+            understand what it's about, decide where it belongs in the GCS
+            bucket structure (organized by Rezco asset, sector, and document
+            type), rename it sensibly, and index it in Vertex AI Search with
+            rich metadata. If it sees an asset that doesn't exist in the
+            bucket yet, it creates a new subfolder for it on the fly.
           </p>
           <div
             class="info-box"
@@ -2227,66 +2241,341 @@
             <strong>Two ingestion paths, one index:</strong> the Chrome
             Extension path (primary, single-document, in-the-moment) writes
             directly to GCS + Vertex AI Search. The Drive sync path (bulk,
-            many documents at once) is for moments when a PM has a folder of
-            files they want indexed in one go. Both paths land in the same
-            Vertex AI Search index, so Atlas queries find everything.
+            many documents at once, agentic filing) is for moments when a PM
+            has a folder of files they want intelligently sorted and
+            indexed in one go. Both paths land in the same Vertex AI Search
+            index, so Atlas queries find everything.
           </div>
+
+          <h3>The Agentic Filing Workflow</h3>
+          <p style="font-size: 0.9rem; margin-bottom: 0.7rem">
+            Event-driven architecture combined with Gemini's reasoning. When a
+            new file lands in the watched Drive folder, the agent runs through
+            this loop:
+          </p>
+
+          <table class="data-table">
+            <tr>
+              <th style="width: 18%">Step</th>
+              <th>What happens</th>
+            </tr>
+            <tr>
+              <td><strong>1. Trigger</strong></td>
+              <td>
+                A PM drags and drops a file (or a batch of files) into the
+                watched Google Drive folder. An Apps Script or Eventarc
+                trigger fires immediately on the new file event.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>2. Reasoning (Brain)</strong></td>
+              <td>
+                A Cloud Function sends the document's filename and a snippet
+                of its parsed text to a Gemini model. The prompt asks Gemini
+                to identify: <em>which Rezco asset does this belong to</em>
+                (FIGI/ISIN if resolvable), <em>what sector / theme</em>,
+                <em>what document type</em> (earnings presentation,
+                sell-side report, management meeting note, value grid,
+                model, transcript, IR pack, etc.), and <em>what date</em>
+                the document represents. Gemini returns a structured JSON
+                classification.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>3. Smart Renaming</strong></td>
+              <td>
+                Messy filenames are rewritten into consistent Rezco
+                conventions before they hit the bucket. Example:
+                <code style="font-size: 0.78rem"
+                  >scan_final_v3.pdf</code
+                >
+                → <code style="font-size: 0.78rem"
+                  >2026_Q1_Discovery_Earnings_Call_Transcript.pdf</code
+                >.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>4. Filing (GCS Bucket)</strong></td>
+              <td>
+                The Cloud Function uploads the file to the GCS bucket under
+                the resolved path. Bucket layout is organized by Rezco
+                context — see the "Rezco GCS Bucket Layout" example below.
+                If the agent sees a new asset that doesn't have a folder yet
+                (e.g., a previously uncovered company), it
+                <strong>creates a new subfolder dynamically</strong>.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>5. Contextual Indexing</strong></td>
+              <td>
+                The agent calls the Vertex AI Search API to import the new
+                file from its GCS path. It attaches the structured metadata
+                from step 2 as <strong>document labels</strong>: asset FIGI,
+                ISIN, ticker, sector, theme, document type, year, source.
+                This makes Atlas queries dramatically more powerful — Atlas
+                can filter by "all 2026 sell-side reports on SA banks" or
+                "every earnings transcript for Discovery."
+              </td>
+            </tr>
+            <tr>
+              <td><strong>6. Confirmation + Audit</strong></td>
+              <td>
+                The agent logs every filing decision (source file → resolved
+                asset → final GCS path → Vertex AI document ID) to an audit
+                table. Low-confidence classifications surface to a PM review
+                queue so the agent can be corrected, and the correction is
+                fed back as a learning signal.
+              </td>
+            </tr>
+          </table>
+
+          <h3 style="margin-top: 1.5rem">Rezco GCS Bucket Layout</h3>
+          <p style="font-size: 0.9rem; margin-bottom: 0.7rem">
+            The bucket is organized around Rezco's investment context —
+            assets first, then sectors, then themes, then macro. Both
+            ingestion paths (Chrome Extension and Drive Sync) write into the
+            same structure. The agent decides which subfolder a new document
+            belongs in based on Gemini's classification.
+          </p>
+
           <div class="grid-2">
-            <div>
-              <h4>What it does</h4>
-              <ul class="feature-list">
-                <li>Watches a designated Google Drive folder for new files</li>
-                <li>
-                  Detects new uploads via Drive change notifications / poll
-                </li>
-                <li>
-                  Downloads the file (PDF, Doc, Sheet, image) and parses text
-                </li>
-                <li>
-                  Extracts entities (companies, sectors, themes) for tagging
-                </li>
-                <li>Pushes the parsed content into Vertex AI Search</li>
-                <li>Links indexed records back to the original Drive file</li>
-                <li>Logs every sync for audit and re-indexing later</li>
-              </ul>
+            <div
+              style="
+                background: linear-gradient(135deg, #f0f9ff, white);
+                border: 1px solid var(--rezco-accent);
+                border-radius: 8px;
+                padding: 1rem;
+                font-family: 'Courier New', monospace;
+                font-size: 0.78rem;
+                line-height: 1.6;
+              "
+            >
+              <div style="font-weight: 700; color: var(--rezco-blue)">
+                gs://rezco-research/
+              </div>
+              <div style="margin-left: 0.8rem">
+                <div>📁 <strong>assets/</strong></div>
+                <div style="margin-left: 1.4rem">
+                  <div>📁 discovery-holdings/ <span style="color: var(--gray-600)">(FIGI: BBG000PRJBN3)</span></div>
+                  <div style="margin-left: 1.2rem">
+                    📁 earnings/<br />
+                    📁 sell-side/<br />
+                    📁 management-meetings/<br />
+                    📁 ir-packs/<br />
+                    📁 news-clips/<br />
+                    📁 models/
+                  </div>
+                  <div>📁 firstrand/ <span style="color: var(--gray-600)">(FIGI: BBG000BTBT49)</span></div>
+                  <div>📁 standard-bank-group/ <span style="color: var(--gray-600)">(FIGI: BBG000BC8K69)</span></div>
+                  <div>📁 mr-price/</div>
+                  <div>📁 capitec/ <span style="color: var(--success-green)">⚡ created by agent</span></div>
+                  <div>📁 ...</div>
+                </div>
+              </div>
+              <div style="margin-left: 0.8rem">
+                <div>📁 <strong>sectors/</strong></div>
+                <div style="margin-left: 1.4rem">
+                  📁 sa-banks/<br />
+                  📁 sa-retail/<br />
+                  📁 sa-property/<br />
+                  📁 sa-gold-miners/
+                </div>
+              </div>
+              <div style="margin-left: 0.8rem">
+                <div>📁 <strong>themes/</strong></div>
+                <div style="margin-left: 1.4rem">
+                  📁 sa-consumer-spending/<br />
+                  📁 online-gambling/<br />
+                  📁 ai-benefits/
+                </div>
+              </div>
+              <div style="margin-left: 0.8rem">
+                <div>📁 <strong>macro/</strong></div>
+                <div style="margin-left: 1.4rem">
+                  📁 sa-gdp/<br />
+                  📁 interest-rates/<br />
+                  📁 zar-volatility/
+                </div>
+              </div>
+              <div style="margin-left: 0.8rem">
+                <div>📁 <strong>uncategorized/</strong> <span style="color: var(--warning-amber)">(awaiting PM review)</span></div>
+              </div>
             </div>
+
             <div>
-              <h4>When PMs use this path</h4>
-              <ul class="feature-list">
-                <li>
-                  Bulk historical backfill (e.g. "here are 200 sell-side
-                  reports we want indexed")
+              <h4>How a real document flows through</h4>
+              <p style="font-size: 0.85rem">
+                Junior staff drops <code style="font-size: 0.78rem"
+                  >SBG_CMD_2026_FullPresentation.pdf</code
+                >
+                into the watched Drive folder.
+              </p>
+              <ol
+                style="
+                  padding-left: 1.2rem;
+                  font-size: 0.85rem;
+                  margin-top: 0.5rem;
+                "
+              >
+                <li style="margin: 0.4rem 0">
+                  Eventarc fires → Cloud Function picks up the file
                 </li>
-                <li>
-                  Junior staff dropping a batch of earnings transcripts at
-                  once
+                <li style="margin: 0.4rem 0">
+                  Gemini reads the filename + first 2 pages → classifies as:
+                  <code style="font-size: 0.75rem"
+                    >{ asset: "Standard Bank Group", figi: "BBG000BC8K69",
+                    sector: "SA Banks", doc_type: "Capital Markets Day
+                    Presentation", year: 2026 }</code
+                  >
                 </li>
-                <li>
-                  PMs uploading their existing model spreadsheets in a single
-                  go
+                <li style="margin: 0.4rem 0">
+                  Smart rename →
+                  <code style="font-size: 0.75rem"
+                    >2026_StandardBank_CapitalMarketsDay.pdf</code
+                  >
                 </li>
-                <li>
-                  Anything where opening the Chrome Extension once per
-                  document would be tedious
+                <li style="margin: 0.4rem 0">
+                  Filed at →
+                  <code style="font-size: 0.75rem"
+                    >gs://rezco-research/assets/standard-bank-group/ir-packs/2026_StandardBank_CapitalMarketsDay.pdf</code
+                  >
                 </li>
-              </ul>
-              <h4 style="margin-top: 0.8rem">Why this shape</h4>
-              <ul class="feature-list">
-                <li>
-                  <strong>Single responsibility</strong> — Drive → Vertex AI
-                  Search and nothing else
+                <li style="margin: 0.4rem 0">
+                  Imported into Vertex AI Search with labels: asset, FIGI,
+                  sector, doc_type, year — so Atlas can later filter
+                  precisely
                 </li>
-                <li>
-                  <strong>Idempotent</strong> — re-running on the same file
-                  is safe
+                <li style="margin: 0.4rem 0">
+                  Atlas can immediately answer: <em>"What did Standard Bank
+                    say at their 2026 CMD about African expansion?"</em>
+                  with a grounded citation
                 </li>
-                <li>
-                  <strong>Complements the Chrome Extension</strong> —
-                  extension handles "I'm reading this now"; Drive sync
-                  handles "I have a stack of these to upload"
-                </li>
-              </ul>
+              </ol>
+              <div
+                class="success-box"
+                style="margin-top: 0.8rem; font-size: 0.82rem"
+              >
+                <strong>Dynamic asset creation:</strong> if a PM uploads
+                "Capitec Q1 results" and Capitec doesn't yet have a folder,
+                the agent recognizes it as a new SA bank and creates
+                <code style="font-size: 0.72rem"
+                  >assets/capitec/earnings/</code
+                >
+                on the fly — no pre-programming required.
+              </div>
             </div>
+          </div>
+
+          <h3 style="margin-top: 1.5rem">Why an Agent, Not a Script</h3>
+          <div class="grid-3">
+            <div
+              class="info-box"
+              style="margin: 0; font-size: 0.85rem"
+            >
+              <strong>Dynamic Asset Coverage</strong><br />
+              When the agent sees a company that has no folder yet, it
+              creates one. No need to pre-program every share Rezco might
+              ever look at — the agent adapts to whatever PMs decide to
+              research.
+            </div>
+            <div
+              class="info-box"
+              style="margin: 0; font-size: 0.85rem"
+            >
+              <strong>Smart Renaming</strong><br />
+              Messy filenames (<code style="font-size: 0.72rem"
+                >scan_final_v3.pdf</code
+              >) get rewritten into consistent Rezco conventions
+              (<code style="font-size: 0.72rem"
+                >2026_Q1_Discovery_EarningsCall.pdf</code
+              >) so the bucket stays clean and human-browsable.
+            </div>
+            <div
+              class="info-box"
+              style="margin: 0; font-size: 0.85rem"
+            >
+              <strong>Contextual Metadata for Indexing</strong><br />
+              The agent attaches structured labels (asset FIGI, sector,
+              doc type, year) when it imports the file into Vertex AI
+              Search. Atlas can then filter precisely: "all 2026 sell-side
+              reports on SA banks" — not just keyword search.
+            </div>
+            <div
+              class="info-box"
+              style="margin: 0; font-size: 0.85rem"
+            >
+              <strong>Confidence-Aware Routing</strong><br />
+              When Gemini is unsure (e.g., a generic news article that
+              could fit multiple themes), the file lands in
+              <code style="font-size: 0.72rem">uncategorized/</code> and
+              surfaces to a PM review queue rather than getting silently
+              misfiled.
+            </div>
+            <div
+              class="info-box"
+              style="margin: 0; font-size: 0.85rem"
+            >
+              <strong>Learning from PM Corrections</strong><br />
+              When a PM corrects a filing decision in the review queue, the
+              correction is fed back as a few-shot example for the next
+              run, so the agent gets smarter about Rezco's specific
+              taxonomy over time.
+            </div>
+            <div
+              class="info-box"
+              style="margin: 0; font-size: 0.85rem"
+            >
+              <strong>Single Index, Two Paths</strong><br />
+              Same Vertex AI Search index as the Chrome Extension path. PMs
+              never need to think about "where did this come from" — Atlas
+              queries find everything regardless of which path it took.
+            </div>
+          </div>
+
+          <h3 style="margin-top: 1.5rem">When PMs Use This Path</h3>
+          <div class="grid-2">
+            <ul class="feature-list">
+              <li>
+                Bulk historical backfill — "here are 200 sell-side reports
+                from the last 2 years, get them indexed"
+              </li>
+              <li>
+                Junior staff dropping a batch of earnings call transcripts
+                from a results week
+              </li>
+              <li>
+                PMs uploading their existing model spreadsheets in a single
+                go
+              </li>
+            </ul>
+            <ul class="feature-list">
+              <li>
+                Annual report season — drop the year's annual reports for
+                every covered name and let the agent file them
+              </li>
+              <li>
+                Migrating documents from an old shared drive into the new
+                Atlas-indexed bucket
+              </li>
+              <li>
+                Anything where opening the Chrome Extension once per
+                document would be tedious
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="warning-box"
+            style="margin-top: 1rem; font-size: 0.85rem"
+          >
+            <strong>Future shortcut — Vertex AI Agent Builder:</strong>
+            Google's Vertex AI Agent Builder offers a "Data Agent" pattern
+            that connects directly to Drive, accepts natural language
+            filing rules ("if the file mentions earnings, file it under
+            the asset's earnings folder"), and handles the import into a
+            Search Data Store automatically. Worth evaluating as a faster
+            path to V1 — could replace some of the custom Cloud Function
+            logic above.
           </div>
         </div>
 
