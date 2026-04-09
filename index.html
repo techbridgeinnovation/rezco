@@ -395,6 +395,252 @@
         line-height: 1.4;
       }
 
+      /* HTML/CSS Architecture Diagram (replaces ASCII for V1) */
+      .arch {
+        background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+        border: 2px solid var(--rezco-accent);
+        border-radius: 12px;
+        padding: 2rem 1.5rem;
+        margin: 1rem 0;
+      }
+      .arch-layer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      .arch-layer-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--gray-600);
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+        text-align: center;
+      }
+      .arch-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+        gap: 1rem;
+        width: 100%;
+      }
+      .arch-box {
+        background: white;
+        border: 2px solid var(--gray-300);
+        border-radius: 8px;
+        padding: 0.9rem 1rem;
+        min-width: 160px;
+        max-width: 240px;
+        flex: 1;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+        transition: all 0.2s ease;
+      }
+      .arch-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .arch-box-title {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: 0.3rem;
+      }
+      .arch-box-sub {
+        font-size: 0.72rem;
+        color: var(--gray-600);
+        line-height: 1.3;
+      }
+      .arch-box.surface {
+        border-color: var(--info-cyan);
+        background: linear-gradient(135deg, #ecfeff, white);
+      }
+      .arch-box.gateway {
+        border-color: var(--purple);
+        background: linear-gradient(135deg, #f5f3ff, white);
+        max-width: 360px;
+      }
+      .arch-box.atlas {
+        border-color: var(--rezco-accent);
+        background: linear-gradient(135deg, #eff6ff, white);
+        max-width: 100%;
+        flex: 0 1 720px;
+      }
+      .arch-box.atlas .arch-box-title {
+        font-size: 1.1rem;
+        color: var(--rezco-blue);
+      }
+      .arch-box.indexed {
+        border-color: var(--rezco-gold);
+        background: linear-gradient(135deg, #fffbeb, white);
+      }
+      .arch-box.live {
+        border-color: var(--success-green);
+        background: linear-gradient(135deg, #f0fdf4, white);
+        position: relative;
+      }
+      .arch-box.live::before {
+        content: "";
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 8px;
+        height: 8px;
+        background: var(--success-green);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
+      .arch-box.ingest {
+        border-color: var(--rezco-gold);
+        background: linear-gradient(135deg, #fffbeb, white);
+      }
+      .arch-connector {
+        width: 2px;
+        height: 24px;
+        background: linear-gradient(
+          180deg,
+          var(--gray-300) 0%,
+          var(--rezco-accent) 100%
+        );
+        margin: 0 auto;
+        position: relative;
+      }
+      .arch-connector::after {
+        content: "▼";
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--rezco-accent);
+        font-size: 0.7rem;
+      }
+      .arch-divider {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--gray-600);
+        font-weight: 700;
+        text-align: center;
+        margin: 1.5rem 0 0.6rem;
+        padding-top: 1rem;
+        border-top: 1px dashed var(--gray-300);
+        position: relative;
+      }
+      .arch-divider span {
+        background: white;
+        padding: 0 0.8rem;
+        position: relative;
+        top: -1.4rem;
+        display: inline-block;
+      }
+      .arch-sub-agents {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 0.5rem;
+        margin-top: 0.8rem;
+        padding-top: 0.8rem;
+        border-top: 1px solid var(--gray-200);
+      }
+      .arch-sub-agent {
+        background: white;
+        border: 1px solid var(--gray-200);
+        border-radius: 5px;
+        padding: 0.5rem 0.6rem;
+        font-size: 0.7rem;
+        color: var(--gray-700);
+        text-align: left;
+      }
+      .arch-sub-agent strong {
+        display: block;
+        color: var(--rezco-accent);
+        font-size: 0.72rem;
+        margin-bottom: 0.15rem;
+      }
+      .arch-data-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-top: 0.5rem;
+      }
+      @media (max-width: 768px) {
+        .arch-data-row {
+          grid-template-columns: 1fr;
+        }
+      }
+      .arch-data-col {
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        border: 2px solid var(--gray-200);
+      }
+      .arch-data-col.indexed-col {
+        border-color: var(--rezco-gold);
+        background: linear-gradient(135deg, #fffbeb, white);
+      }
+      .arch-data-col.live-col {
+        border-color: var(--success-green);
+        background: linear-gradient(135deg, #f0fdf4, white);
+      }
+      .arch-data-col h4 {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .arch-data-col h4 .live-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--success-green);
+        animation: pulse 2s infinite;
+        display: inline-block;
+      }
+      .arch-data-col p {
+        font-size: 0.75rem;
+        color: var(--gray-600);
+        line-height: 1.5;
+        margin-bottom: 0.5rem;
+      }
+      .arch-data-col ul {
+        list-style: none;
+        padding: 0;
+      }
+      .arch-data-col ul li {
+        font-size: 0.72rem;
+        color: var(--gray-700);
+        padding: 0.2rem 0 0.2rem 1rem;
+        position: relative;
+      }
+      .arch-data-col ul li::before {
+        content: "•";
+        position: absolute;
+        left: 0.3rem;
+        color: var(--rezco-accent);
+      }
+      .arch-footer {
+        text-align: center;
+        font-size: 0.78rem;
+        color: var(--gray-600);
+        font-style: italic;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px dashed var(--gray-300);
+      }
+
       /* Info/Warning boxes */
       .info-box {
         background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
@@ -1089,62 +1335,108 @@
             sees fresh source-of-truth data.
           </p>
 
-          <div class="diagram-box">
-            ┌────────────────────────────────────────────────────────────────────────┐
-            │ PM ENGAGEMENT SURFACES │ │ │ │ ┌──────────────┐ ┌──────────────┐
-            ┌──────────────────┐ │ │ │ Google Chat │ │ Atlas UI │ │ Chrome Side
-            │ │ │ │ (existing │ │ (custom Rezco│ │ Panel (open on │ │ │ │ PM
-            tool) │ │ interface) │ │ any web page) │ │ │ └──────┬───────┘
-            └──────┬───────┘ └────────┬─────────┘ │
-            └───────────┼────────────────────┼─────────────────────┼─────────────────┘
-            │ │ │ └────────────────────┼─────────────────────┘ │
-            ┌──────────────▼──────────────┐ │ CONSOLE GATEWAY │ │ (Auth, A2A,
-            Persist) │ └──────────────┬──────────────┘ │
-            ┌──────────────────────────▼──────────────────────────────┐ │ ATLAS
-            — THE ANALYST AGENT │ │ │ │ Processes info requests │ Synthesizes
-            across sources │ │ Generates investment recs │ Pitches ideas to PMs
-            │ │ │ │ ┌────────────────────────────────────────────────┐ │ │ │
-            SPECIALIZED SUB-AGENTS │ │ │ │ │ │ │ │ • Ingestion / Filing Agent
-            (Drive → Vertex) │ │ │ │ • Research & Retrieval Agent │ │ │ │ •
-            Recommendation Generation Agent │ │ │ │ • Live MCP Query Router │ │
-            │ │ • Scheduler (daily updates, automations) │ │ │
-            └────────────────────────────────────────────────┘ │
-            └──┬─────────────┬─────────────────────────┬─────────────┘ │ │ │ │
-            ┌─────────┴───────────┐ │ │ │ │ │ ┌────────▼───┐ ┌────▼──────┐
-            ┌────▼──────────┐ │ │ Vertex AI │ │ Google │ │ Sessions + │ │ │
-            Search │ │ Drive │ │ Conversations│ │ │ (indexed) │ │ (folders) │ │
-            (Spanner) │ │ └────────▲───┘ └────▲──────┘ └───────────────┘ │ │ │ │
-            │ │ │ │ │ ┌─────────────────────▼──────────────┐ │ │ │ LIVE MCP
-            QUERIES │ │ │ │ (Atlas calls these at query time) │ │ │ │ │ │ │ │
-            ┌───────────────────────────────┐ │ │ │ │ │ FIREFLIES MCP │ │ │ │ │
-            │ api.fireflies.ai/mcp │ │ │ │ │ │ │ │ │ │ │ │ • fireflies_search │
-            │ │ │ │ │ • fireflies_get_transcript │ │ │ │ │ │ •
-            fireflies_get_summary │ │ │ │ │ │ • fireflies_fetch │ │ │ │ │ │ │ │
-            │ │ │ │ "What did Sean say in │ │ │ │ │ │ yesterday's call about │ │
-            │ │ │ │ Discovery?" → live query │ │ │ │ │
-            └───────────────────────────────┘ │ │ │ │ │ │ │ │
-            ┌───────────────────────────────┐ │ │ │ │ │ GOOGLE WORKSPACE MCP │ │
-            │ │ │ │ │ │ │ │ │ │ • Google Chat: search msgs │ │ │ │ │ │ • Gmail:
-            search threads │ │ │ │ │ │ • Drive: search files │ │ │ │ │ │ •
-            Calendar: events │ │ │ │ │ │ │ │ │ │ │ │ "What has the team
-            discussed │ │ │ │ │ │ about FirstRand this week?" │ │ │ │ │ │ → live
-            Chat query │ │ │ │ │ └───────────────────────────────┘ │ │ │
-            └─────────────────────────────────────┘ │ │
-            ┌────────┴──────────┴────────────────────────────────────────┐ │
-            INGESTION → INDEXED IN VERTEX AI │ │ │ │
-            ┌─────────────────────────────────────────────────────┐ │ │ │ REZCO
-            CHROME EXTENSION (PRIMARY) │ │ │ │ │ │ │ │ PM clicks icon on any
-            page (Bloomberg, Gmail, │ │ │ │ IR site, sell-side PDF) → Side panel
-            opens │ │ │ │ │ │ │ │ Reads DOM directly (detects email/webpage/PDF)
-            │ │ │ │ First-pass tagging (companies, themes, sectors) │ │ │ │ │ │
-            │ │ POST → Go Microservice (Ingestion Service) │ │ │ │ │ │ │ │ │ ├─
-            Parse + normalize to text/document format │ │ │ │ ├─ Push to Vertex
-            AI Search (indexed) │ │ │ │ ├─ File in Google Drive folder (by
-            asset) │ │ │ │ └─ Link entities in knowledge base │ │ │
-            └─────────────────────────────────────────────────────┘ │
-            └────────────────────────────────────────────────────────────┘ Atlas
-            decides per query: index lookup, live MCP query, or both. Citations
-            always show whether the source was indexed or live.
+          <div class="arch">
+
+            <!-- LAYER 1: PM ENGAGEMENT SURFACES -->
+            <div class="arch-layer">
+              <div class="arch-layer-label">PM Engagement Surfaces</div>
+              <div class="arch-row">
+                <div class="arch-box surface">
+                  <div class="arch-box-title">💬 Google Chat</div>
+                  <div class="arch-box-sub">Existing PM tool — Atlas joins as participant</div>
+                </div>
+                <div class="arch-box surface">
+                  <div class="arch-box-title">🖥 Atlas UI</div>
+                  <div class="arch-box-sub">Custom Rezco interface (chat + threads + scheduler)</div>
+                </div>
+                <div class="arch-box surface">
+                  <div class="arch-box-title">🧩 Chrome Side Panel</div>
+                  <div class="arch-box-sub">Opens on any web page — clip + chat in context</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-connector"></div>
+
+            <!-- LAYER 2: CONSOLE GATEWAY -->
+            <div class="arch-layer">
+              <div class="arch-row">
+                <div class="arch-box gateway">
+                  <div class="arch-box-title">🛡 Console Gateway</div>
+                  <div class="arch-box-sub">Auth · A2A protocol · Conversation persistence</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-connector"></div>
+
+            <!-- LAYER 3: ATLAS THE AGENT -->
+            <div class="arch-layer">
+              <div class="arch-row">
+                <div class="arch-box atlas">
+                  <div class="arch-box-title">⚡ ATLAS — The Analyst Agent</div>
+                  <div class="arch-box-sub">Processes info requests · Synthesizes across sources · Generates investment recommendations · Pitches ideas to PMs</div>
+                  <div class="arch-sub-agents">
+                    <div class="arch-sub-agent"><strong>Drive → Vertex Sync Agent</strong>Watches Drive for new uploads, indexes them in Vertex AI Search</div>
+                    <div class="arch-sub-agent"><strong>Research &amp; Retrieval Agent</strong>Grounded RAG over indexed content</div>
+                    <div class="arch-sub-agent"><strong>Recommendation Agent</strong>Generates pitches and investment ideas</div>
+                    <div class="arch-sub-agent"><strong>Live MCP Query Router</strong>Decides indexed vs. live per query</div>
+                    <div class="arch-sub-agent"><strong>Scheduler</strong>Daily updates, automations</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-connector"></div>
+
+            <!-- LAYER 4: DATA SOURCES SPLIT INTO INDEXED VS LIVE -->
+            <div class="arch-data-row">
+
+              <!-- INDEXED SIDE -->
+              <div class="arch-data-col indexed-col">
+                <h4>⚙ Indexed (Vertex AI Search)</h4>
+                <p>Content lives inside Vertex AI Search after being clipped or uploaded to Drive. The Drive → Vertex Sync Agent watches the folder and pushes new uploads into the index. Atlas does grounded RAG retrieval at query time.</p>
+                <ul>
+                  <li>Vertex AI Search index</li>
+                  <li>Google Drive (watched by sync agent)</li>
+                  <li>Sessions + Conversations (Spanner)</li>
+                </ul>
+              </div>
+
+              <!-- LIVE MCP SIDE -->
+              <div class="arch-data-col live-col">
+                <h4><span class="live-dot"></span> Live MCP Queries</h4>
+                <p>Atlas queries these <strong>live at runtime</strong> — no duplication. Source-of-truth data, always fresh, today's meeting answerable immediately.</p>
+                <ul>
+                  <li><strong>Fireflies MCP</strong> — meeting transcripts and summaries (api.fireflies.ai/mcp)</li>
+                  <li><strong>Google Chat MCP</strong> — live PM conversations</li>
+                  <li><strong>Gmail MCP</strong> — sell-side reports</li>
+                  <li><strong>Drive MCP</strong> — file search</li>
+                  <li><strong>Calendar MCP</strong> — meeting context</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- LAYER 5: INGESTION FEEDING THE INDEX -->
+            <div class="arch-divider"><span>Feeds the Indexed Side</span></div>
+            <div class="arch-layer">
+              <div class="arch-row">
+                <div class="arch-box ingest" style="max-width: 100%; flex: 0 1 720px; text-align: left;">
+                  <div class="arch-box-title" style="text-align: center;">📥 Rezco Chrome Extension → Go Ingestion Microservice</div>
+                  <div class="arch-box-sub" style="margin-top: 0.5rem;">
+                    <strong>1.</strong> PM clicks Rezco icon on any page (Bloomberg, Gmail, IR site, sell-side PDF) — side panel opens<br>
+                    <strong>2.</strong> Extension reads the DOM directly (detects email vs. webpage vs. PDF)<br>
+                    <strong>3.</strong> First-pass tagging extracts companies, themes, sectors<br>
+                    <strong>4.</strong> POST → Go Microservice<br>
+                    <strong>5.</strong> Service parses + normalizes → pushes to Vertex AI Search → files in Drive → links entities
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-footer">
+              Atlas decides per query: index lookup, live MCP query, or both. Citations always show whether the source was <strong>indexed</strong> or <strong>live</strong>.
+            </div>
           </div>
         </div>
 
@@ -1630,44 +1922,63 @@
           </div>
         </div>
 
-        <!-- INGESTION FILING AGENT -->
+        <!-- DRIVE → VERTEX SYNC AGENT -->
         <div class="card">
-          <h2>Specialized Ingestion / Filing Agent</h2>
+          <h2>Drive → Vertex Sync Agent</h2>
           <p>
-            A specialized sub-agent that handles the document filing flow. Rezco
-            does not currently have a Drive folder structure — V1 builds it.
+            A small, single-purpose sub-agent that watches a designated Google
+            Drive folder for new uploads. When a document lands in Drive, the
+            agent picks it up and pushes it into Vertex AI Search for indexing —
+            making it immediately queryable by Atlas. Rezco doesn't currently
+            have a Drive set up; V1 will provision the watched folder and the
+            sync agent will populate the index from there onward.
           </p>
           <div class="grid-2">
             <div>
               <h4>What it does</h4>
               <ul class="feature-list">
+                <li>Watches a designated Google Drive folder for new files</li>
                 <li>
-                  Creates Google Drive folder structure on first run (by asset,
-                  then by document type)
+                  Detects new uploads via Drive change notifications / poll
                 </li>
-                <li>Receives documents from the Go microservice</li>
                 <li>
-                  Determines correct destination folder based on extracted
-                  entities
+                  Downloads the file (PDF, Doc, Sheet, image) and parses text
                 </li>
-                <li>Files the document in Drive with consistent naming</li>
-                <li>Pushes the indexed version to Vertex AI Search</li>
-                <li>Links the document to entities in the knowledge base</li>
                 <li>
-                  Surfaces filing decisions for PM review when confidence is low
+                  Extracts entities (companies, sectors, themes) for tagging
                 </li>
+                <li>Pushes the parsed content into Vertex AI Search</li>
+                <li>Links indexed records back to the original Drive file</li>
+                <li>Logs every sync for audit and re-indexing later</li>
               </ul>
             </div>
             <div>
-              <h4>Drive folder structure (initial)</h4>
-              <div class="diagram-box" style="font-size: 0.78rem">
-                /Rezco/ ├── Assets/ │ ├── Discovery/ │ │ ├── Earnings/ │ │ ├──
-                Sell-Side/ │ │ ├── Management Meetings/ │ │ └── News Clips/ │
-                ├── FirstRand/ │ ├── Standard Bank/ │ └── ... ├── Sectors/ │ ├──
-                SA Retail/ │ ├── SA Banks/ │ └── ... ├── Themes/ │ ├── SA
-                Consumer/ │ ├── Online Gambling/ │ └── ... └── Macro/ ├── SA
-                GDP/ ├── Interest Rates/ └── ...
-              </div>
+              <h4>Why this is the right shape</h4>
+              <ul class="feature-list">
+                <li>
+                  <strong>Single responsibility</strong> — it only does one
+                  thing: Drive → Vertex AI Search
+                </li>
+                <li>
+                  <strong>Behavior-preserving</strong> — anyone (PM or junior
+                  staff) can drop a file in Drive and it just becomes
+                  queryable
+                </li>
+                <li>
+                  <strong>No complex filing logic</strong> — Rezco can organize
+                  the Drive however they want; the agent indexes everything
+                  in scope regardless of subfolder
+                </li>
+                <li>
+                  <strong>Idempotent</strong> — re-running on the same file is
+                  safe; it updates the existing index entry
+                </li>
+                <li>
+                  <strong>Complements the Chrome Extension</strong> — extension
+                  handles "I'm reading this now"; Drive sync handles "this got
+                  emailed to us / saved manually"
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -1762,10 +2073,11 @@
               </td>
             </tr>
             <tr>
-              <td>Build Drive folder structure</td>
+              <td>Drive → Vertex Sync Agent</td>
               <td>
-                Rezco has no existing Drive structure. The filing agent creates
-                and maintains it.
+                Rezco doesn't have a Drive set up. V1 provisions a watched
+                Drive folder; the sync agent detects new uploads and pushes
+                them into Vertex AI Search for indexing.
               </td>
             </tr>
             <tr>
@@ -1816,7 +2128,7 @@
                 <li>Atlas analyst agent (orchestrator with sub-agents)</li>
                 <li>Go ingestion microservice (3 endpoints minimum)</li>
                 <li>Vertex AI Search index + RAG pipeline</li>
-                <li>Google Drive folder structure + filing agent</li>
+                <li>Drive → Vertex Sync Agent (watches Drive, indexes uploads)</li>
                 <li>
                   <strong>Live MCP Query Router</strong> (decides indexed vs.
                   live per query)
@@ -1869,7 +2181,7 @@
                 <li>Chrome extension (DOM ingestion)</li>
                 <li>Go ingestion microservice</li>
                 <li>Vertex AI Search indexed RAG</li>
-                <li>Drive folder structure + filing agent</li>
+                <li>Drive → Vertex Sync Agent</li>
                 <li>Fireflies + Google Workspace MCP</li>
                 <li>Multi-channel chat (3 surfaces)</li>
                 <li>Recommendation generation</li>
